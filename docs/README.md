@@ -8,7 +8,7 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 |---|---|---|
 | Arquitectura de Software II | **1. Documento de arquitectura v1** (contexto, requisitos y escenarios, ≥ 2 alternativas, C4, contrato API) | [03-arquitectura/documento-arquitectura-v1.md](03-arquitectura/documento-arquitectura-v1.md) · [api/openapi.yaml](03-arquitectura/api/openapi.yaml) |
 | Arquitectura de Software II | **2. Registro inicial de ADRs** | [03-arquitectura/adr/](03-arquitectura/adr/) (0001–0012) |
-| Modelos de Calidad | **1. Plan de aseguramiento de calidad** | [02-calidad/plan-aseguramiento-calidad.md](02-calidad/plan-aseguramiento-calidad.md) · [00-planteamiento/planteamiento-problema-y-abordaje-calidad.docx](00-planteamiento/planteamiento-problema-y-abordaje-calidad.docx) |
+| Modelos de Calidad | **1. Plan de aseguramiento de calidad** | [02-calidad/plan-aseguramiento-calidad.md](02-calidad/plan-aseguramiento-calidad.md) · [00-planteamiento/planteamiento-problema-y-abordaje-calidad.pdf](00-planteamiento/planteamiento-problema-y-abordaje-calidad.pdf) |
 | Modelos de Calidad | **2. Especificación de requisitos y calidad de datos** (RF/RNF, escenarios refinados, 25012, matriz) | [01-requisitos/especificacion-requisitos.md](01-requisitos/especificacion-requisitos.md) · [01-requisitos/matriz-trazabilidad.md](01-requisitos/matriz-trazabilidad.md) |
 | Fase 1 (insumo de ambas) | Entrevistas, encuesta, benchmarking | [01-requisitos/instrumentos-fase1.md](01-requisitos/instrumentos-fase1.md) |
 

@@ -29,7 +29,7 @@ Un mismo producto puede tener precios muy distintos según el establecimiento, p
 .
 ├── docs/
 │   ├── README.md                         Índice y lista de verificación de entregas
-│   ├── 00-planteamiento/                 Planteamiento del problema y abordaje inicial de calidad (.docx)
+│   ├── 00-planteamiento/                 Planteamiento del problema y abordaje inicial de calidad (PDF)
 │   ├── 01-requisitos/                    Especificación, matriz de trazabilidad, instrumentos de la Fase 1
 │   ├── 02-calidad/                       Plan de aseguramiento de la calidad
 │   └── 03-arquitectura/
@@ -63,8 +63,8 @@ Los diagramas (C4, secuencia, mapa de contextos) están escritos en [Mermaid](ht
 | Integrante | GitHub |
 |---|---|
 | Carlos Augusto Aranzazu Jinete | [@carlosaugustocue](https://github.com/carlosaugustocue) |
-| Miguel Angel Rodriguez | — |
-| Sofia Giraldo Gonzalez | — |
+| Miguel Ángel Rodríguez | — |
+| Sofía Giraldo González | — |
 
 > Cada integrante completa su usuario de GitHub en su propio *pull request* (ver [CONTRIBUTING.md](CONTRIBUTING.md)).
 
