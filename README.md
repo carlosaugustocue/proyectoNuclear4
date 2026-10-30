@@ -63,8 +63,10 @@ Los diagramas (C4, secuencia, mapa de contextos) están escritos en [Mermaid](ht
 | Integrante | GitHub |
 |---|---|
 | Carlos Augusto Aranzazu Jinete | [@carlosaugustocue](https://github.com/carlosaugustocue) |
+| Miguel Angel Rodriguez | — |
+| Sofia Giraldo Gonzalez | — |
 
-> Cada integrante se agrega a esta tabla en su propio *pull request* (ver [CONTRIBUTING.md](CONTRIBUTING.md)).
+> Cada integrante completa su usuario de GitHub en su propio *pull request* (ver [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ## Uso de inteligencia artificial generativa
 
