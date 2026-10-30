@@ -1,0 +1,574 @@
+openapi: 3.1.0
+info:
+  title: API de la plataforma colaborativa de comparación de precios — Núcleo
+  version: 0.1.0-preliminar
+  description: |
+    Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
+    ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
+    Reglas transversales:
+    - Las respuestas públicas NO incluyen identidad ni ubicación de reportantes (EC-07).
+    - La comparación siempre declara su criterio de orden y no tiene campos de patrocinio (EC-06).
+    - Errores en formato Problem Details (RFC 9457).
+servers:
+  - url: http://localhost:8080/v1
+    description: Entorno local (docker compose)
+tags:
+  - name: Catálogo
+  - name: Establecimientos
+  - name: Precios
+  - name: Comparación
+  - name: Confianza
+  - name: Moderación
+  - name: Cuentas
+
+paths:
+  /productos:
+    get:
+      tags: [Catálogo]
+      summary: Buscar productos por nombre, alias o EAN (RF-01)
+      parameters:
+        - { name: q, in: query, schema: { type: string, minLength: 2 }, description: Texto libre (sin distinción de tildes ni mayúsculas) }
+        - { name: ean, in: query, schema: { type: string, pattern: '^[0-9]{8,14}$' } }
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Resultados
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, pagina]
+                properties:
+                  items: { type: array, items: { $ref: '#/components/schemas/ProductoResumen' } }
+                  pagina: { $ref: '#/components/schemas/Paginacion' }
+        '400': { $ref: '#/components/responses/Problema' }
+
+  /productos/{productoId}:
+    get:
+      tags: [Catálogo]
+      summary: Detalle de producto con presentaciones (RF-02)
+      parameters: [ { $ref: '#/components/parameters/ProductoId' } ]
+      responses:
+        '200':
+          description: Producto
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Producto' }
+        '404': { $ref: '#/components/responses/Problema' }
+
+  /productos/propuestas:
+    post:
+      tags: [Catálogo]
+      summary: Proponer un producto o presentación nuevo (RF-03)
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PropuestaProducto' }
+      responses:
+        '201':
+          description: Propuesta creada (pendiente de moderación)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Producto' }
+        '400': { $ref: '#/components/responses/Problema' }
+        '401': { $ref: '#/components/responses/Problema' }
+
+  /establecimientos:
+    get:
+      tags: [Establecimientos]
+      summary: Directorio y búsqueda por cercanía (RF-05, RF-06)
+      parameters:
+        - { name: q, in: query, schema: { type: string } }
+        - { name: municipio, in: query, schema: { type: string }, example: Armenia }
+        - $ref: '#/components/parameters/Lat'
+        - $ref: '#/components/parameters/Lon'
+        - $ref: '#/components/parameters/RadioKm'
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Establecimientos
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, pagina]
+                properties:
+                  items: { type: array, items: { $ref: '#/components/schemas/Establecimiento' } }
+                  pagina: { $ref: '#/components/schemas/Paginacion' }
+
+  /establecimientos/propuestas:
+    post:
+      tags: [Establecimientos]
+      summary: Proponer un establecimiento nuevo (RF-07)
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PropuestaEstablecimiento' }
+      responses:
+        '201':
+          description: Propuesta creada (pendiente de moderación)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Establecimiento' }
+        '400': { $ref: '#/components/responses/Problema' }
+
+  /reportes-precio:
+    post:
+      tags: [Precios]
+      summary: Registrar un precio observado (RF-08, RF-09)
+      description: |
+        Idempotente mediante `Idempotency-Key` (UUID generado en el cliente al guardar en la cola local).
+        Un reintento con la misma clave devuelve 200 con el mismo recurso, sin duplicar (EC-09).
+        La evaluación de confianza es asíncrona (ADR-0003): la respuesta indica estado `PENDIENTE_EVALUACION`.
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReportePrecioNuevo' }
+      responses:
+        '202':
+          description: Aceptado; se evaluará la confianza
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReportePrecioAceptado' }
+        '200':
+          description: Reintento con una clave ya procesada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReportePrecioAceptado' }
+        '400': { $ref: '#/components/responses/Problema' }
+        '401': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+        '429':
+          description: Límite de aportes excedido (RN-08)
+          headers:
+            Retry-After: { schema: { type: integer } }
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problema' }
+
+  /observaciones/{observacionId}/confirmaciones:
+    post:
+      tags: [Precios]
+      summary: Confirmar que un precio sigue vigente — "sigue igual" (RF-10)
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/ObservacionId'
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '202': { description: Confirmación aceptada }
+        '404': { $ref: '#/components/responses/Problema' }
+        '429': { $ref: '#/components/responses/Problema' }
+
+  /observaciones/{observacionId}/marcas:
+    post:
+      tags: [Confianza]
+      summary: Marcar un precio como dudoso (RF-19)
+      security: [ { bearerAuth: [] } ]
+      parameters: [ { $ref: '#/components/parameters/ObservacionId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [motivo]
+              properties:
+                motivo: { type: string, enum: [PRECIO_INCORRECTO, PRODUCTO_EQUIVOCADO, ESTABLECIMIENTO_EQUIVOCADO, DESACTUALIZADO, OTRO] }
+                comentario: { type: string, maxLength: 280 }
+      responses:
+        '201': { description: Marca registrada; puede abrir un caso de moderación }
+        '404': { $ref: '#/components/responses/Problema' }
+
+  /comparaciones:
+    get:
+      tags: [Comparación]
+      summary: Comparar el precio de un producto entre establecimientos (RF-13 a RF-17)
+      description: |
+        No requiere autenticación. Lee el modelo de lectura proyectado (ADR-0003).
+        El orden depende exclusivamente de `orden` (RN-10, ADR-0009).
+      parameters:
+        - { name: productoId, in: query, required: true, schema: { type: string, format: uuid } }
+        - { name: presentacionId, in: query, schema: { type: string, format: uuid }, description: Si se omite, se comparan todas las presentaciones normalizadas por unidad base }
+        - { name: municipio, in: query, schema: { type: string } }
+        - $ref: '#/components/parameters/Lat'
+        - $ref: '#/components/parameters/Lon'
+        - $ref: '#/components/parameters/RadioKm'
+        - name: orden
+          in: query
+          schema: { type: string, enum: [precio_unidad, distancia], default: precio_unidad }
+        - name: incluirNoVigentes
+          in: query
+          schema: { type: boolean, default: false }
+          description: Si es true, incluye observaciones vencidas o no confiables, siempre con advertencia (RF-16)
+      responses:
+        '200':
+          description: Resultado de la comparación
+          headers:
+            Cache-Control: { schema: { type: string }, example: 'public, max-age=30' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ResultadoComparacion' }
+        '400': { $ref: '#/components/responses/Problema' }
+        '404': { $ref: '#/components/responses/Problema' }
+
+  /referencias-mayoristas:
+    get:
+      tags: [Comparación]
+      summary: Precio mayorista de referencia (SIPSA), separado de la comparación (RF-25, ADR-0010)
+      parameters:
+        - { name: productoId, in: query, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Referencias disponibles
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ReferenciaMayorista' }
+
+  /mis-aportes:
+    get:
+      tags: [Precios]
+      summary: Aportes del usuario autenticado y su estado (RF-12)
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Aportes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/MiAporte' }
+                  pagina: { $ref: '#/components/schemas/Paginacion' }
+
+  /moderacion/casos:
+    get:
+      tags: [Moderación]
+      summary: Cola de casos pendientes (RF-20)
+      security: [ { bearerAuth: [moderador] } ]
+      parameters:
+        - { name: estado, in: query, schema: { type: string, enum: [ABIERTO, RESUELTO], default: ABIERTO } }
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Casos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items: { type: array, items: { $ref: '#/components/schemas/CasoModeracion' } }
+                  pagina: { $ref: '#/components/schemas/Paginacion' }
+        '403': { $ref: '#/components/responses/Problema' }
+
+  /moderacion/casos/{casoId}/decision:
+    post:
+      tags: [Moderación]
+      summary: Resolver un caso; queda en bitácora (RF-20, RNF-11)
+      security: [ { bearerAuth: [moderador] } ]
+      parameters:
+        - { name: casoId, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accion, justificacion]
+              properties:
+                accion: { type: string, enum: [CONFIRMAR_OBSERVACION, INVALIDAR_OBSERVACION, SUSPENDER_CUENTA] }
+                justificacion: { type: string, minLength: 10, maxLength: 500 }
+      responses:
+        '200': { description: Caso resuelto }
+        '403': { $ref: '#/components/responses/Problema' }
+        '409': { $ref: '#/components/responses/Problema' }
+
+  /cuentas:
+    post:
+      tags: [Cuentas]
+      summary: Crear cuenta con autorización de tratamiento de datos (RF-22)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [correo, contrasena, aceptaTratamientoDatos, versionPolitica]
+              properties:
+                correo: { type: string, format: email }
+                contrasena: { type: string, minLength: 10, writeOnly: true }
+                alias: { type: string, maxLength: 30, description: Seudónimo; nunca se muestra junto a sus reportes }
+                aceptaTratamientoDatos: { type: boolean, const: true }
+                versionPolitica: { type: string, example: '2026-10' }
+      responses:
+        '201': { description: Cuenta creada; se envía correo de verificación }
+        '400': { $ref: '#/components/responses/Problema' }
+        '409': { $ref: '#/components/responses/Problema' }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    ProductoId: { name: productoId, in: path, required: true, schema: { type: string, format: uuid } }
+    ObservacionId: { name: observacionId, in: path, required: true, schema: { type: string, format: uuid } }
+    Lat: { name: lat, in: query, schema: { type: number, minimum: -90, maximum: 90 } }
+    Lon: { name: lon, in: query, schema: { type: number, minimum: -180, maximum: 180 } }
+    RadioKm: { name: radioKm, in: query, schema: { type: number, minimum: 0.1, maximum: 50, default: 3 } }
+    Pagina: { name: pagina, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+    Tamano: { name: tamano, in: query, schema: { type: integer, minimum: 1, maximum: 50, default: 20 } }
+
+  responses:
+    Problema:
+      description: Error (RFC 9457)
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problema' }
+
+  schemas:
+    UnidadBase:
+      type: string
+      enum: [KG, L, UNIDAD]
+    UnidadMedida:
+      type: string
+      enum: [G, KG, ML, L, UNIDAD]
+    EstadoConfianza:
+      type: string
+      enum: [CONFIABLE, POR_VERIFICAR, NO_CONFIABLE]
+    FuenteObservacion:
+      type: string
+      enum: [REPORTANTE, COMERCIO, EQUIPO_SEMILLA]
+      description: COMERCIO se usará desde el corte 3. Nunca incluye la identidad del reportante (EC-07).
+    Dinero:
+      type: string
+      pattern: '^[0-9]+(\.[0-9]{1,2})?$'
+      description: Valor en COP como cadena decimal para evitar errores de coma flotante (RN-02)
+      example: '9900'
+
+    ProductoResumen:
+      type: object
+      required: [id, nombre]
+      properties:
+        id: { type: string, format: uuid }
+        nombre: { type: string, example: Arroz blanco Diana }
+        marca: { type: string }
+        categoria: { type: string, example: Abarrotes }
+
+    Producto:
+      allOf:
+        - $ref: '#/components/schemas/ProductoResumen'
+        - type: object
+          required: [presentaciones, estadoCatalogo]
+          properties:
+            alias: { type: array, items: { type: string } }
+            estadoCatalogo: { type: string, enum: [APROBADO, PENDIENTE] }
+            presentaciones:
+              type: array
+              items: { $ref: '#/components/schemas/Presentacion' }
+
+    Presentacion:
+      type: object
+      required: [id, cantidad, unidad, unidadesPorEmpaque, unidadBase]
+      properties:
+        id: { type: string, format: uuid }
+        descripcion: { type: string, example: Paca 6 x 330 mL }
+        cantidad: { type: string, pattern: '^[0-9]+(\.[0-9]+)?$', example: '330' }
+        unidad: { $ref: '#/components/schemas/UnidadMedida' }
+        unidadesPorEmpaque: { type: integer, minimum: 1, example: 6 }
+        unidadBase: { $ref: '#/components/schemas/UnidadBase' }
+        ean: { type: [string, 'null'], pattern: '^[0-9]{8,14}$' }
+
+    PropuestaProducto:
+      type: object
+      required: [nombre, categoria, presentacion]
+      properties:
+        nombre: { type: string, minLength: 3, maxLength: 120 }
+        marca: { type: string, maxLength: 60 }
+        categoria: { type: string }
+        presentacion:
+          type: object
+          required: [cantidad, unidad, unidadesPorEmpaque]
+          properties:
+            cantidad: { type: string, pattern: '^[0-9]+(\.[0-9]+)?$' }
+            unidad: { $ref: '#/components/schemas/UnidadMedida' }
+            unidadesPorEmpaque: { type: integer, minimum: 1, default: 1 }
+            ean: { type: string, pattern: '^[0-9]{8,14}$' }
+
+    Establecimiento:
+      type: object
+      required: [id, nombre, tipo, municipio, ubicacion]
+      properties:
+        id: { type: string, format: uuid }
+        nombre: { type: string, example: Tienda Doña Rosa }
+        tipo: { type: string, enum: [TIENDA_BARRIO, MINIMERCADO, SUPERMERCADO] }
+        direccion: { type: string }
+        barrio: { type: string }
+        municipio: { type: string, example: Armenia }
+        ubicacion: { $ref: '#/components/schemas/Punto' }
+        distanciaKm: { type: number, description: Solo si se envió lat/lon }
+        estadoDirectorio: { type: string, enum: [APROBADO, PENDIENTE] }
+
+    PropuestaEstablecimiento:
+      type: object
+      required: [nombre, tipo, municipio, ubicacion]
+      properties:
+        nombre: { type: string, minLength: 3, maxLength: 120 }
+        tipo: { type: string, enum: [TIENDA_BARRIO, MINIMERCADO, SUPERMERCADO] }
+        direccion: { type: string }
+        barrio: { type: string }
+        municipio: { type: string }
+        ubicacion: { $ref: '#/components/schemas/Punto' }
+
+    Punto:
+      type: object
+      required: [lat, lon]
+      properties:
+        lat: { type: number }
+        lon: { type: number }
+      description: Ubicación del ESTABLECIMIENTO (dato público), nunca del dispositivo del reportante
+
+    ReportePrecioNuevo:
+      type: object
+      required: [presentacionId, establecimientoId, precio, observadoEn]
+      properties:
+        presentacionId: { type: string, format: uuid }
+        establecimientoId: { type: string, format: uuid }
+        precio: { $ref: '#/components/schemas/Dinero' }
+        observadoEn:
+          type: string
+          format: date-time
+          description: Momento en que se guardó en el dispositivo (puede ser anterior al envío si hubo modo offline)
+        fotoId: { type: string, format: uuid, description: Opcional; foto subida previamente }
+      additionalProperties: false
+
+    ReportePrecioAceptado:
+      type: object
+      required: [observacionId, estado]
+      properties:
+        observacionId: { type: string, format: uuid }
+        estado: { type: string, enum: [PENDIENTE_EVALUACION] }
+
+    ResultadoComparacion:
+      type: object
+      required: [producto, criterioOrden, unidadBase, items, generadoEn]
+      properties:
+        producto: { $ref: '#/components/schemas/ProductoResumen' }
+        criterioOrden:
+          type: object
+          required: [campo, descripcion]
+          properties:
+            campo: { type: string, enum: [precio_unidad, distancia] }
+            descripcion: { type: string, example: 'Ordenado por precio por kilogramo, de menor a mayor. Ningún comercio paga por su posición.' }
+        unidadBase: { $ref: '#/components/schemas/UnidadBase' }
+        generadoEn: { type: string, format: date-time }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/ItemComparacion' }
+        contenidoPromocional:
+          type: array
+          description: Reservado para el corte 3 (ADR-0009). Siempre separado de `items`; no afecta su orden.
+          items: { type: object }
+      additionalProperties: false
+
+    ItemComparacion:
+      type: object
+      required: [posicion, establecimiento, presentacion, precio, precioPorUnidad, observadoEn, fuente, estadoConfianza, vigente]
+      properties:
+        posicion: { type: integer, minimum: 1 }
+        establecimiento:
+          type: object
+          required: [id, nombre, tipo]
+          properties:
+            id: { type: string, format: uuid }
+            nombre: { type: string }
+            tipo: { type: string }
+            barrio: { type: string }
+            distanciaKm: { type: number }
+        presentacion: { $ref: '#/components/schemas/Presentacion' }
+        precio: { $ref: '#/components/schemas/Dinero' }
+        precioPorUnidad: { $ref: '#/components/schemas/Dinero' }
+        observadoEn: { type: string, format: date-time }
+        fuente: { $ref: '#/components/schemas/FuenteObservacion' }
+        confirmaciones: { type: integer, minimum: 0, description: Número de corroboraciones independientes (no identifica a nadie) }
+        estadoConfianza: { $ref: '#/components/schemas/EstadoConfianza' }
+        vigente: { type: boolean }
+        advertencia:
+          type: [string, 'null']
+          example: Precio reportado hace 9 días; puede estar desactualizado
+      additionalProperties: false
+
+    ReferenciaMayorista:
+      type: object
+      required: [fuente, mercado, precioPorUnidad, unidadBase, fecha]
+      properties:
+        fuente: { type: string, const: SIPSA-DANE }
+        mercado: { type: string, example: 'Armenia, Mercar' }
+        precioPorUnidad: { $ref: '#/components/schemas/Dinero' }
+        unidadBase: { $ref: '#/components/schemas/UnidadBase' }
+        fecha: { type: string, format: date }
+        nota: { type: string, example: Precio mayorista de referencia; no corresponde al precio de una tienda }
+
+    MiAporte:
+      type: object
+      properties:
+        observacionId: { type: string, format: uuid }
+        producto: { type: string }
+        establecimiento: { type: string }
+        precio: { $ref: '#/components/schemas/Dinero' }
+        observadoEn: { type: string, format: date-time }
+        estadoConfianza: { $ref: '#/components/schemas/EstadoConfianza' }
+        vecesConsultado: { type: integer }
+
+    CasoModeracion:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        origen: { type: string, enum: [ANOMALIA_AUTOMATICA, MARCA_USUARIO] }
+        observacionId: { type: string, format: uuid }
+        detalle: { type: string, example: 'Puntaje z modificado = -5,2 frente a mediana $3.000' }
+        reputacionReportante: { type: string, enum: [NUEVA, REGULAR, ALTA], description: Visible solo para moderadores }
+        abiertoEn: { type: string, format: date-time }
+        estado: { type: string, enum: [ABIERTO, RESUELTO] }
+
+    Paginacion:
+      type: object
+      properties:
+        pagina: { type: integer }
+        tamano: { type: integer }
+        total: { type: integer }
+
+    Problema:
+      type: object
+      description: RFC 9457 Problem Details
+      properties:
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string }
