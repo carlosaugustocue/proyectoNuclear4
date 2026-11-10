@@ -211,3 +211,16 @@ Utilidad
 | 6 | Comercio pequeño sin POS | En el núcleo, los reportantes cubren a la tienda. En el corte 3: actualización masiva desde la lista de "mis productos" con un toque por producto | Corte 2 (análisis de impacto) |
 | 7 | Neutralidad frente a promociones | La comparación no depende del módulo comercial; promociones en un bloque separado; prueba de arquitectura | ADR-0009 |
 | 8 | ¿Qué responde de inmediato y qué puede retrasarse? | Inmediato: confirmación del registro y consulta. Diferido (≤ 5 min): proyección de la comparación, estado de confianza, importación SIPSA | ADR-0003 |
+
+## 11. Declaración de uso de inteligencia artificial generativa
+
+Conforme a la guía del proyecto (§12.5), el equipo declara que utilizó el asistente de IA generativa **Claude (Anthropic)** como apoyo en las siguientes actividades de este documento:
+
+| Actividad | Uso de la IA | Revisión del equipo |
+|---|---|---|
+| Redacción de requisitos funcionales (§4) | Formato tabular y redacción inicial a partir de los actores y casos de uso identificados por el equipo | Revisión de completitud, corrección de prioridades MoSCoW y ajuste de redacción |
+| Formato de escenarios de calidad (§8) | Estructura de tabla de 7 columnas (formato Bass et al.); el contenido de cada celda es del equipo | Verificación de coherencia entre fuente, estímulo y medida |
+| Reglas de negocio candidatas a TDD (§5) | Redacción de ejemplos de casos de prueba; las reglas son del análisis del dominio del equipo | Validación de ejemplos contra los valores ⚑ propuestos |
+| Calidad de datos ISO/IEC 25012 (§9) | Sugerencia de características relevantes; justificación y medidas son del equipo | Revisión de alineación con los escenarios EC-02, EC-03 y EC-07 |
+
+**Compromisos del equipo:** los requisitos, reglas de negocio, escenarios y restricciones de este documento representan el análisis del equipo sobre el problema real del proyecto. Los valores marcados con ⚑ serán validados con evidencia de la Fase 1 (entrevistas y encuesta de campo). Cada integrante está en capacidad de explicar y defender cualquier sección ante el docente o los evaluadores.

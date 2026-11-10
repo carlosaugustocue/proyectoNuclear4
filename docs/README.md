@@ -21,7 +21,8 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 ## Lista de verificación antes de entregar
 
 **Decisiones de equipo pendientes**
-- [ ] ADR-0012: elegir el stack tecnológico.
+- [x] ADR-0012: stack tecnológico — PHP 8.3 + Laravel 11 (API) + Vue 3 + Vite + Workbox (PWA).
+- [x] ADR-0013: Well-Architected Framework (AWS WAF) + proveedor de despliegue (Railway).
 - [ ] Validar los pesos de la comparación de alternativas (arquitectura §4.1).
 - [ ] Validar o ajustar los valores ⚑ (vigencia, corroboración, umbrales de EC-02 y EC-03).
 - [ ] Asignar responsables (plan de calidad §10) y el contexto o módulo de cada integrante.

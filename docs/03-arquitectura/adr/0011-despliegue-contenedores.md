@@ -1,7 +1,7 @@
 # ADR-0011: Despliegue reproducible con contenedores Docker y Compose; CI en GitHub Actions
 
-- **Estado:** Propuesto (el proveedor de nube se decide en el corte 2, Fase 3)
-- **Fecha:** 2026-10-30
+- **Estado:** Aceptado — complementado por [ADR-0013](0013-well-architected-framework-despliegue.md) (WAF y proveedor de nube)
+- **Fecha:** 2026-10-30 · actualizado 2026-11-10
 - **Escenarios relacionados:** mínimo exigible "despliegue reproducible", EC-10, RDA3 de AS II
 
 ## Contexto
