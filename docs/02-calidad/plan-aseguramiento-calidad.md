@@ -156,9 +156,9 @@ La evaluación final (corte 3) seguirá las actividades del proceso de evaluaci�
 
 | Rol | Integrante |
 |---|---|
-| Responsable de calidad (plan, matriz, métricas) | [ ] |
-| Responsable de arquitectura (C4, ADRs) | [ ] |
-| Responsable de pruebas y CI | [ ] |
+| Responsable de calidad (plan, matriz, métricas) | Sofía Giraldo González |
+| Responsable de arquitectura (C4, ADRs) | Miguel Ángel Rodríguez |
+| Responsable de pruebas y CI | Carlos Augusto Aranzazu Jinete |
 
 ## 11. Declaración de uso de inteligencia artificial generativa
 
