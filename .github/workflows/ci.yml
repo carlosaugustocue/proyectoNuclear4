@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─── Pruebas del backend ──────────────────────────────────────────────────
+  backend:
+    name: Backend (Pest + PHPStan + Deptrac)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir imagen PHP
+        run: docker compose build api
+
+      - name: Instalar dependencias PHP
+        run: docker compose run --rm api composer install --no-interaction --prefer-dist
+
+      - name: Copiar .env de pruebas
+        run: cp .env.example backend/.env
+
+      - name: Generar APP_KEY
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml \
+            run --rm api php artisan key:generate
+
+      - name: Ejecutar migraciones (BD efímera en CI)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml \
+            run --rm api php artisan migrate --no-interaction
+
+      - name: Pruebas unitarias e integración (Pest)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml \
+            run --rm api ./vendor/bin/pest --colors=always --ci
+
+      - name: Análisis estático (PHPStan)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml \
+            run --rm api ./vendor/bin/phpstan analyse --memory-limit=512M --no-progress
+
+      - name: Pruebas de arquitectura (Deptrac)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml \
+            run --rm api ./vendor/bin/deptrac analyse --no-interaction
+
+  # ─── Lint del contrato OpenAPI ────────────────────────────────────────────
+  openapi:
+    name: OpenAPI lint (Spectral)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint openapi.yaml con Spectral
+        uses: stoplightio/spectral-action@latest
+        with:
+          file_glob: docs/03-arquitectura/api/openapi.yaml
+
+  # ─── Build del frontend ───────────────────────────────────────────────────
+  frontend:
+    name: Frontend (Vue build)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir imagen Node
+        run: docker compose build pwa
+
+      - name: Instalar dependencias y compilar
+        run: |
+          docker compose run --rm pwa sh -c "npm install && npm run build"
