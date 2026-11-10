@@ -268,4 +268,18 @@ Ver [api/openapi.yaml](api/openapi.yaml) (OpenAPI 3.1). Principios:
 | [0009](adr/0009-neutralidad-comparacion.md) | Neutralidad de la comparación | Aceptado |
 | [0010](adr/0010-datos-iniciales.md) | Datos iniciales: semilla + SIPSA como referencia | Propuesto |
 | [0011](adr/0011-despliegue-contenedores.md) | Despliegue reproducible con contenedores | Propuesto |
-| [0012](adr/0012-stack-tecnologico.md) | Stack tecnológico | **Pendiente del equipo** |
+| [0012](adr/0012-stack-tecnologico.md) | Stack tecnológico | Aceptado |
+| [0013](adr/0013-well-architected-framework-despliegue.md) | Well-Architected Framework de referencia y proveedor de despliegue | Aceptado |
+
+## 10. Declaración de uso de inteligencia artificial generativa
+
+Conforme a la guía del proyecto (§12.5), el equipo declara que utilizó el asistente de IA generativa **Claude (Anthropic)** como apoyo en las siguientes actividades de este documento:
+
+| Actividad | Uso de la IA | Revisión del equipo |
+|---|---|---|
+| Redacción y estructuración de secciones | Generación de borradores a partir de decisiones tomadas por el equipo | Revisión y ajuste por todos los integrantes |
+| Diagramas Mermaid (C4, secuencia, mapa de contextos) | Traducción a sintaxis Mermaid de bocetos en papel del equipo | Verificación de fidelidad con la arquitectura decidida |
+| Tabla de comparación de alternativas (§4.1) | Formato tabular; los pesos y argumentos son del equipo | Validación de pesos y recálculo manual |
+| Identificación de riesgos y trade-offs (§8) | Sugerencia de categorías; los items concretos son del análisis del equipo | Revisión de pertinencia y redacción final |
+
+**Compromisos del equipo:** todas las decisiones arquitectónicas registradas en este documento y en los ADRs fueron tomadas, debatidas y acordadas por los integrantes. Ninguna decisión fue aceptada sin revisión crítica. Cada integrante está en capacidad de explicar y defender cualquier sección de este documento ante el docente o los evaluadores.

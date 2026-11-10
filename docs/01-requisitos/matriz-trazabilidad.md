@@ -66,3 +66,15 @@
 | RN-10 | U-10 `OrdenComparacion` | por precio/unidad, por distancia, empates, entrada con atributos comerciales ignorados |
 
 > **Nota:** la matriz se actualiza en cada corte. En el corte 2 se agregan las filas del módulo comercial (RF-C01…) y la columna "resultado" con la evidencia de cada prueba.
+
+## 4. Declaración de uso de inteligencia artificial generativa
+
+Conforme a la guía del proyecto (§12.5), el equipo declara que utilizó el asistente de IA generativa **Claude (Anthropic)** como apoyo en las siguientes actividades de este documento:
+
+| Actividad | Uso de la IA | Revisión del equipo |
+|---|---|---|
+| Formato y estructura de la matriz (§1 y §2) | Generación de la tabla con las columnas RF → escenario → característica → medida → umbral → prueba → ADR | Verificación de cada fila contra los documentos fuente (especificación, plan de calidad, ADRs) |
+| Nomenclatura de pruebas (U-, I-, C-, S-, K-, etc.) | Propuesta del esquema de identificadores | Validación de consistencia y completitud |
+| Casos mínimos de prueba TDD (§3) | Sugerencia de casos borde; los casos que definen el comportamiento de negocio son del equipo | Revisión contra las reglas RN-01 a RN-10 |
+
+**Compromisos del equipo:** la trazabilidad entre requisitos, escenarios y pruebas refleja decisiones de diseño del equipo. Ninguna relación de la matriz fue aceptada sin verificar que conecta correctamente el requisito con su evidencia de cumplimiento. Cada integrante está en capacidad de recorrer cualquier fila de la matriz y explicar por qué existe esa relación.

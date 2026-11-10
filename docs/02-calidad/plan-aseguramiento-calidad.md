@@ -159,3 +159,16 @@ La evaluación final (corte 3) seguirá las actividades del proceso de evaluaci�
 | Responsable de calidad (plan, matriz, métricas) | [ ] |
 | Responsable de arquitectura (C4, ADRs) | [ ] |
 | Responsable de pruebas y CI | [ ] |
+
+## 11. Declaración de uso de inteligencia artificial generativa
+
+Conforme a la guía del proyecto (§12.5), el equipo declara que utilizó el asistente de IA generativa **Claude (Anthropic)** como apoyo en las siguientes actividades de este documento:
+
+| Actividad | Uso de la IA | Revisión del equipo |
+|---|---|---|
+| Comparación de modelos de calidad (§3.1) | Formato tabular y redacción de criterios comparativos | Validación de criterios y ajuste de argumentos por el equipo |
+| Definición de medidas (§5) | Sugerencia de formato ISO/IEC 2502n (X = A/B); los umbrales son del equipo | Verificación de coherencia con los escenarios y ajuste de valores ⚑ |
+| Pirámide de pruebas (§6) | Estructura visual en texto; los niveles y herramientas son del equipo | Revisión de completitud contra la matriz de trazabilidad |
+| Redacción de riesgos de calidad (§9) | Borradores de descripción; probabilidad e impacto son del equipo | Revisión de pertinencia |
+
+**Compromisos del equipo:** las características priorizadas, los umbrales de aceptación y la estrategia de pruebas fueron decididos por los integrantes a partir del análisis del problema. Cada integrante está en capacidad de explicar y defender cualquier sección de este documento ante el docente o los evaluadores.
