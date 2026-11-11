@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Domains\Precios\Domain\Events\PrecioRegistrado;
 use App\Domains\Precios\Domain\Repositories\RegistroPrecioRepository;
+use App\Domains\Precios\Infrastructure\Listeners\PublicarPrecioRegistrado;
 use App\Domains\Precios\Infrastructure\Persistence\EloquentRegistroPrecioRepository;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,5 +22,9 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 
-    public function boot(): void {}
+    public function boot(): void
+    {
+        // ── Suscripciones a eventos de dominio (outbox pattern) ───────────
+        Event::listen(PrecioRegistrado::class, PublicarPrecioRegistrado::class);
+    }
 }
