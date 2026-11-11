@@ -1,4 +1,4 @@
-# Proyecto Nuclear VI — Documentación del Corte 1
+# Proyecto Nuclear VI — Documentación
 
 Plataforma colaborativa de comparación de precios entre tiendas y supermercados (Armenia, Quindío) · II-2026.
 
@@ -11,6 +11,15 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 | Modelos de Calidad | **1. Plan de aseguramiento de calidad** | [02-calidad/plan-aseguramiento-calidad.md](02-calidad/plan-aseguramiento-calidad.md) · [00-planteamiento/planteamiento-problema-y-abordaje-calidad.pdf](00-planteamiento/planteamiento-problema-y-abordaje-calidad.pdf) |
 | Modelos de Calidad | **2. Especificación de requisitos y calidad de datos** (RF/RNF, escenarios refinados, 25012, matriz) | [01-requisitos/especificacion-requisitos.md](01-requisitos/especificacion-requisitos.md) · [01-requisitos/matriz-trazabilidad.md](01-requisitos/matriz-trazabilidad.md) |
 | Fase 1 (insumo de ambas) | Entrevistas, encuesta, benchmarking | [01-requisitos/instrumentos-fase1.md](01-requisitos/instrumentos-fase1.md) |
+
+## Mapa de entregables del Corte 2
+
+| Asignatura | Entregable de la guía | Archivo(s) |
+|---|---|---|
+| Modelos de Calidad | **3. Informe TDD y análisis estático** (ciclo rojo-verde-refactor, PHPStan nivel 8, suites U-01 a U-10) | [02-calidad/informe-tdd-analisis-estatico.md](02-calidad/informe-tdd-analisis-estatico.md) |
+| Arquitectura de Software II | **3. Construcción del núcleo con TDD + despliegue reproducible** | `backend/` (código) · `docker-compose.yml` · `Makefile` |
+| Modelos de Calidad | **4. Prototipo y prueba de usabilidad** | Pendiente |
+| Arquitectura de Software II | **4. Análisis de impacto módulo Comercial + Arq v2** | Pendiente |
 
 ## Convenciones
 
