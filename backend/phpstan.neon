@@ -6,10 +6,5 @@ parameters:
     paths:
         - app
 
-    # Excluir stubs de Laravel que PHPStan no puede resolver
-    excludePaths:
-        - app/Http/Middleware/
-
-    # Permitir llamadas a métodos dinámicos de Eloquent
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
+    # Excluir rutas que no existen aún (PHPStan falla si el path no existe)
+    excludePaths: []
