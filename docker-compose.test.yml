@@ -1,0 +1,40 @@
+# Override para el entorno de CI / pruebas
+# Uso: docker compose -f docker-compose.yml -f docker-compose.test.yml run --rm api
+#
+# Diferencias respecto al compose base:
+#   - Base de datos efímera (sin volumen persistente)
+#   - APP_ENV=testing
+#   - Sin worker ni pwa (no necesarios para las suites unitarias e integración)
+
+services:
+
+  api:
+    environment:
+      APP_ENV: testing
+      APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      DB_CONNECTION: pgsql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: nuclear_test
+      DB_USERNAME: nuclear
+      DB_PASSWORD: secret
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    environment:
+      POSTGRES_DB: nuclear_test
+      POSTGRES_USER: nuclear
+      POSTGRES_PASSWORD: secret
+    volumes: []        # sin persistencia en CI
+    tmpfs:
+      - /var/lib/postgresql/data
+
+  # Servicios innecesarios en CI
+  worker:
+    profiles: ["full"]
+  nginx:
+    profiles: ["full"]
+  pwa:
+    profiles: ["full"]

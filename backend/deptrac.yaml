@@ -1,0 +1,58 @@
+deptrac:
+  paths:
+    - ./app
+
+  layers:
+    # ── Capas por rol arquitectónico ───────────────────────────────────────
+    - name: Domain
+      collectors:
+        - type: directory
+          value: app/Domains/[^/]+/Domain/.*
+
+    - name: Application
+      collectors:
+        - type: directory
+          value: app/Domains/[^/]+/Application/.*
+
+    - name: Infrastructure
+      collectors:
+        - type: directory
+          value: app/Domains/[^/]+/Infrastructure/.*
+
+    - name: Http
+      collectors:
+        - type: directory
+          value: app/Http/.*
+
+    - name: Providers
+      collectors:
+        - type: directory
+          value: app/Providers/.*
+
+  ruleset:
+    # La capa de dominio no puede depender de ninguna otra capa del proyecto
+    Domain: []
+
+    # La capa de aplicación solo puede depender del dominio
+    Application:
+      - Domain
+
+    # La infraestructura puede depender del dominio y la aplicación
+    Infrastructure:
+      - Domain
+      - Application
+
+    # Los controladores HTTP dependen de la aplicación (no del dominio directamente)
+    Http:
+      - Application
+      - Domain
+
+    # Los proveedores de servicios pueden tocar todo (configuración del contenedor)
+    Providers:
+      - Domain
+      - Application
+      - Infrastructure
+
+  formatters:
+    graphviz:
+      point_to_groups: false
