@@ -18,8 +18,8 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 |---|---|---|
 | Modelos de Calidad | **3. Informe TDD y análisis estático** (ciclo rojo-verde-refactor, PHPStan nivel 8, suites U-01 a U-10) | [02-calidad/informe-tdd-analisis-estatico.md](02-calidad/informe-tdd-analisis-estatico.md) |
 | Arquitectura de Software II | **3. Construcción del núcleo con TDD + despliegue reproducible** | `backend/` (código) · `docker-compose.yml` · `Makefile` |
-| Modelos de Calidad | **4. Prototipo y prueba de usabilidad** | Pendiente |
-| Arquitectura de Software II | **4. Análisis de impacto módulo Comercial + Arq v2** | Pendiente |
+| Modelos de Calidad | **4. Prototipo y prueba de usabilidad** | [02-calidad/protocolo-prueba-usabilidad.md](02-calidad/protocolo-prueba-usabilidad.md) · `frontend/` (prototipo PWA) |
+| Arquitectura de Software II | **4. Analisis de impacto modulo Comercial + Arq v2** | [03-arquitectura/analisis-impacto-modulo-comercial.md](03-arquitectura/analisis-impacto-modulo-comercial.md) |
 
 ## Convenciones
 
