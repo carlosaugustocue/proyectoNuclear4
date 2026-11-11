@@ -27,9 +27,9 @@ services:
       POSTGRES_DB: nuclear_test
       POSTGRES_USER: nuclear
       POSTGRES_PASSWORD: secret
-    volumes: []        # sin persistencia en CI
-    tmpfs:
-      - /var/lib/postgresql/data
+    # Volumen anónimo en lugar del pgdata nombrado — efímero por defecto en CI
+    volumes:
+      - pgdata_test:/var/lib/postgresql/data
 
   # Servicios innecesarios en CI
   worker:
@@ -38,3 +38,6 @@ services:
     profiles: ["full"]
   pwa:
     profiles: ["full"]
+
+volumes:
+  pgdata_test:
