@@ -92,7 +92,8 @@ services:
     ports:
       - "5173:5173"
     environment:
-      VITE_API_URL: http://localhost:8080/v1
+      # La PWA llama a /v1 en su mismo origen y Vite lo reenvía a nginx (sin CORS)
+      VITE_PROXY_TARGET: http://nginx:80
     restart: unless-stopped
 
 volumes:
