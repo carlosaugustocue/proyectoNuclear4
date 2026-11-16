@@ -26,4 +26,6 @@ ENV APP_ENV=production APP_DEBUG=false LOG_CHANNEL=stderr QUEUE_CONNECTION=datab
 EXPOSE 8080
 # `artisan serve` (servidor embebido de PHP) basta para la demo académica (R-04);
 # en producción real se cambiaría por php-fpm + nginx o FrankenPHP.
-CMD ["sh", "-c", "php artisan config:cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"]
+# --no-reload es necesario para que PHP_CLI_SERVER_WORKERS (procesos concurrentes) tenga efecto:
+# sin él Laravel ignora la variable y atiende una petición a la vez (medido en pruebas-calidad/, EC-04).
+CMD ["sh", "-c", "php artisan config:cache && php artisan migrate --force && php artisan serve --no-reload --host=0.0.0.0 --port=${PORT:-8080}"]
