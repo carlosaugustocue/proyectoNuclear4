@@ -27,6 +27,7 @@ deptrac:
     - { name: Comercial,        collectors: [ { type: directory, value: app/Domains/Comercial/.* } ] }
     - { name: Http,             collectors: [ { type: directory, value: app/Http/.* } ] }
     - { name: Providers,        collectors: [ { type: directory, value: app/Providers/.* } ] }
+    - { name: Console,          collectors: [ { type: directory, value: app/Console/.* } ] }
 
   ruleset:
     # Núcleo compartido (Shared Kernel): dinero, unidades, coordenadas. No depende de nadie.
@@ -58,3 +59,5 @@ deptrac:
     # Adaptadores de entrada y composición del contenedor
     Http:      [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta]
     Providers: [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
+    # Comandos de medición de calidad (pruebas-calidad/): adaptador de entrada, como Http.
+    Console:   [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion]

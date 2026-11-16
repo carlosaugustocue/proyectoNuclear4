@@ -1,0 +1,66 @@
+# Entorno AISLADO para las mediciones de calidad (pruebas-calidad/ejecutar.sh).
+#
+# Usa las MISMAS imágenes que se despliegan en Railway (docker/railway/api.Dockerfile, ADR-0013), no el
+# entorno de desarrollo: así los tiempos describen lo que se va a desplegar. Nombre de proyecto propio
+# (nuclear-calidad) y base de datos efímera: no toca el stack de desarrollo ni otros contenedores.
+
+name: nuclear-calidad
+
+x-api: &api
+  build:
+    context: ..
+    dockerfile: docker/railway/api.Dockerfile
+  image: nuclear-calidad-api
+  environment:
+    APP_ENV: calidad                  # distinto de production: permite las semillas sintéticas
+    APP_DEBUG: "false"
+    APP_KEY: "${CALIDAD_APP_KEY:?ejecute pruebas-calidad/ejecutar.sh, que genera la clave}"
+    LOG_LEVEL: warning
+    DB_CONNECTION: pgsql
+    DB_HOST: db
+    DB_PORT: "5432"
+    DB_DATABASE: nuclear
+    DB_USERNAME: nuclear
+    DB_PASSWORD: secret
+    QUEUE_CONNECTION: database
+    PHP_CLI_SERVER_WORKERS: "${PHP_CLI_SERVER_WORKERS:-1}"   # igual que la imagen de Railway por defecto
+  restart: on-failure
+  depends_on:
+    db:
+      condition: service_healthy
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: nuclear
+      POSTGRES_USER: nuclear
+      POSTGRES_PASSWORD: secret
+    healthcheck:
+      # Por TCP: durante la inicialización PostgreSQL solo escucha en el socket local y luego se reinicia
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U nuclear -d nuclear"]
+      interval: 2s
+      retries: 30
+
+  api:
+    <<: *api
+    ports:
+      - "127.0.0.1:${CALIDAD_PUERTO:-8090}:8080"
+
+  worker:
+    <<: *api
+    # Mismo comando que el servicio worker de Railway (README, paso 3)
+    command: ["php", "artisan", "queue:work", "--queue=domain-events", "--tries=3"]
+    depends_on:
+      api:
+        condition: service_started
+
+  k6:
+    image: grafana/k6:0.54.0
+    user: "${UID_GID:-1000:1000}"   # escribe los resultados con el usuario del host
+    profiles: ["k6"]
+    environment:
+      BASE_URL: http://api:8080/v1
+    volumes:
+      - ./k6:/scripts:ro
+      - ${RESULTADOS:-./resultados/ultimo}:/resultados
