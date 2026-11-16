@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\DB;
 
-describe('POST /api/v1/precios', function () {
+describe('POST /v1/precios', function () {
 
     it('crea un registro de precio y devuelve 201 con el id', function () {
-        $response = $this->postJson('/api/v1/precios', [
+        $response = $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-arroz-500g',
             'establecimiento_id' => 'est-exito-armenia',
             'monto'              => '3250',
@@ -31,7 +31,7 @@ describe('POST /api/v1/precios', function () {
     });
 
     it('persiste la ubicación geoespacial correctamente', function () {
-        $response = $this->postJson('/api/v1/precios', [
+        $response = $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-leche-1l',
             'establecimiento_id' => 'est-olimpica-armenia',
             'monto'              => '2800',
@@ -51,7 +51,7 @@ describe('POST /api/v1/precios', function () {
     });
 
     it('acepta moneda explícita distinta de COP', function () {
-        $response = $this->postJson('/api/v1/precios', [
+        $response = $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-cafe-500g',
             'establecimiento_id' => 'est-cafe-origen',
             'monto'              => '12.50',
@@ -69,7 +69,7 @@ describe('POST /api/v1/precios', function () {
     });
 
     it('rechaza monto negativo con 422', function () {
-        $this->postJson('/api/v1/precios', [
+        $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-x',
             'establecimiento_id' => 'est-x',
             'monto'              => '-100',
@@ -80,7 +80,7 @@ describe('POST /api/v1/precios', function () {
     });
 
     it('rechaza latitud fuera de rango con 422', function () {
-        $this->postJson('/api/v1/precios', [
+        $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-x',
             'establecimiento_id' => 'est-x',
             'monto'              => '1000',
@@ -91,7 +91,7 @@ describe('POST /api/v1/precios', function () {
     });
 
     it('rechaza campos requeridos faltantes con 422', function () {
-        $this->postJson('/api/v1/precios', [])
+        $this->postJson('/v1/precios', [])
              ->assertStatus(422)
              ->assertJsonValidationErrors([
                  'producto_id',

@@ -11,7 +11,7 @@ describe('Outbox — PrecioRegistrado', function () {
     it('encola un job en domain-events al registrar un precio', function () {
         Queue::fake();
 
-        $this->postJson('/api/v1/precios', [
+        $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-panela-500g',
             'establecimiento_id' => 'est-mercado-armenia',
             'monto'              => '1800',
@@ -30,7 +30,7 @@ describe('Outbox — PrecioRegistrado', function () {
     it('encola exactamente un job por precio registrado', function () {
         Queue::fake();
 
-        $this->postJson('/api/v1/precios', [
+        $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-leche-1l',
             'establecimiento_id' => 'est-olimpica-armenia',
             'monto'              => '2800',
@@ -44,7 +44,7 @@ describe('Outbox — PrecioRegistrado', function () {
     it('el job lleva el evento con el producto correcto', function () {
         Queue::fake();
 
-        $this->postJson('/api/v1/precios', [
+        $this->postJson('/v1/precios', [
             'producto_id'        => 'prod-arroz-500g',
             'establecimiento_id' => 'est-exito-armenia',
             'monto'              => '3250',

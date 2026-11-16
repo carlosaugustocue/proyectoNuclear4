@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Domains\Catalogo\Domain\Repositories\CatalogoLectura;
+use App\Domains\Catalogo\Infrastructure\Persistence\PgCatalogoLectura;
+use App\Domains\Establecimientos\Domain\Repositories\DirectorioLectura;
+use App\Domains\Establecimientos\Infrastructure\Persistence\PgDirectorioLectura;
 use App\Domains\Precios\Domain\Events\PrecioRegistrado;
 use App\Domains\Precios\Domain\Repositories\RegistroPrecioRepository;
 use App\Domains\Precios\Infrastructure\Listeners\PublicarPrecioRegistrado;
@@ -15,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        // ── Catálogo y Establecimientos ──────────────────────────────────
+        $this->app->bind(CatalogoLectura::class, PgCatalogoLectura::class);
+        $this->app->bind(DirectorioLectura::class, PgDirectorioLectura::class);
+
         // ── Dominio Precios ───────────────────────────────────────────────
         $this->app->bind(
             RegistroPrecioRepository::class,
