@@ -1,0 +1,15 @@
+# Las imágenes de docker/railway instalan sus propias dependencias
+.git
+**/node_modules
+frontend/dist
+backend/vendor
+backend/.env
+backend/build
+backend/.phpunit.cache
+backend/.deptrac.cache
+backend/bootstrap/cache/*.php
+backend/storage/logs/*
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+docs

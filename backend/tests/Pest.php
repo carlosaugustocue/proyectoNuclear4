@@ -32,16 +32,107 @@ expect()->extend('toBeOne', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Functions
+| Fixtures del dominio (pruebas de integración)
 |--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
+| Insertan datos mínimos de Catálogo y Establecimientos directamente en la BD
+| para que cada prueba declare explícitamente el escenario que necesita.
 */
 
-function something()
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+/** @param array<string, mixed> $attrs */
+function crearProducto(array $attrs = []): string
 {
-    // ..
+    $id = (string) Str::uuid();
+    DB::table('productos')->insert(array_merge([
+        'id'            => $id,
+        'nombre'        => 'Arroz blanco Diana',
+        'marca'         => 'Diana',
+        'categoria'     => 'Granos',
+        'tipo_vigencia' => 'ABARROTE',
+        'alias'         => json_encode([]),
+        'created_at'    => now(),
+        'updated_at'    => now(),
+    ], $attrs));
+
+    return $id;
+}
+
+/** @param array<string, mixed> $attrs */
+function crearPresentacion(string $productoId, array $attrs = []): string
+{
+    $id = (string) Str::uuid();
+    DB::table('presentaciones')->insert(array_merge([
+        'id'                   => $id,
+        'producto_id'          => $productoId,
+        'descripcion'          => 'Bolsa 500 g',
+        'cantidad'             => '500',
+        'unidad'               => 'G',
+        'unidades_por_empaque' => 1,
+        'unidad_base'          => 'KG',
+        'ean'                  => null,
+        'created_at'           => now(),
+        'updated_at'           => now(),
+    ], $attrs));
+
+    return $id;
+}
+
+/** @param array<string, mixed> $attrs */
+function crearEstablecimiento(array $attrs = [], float $lat = 4.5339, float $lon = -75.6811): string
+{
+    $id = (string) Str::uuid();
+    DB::table('establecimientos')->insert(array_merge([
+        'id'         => $id,
+        'nombre'     => 'Tienda Doña Rosa',
+        'tipo'       => 'TIENDA_BARRIO',
+        'direccion'  => 'Cra 15 # 20-10',
+        'barrio'     => 'Centro',
+        'municipio'  => 'Armenia',
+        'ubicacion'  => DB::raw("ST_GeogFromText('POINT({$lon} {$lat})')"),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ], $attrs));
+
+    return $id;
+}
+
+/**
+ * Registra un reporte de precio por la API real (flujo de extremo a extremo).
+ * En pruebas QUEUE_CONNECTION=sync: los listeners del outbox (Confianza →
+ * Comparación → Moderación) se ejecutan en la misma petición.
+ */
+function reportarPrecio(
+    string $presentacionId,
+    string $establecimientoId,
+    string $precio,
+    string $ip = '10.0.0.1',
+    ?string $observadoEn = null,
+): \Illuminate\Testing\TestResponse {
+    return test()->withServerVariables(['REMOTE_ADDR' => $ip])
+        ->withHeaders(['Idempotency-Key' => (string) Str::uuid()])
+        ->postJson('/v1/reportes-precio', [
+            'presentacionId'    => $presentacionId,
+            'establecimientoId' => $establecimientoId,
+            'precio'            => $precio,
+            'observadoEn'       => $observadoEn ?? now()->subMinute()->toIso8601String(),
+        ]);
+}
+
+/** Recorre recursivamente una respuesta JSON y devuelve todas sus claves. */
+function clavesJson(mixed $valor): array
+{
+    if (! is_array($valor)) {
+        return [];
+    }
+    $claves = [];
+    foreach ($valor as $k => $v) {
+        if (is_string($k)) {
+            $claves[] = $k;
+        }
+        $claves = array_merge($claves, clavesJson($v));
+    }
+
+    return array_values(array_unique($claves));
 }

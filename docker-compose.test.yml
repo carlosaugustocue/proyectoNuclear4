@@ -18,6 +18,7 @@ services:
       DB_DATABASE: nuclear_test
       DB_USERNAME: nuclear
       DB_PASSWORD: secret
+      QUEUE_CONNECTION: sync   # las pruebas Feature recorren el flujo de eventos sin worker
     depends_on:
       db:
         condition: service_healthy

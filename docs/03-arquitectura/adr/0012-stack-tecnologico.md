@@ -57,14 +57,14 @@ Escala: dominio Alto=5, Medio=3, Bajo=1; demás criterios 0–2. El dominio prev
 |---|---|---|
 | TDD del dominio (RN-01…RN-10) | **Pest PHP 3** | Sintaxis `it('…')` / `expect(…)->toBe(…)` más expresiva que PHPUnit para lógica de dominio; corre en < 10 s para suites unitarias |
 | Pruebas de arquitectura (AR-01, AR-02) | **Deptrac** (qossmic/deptrac) | Define capas y dependencias permitidas en YAML; falla el CI si un módulo accede al interior de otro o si Comparación importa algo de Comercial |
-| Generación OpenAPI 3.1 | **Dedoc/Scramble** | Auto-genera el esquema desde los tipos de retorno y Form Requests de Laravel sin anotaciones adicionales; exporta a `openapi.yaml` para validación en CI |
+| Generación OpenAPI 3.1 | ~~Dedoc/Scramble~~ → contrato primero (ver nota de revisión) | Auto-genera el esquema desde los tipos de retorno y Form Requests de Laravel sin anotaciones adicionales; exporta a `openapi.yaml` para validación en CI |
 | Validación de contrato en CI | **Spectral** (Stoplight) | Lint del `openapi.yaml` generado contra el `openapi.yaml` de referencia; falla si divergen |
 | Decimales exactos (RN-02) | **brick/money** + extensión `bcmath` | Tipo `Money` inmutable; aritmética con precisión arbitraria; evita `float` en toda la capa de dominio |
 | PostGIS (ADR-0005) | `DB::select()` con queries raw | Las funciones `ST_DWithin`, `ST_Distance` se pasan directamente; sin ORM GIS para evitar abstracción innecesaria |
 | Outbox transaccional (ADR-0003) | **Laravel Queues driver `database`** | `DB::transaction(fn() => [$modelo->save(), dispatch(new DomainEvent(...))->afterCommit()])` garantiza atomicidad; la tabla `jobs` actúa como outbox; el *worker* es `queue:work` |
 | Análisis estático | **PHPStan** nivel 8 + **Laravel IDE Helper** | Detecta errores de tipo antes de ejecutar; nivel 8 equivale a strict types en toda la base de código |
 | Contenedores | **Docker** (php-fpm + nginx + postgresql) + `docker compose` | Despliegue reproducible (ADR-0011); imagen única para API y Worker |
-| CI | **GitHub Actions** | Pipeline: `pest`, `deptrac`, `phpstan`, `scramble:export` + diff contra `openapi.yaml`, Playwright E2E |
+| CI | **GitHub Actions** | Pipeline: `pest`, `deptrac`, `phpstan`, lint Spectral de `openapi.yaml`, cobertura pcov `--min=80`, Playwright E2E |
 | PWA Service Worker | **Workbox 7** vía vite-plugin-pwa | Estrategia `NetworkFirst` para comparaciones; `BackgroundSync` para cola de reportes offline (EC-09) |
 | Sincronización offline | **Dexie.js** (IndexedDB) | API reactiva; guarda reportes pendientes con `Idempotency-Key` (UUID v4 generado en el cliente) |
 
@@ -105,3 +105,16 @@ Deptrac verificará que `Domain/` no dependa de `Infrastructure/` (arquitectura 
   - Si la suite de dominio supera los 60 s (M-13), se migrará de `phpunit` subyacente a un runner paralelo (`--parallel` de Pest).
   - Si la carga supera los 500 VU en producción, se evaluará Laravel Octane sin necesidad de cambiar el stack.
   - La decisión de proveedor cloud se registra en ADR-0011 (pendiente de complementar).
+
+## Nota de revisión (2026-11-16)
+
+Lo instalado difiere de esta decisión en un punto, que queda registrado en lugar de ocultarse:
+
+- **Dedoc/Scramble no se adoptó.** El equipo trabaja *contrato primero*: `docs/03-arquitectura/api/openapi.yaml`
+  se escribe a mano antes del código, Spectral lo valida en CI y las pruebas Feature
+  (`backend/tests/Feature/Api/V1`) comprueban que las respuestas coinciden con él (claves permitidas, códigos,
+  Problem Details). Generar el contrato desde el código invertiría ese orden. Se reevaluará en el corte 3
+  si el contrato y el código empiezan a divergir.
+- **Dexie.js sí está instalado** (`frontend/package.json`) y respalda la cola offline de reportes
+  (`frontend/src/offline/colaReportes.ts`, EC-09).
+- **Cobertura:** el driver pcov se agregó a `docker/php/Dockerfile`; el CI exige `--min=80` (M-13).

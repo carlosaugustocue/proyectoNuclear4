@@ -68,5 +68,10 @@ export default defineConfig({
   server: {
     host: true, // necesario para Docker (--host)
     port: 5173,
+    // En desarrollo la PWA llama a /v1 en el mismo origen y Vite lo reenvía a la API
+    // (nginx en docker compose escucha en 8080). Evita configurar CORS para desarrollo.
+    proxy: {
+      '/v1': { target: process.env.VITE_PROXY_TARGET ?? 'http://localhost:8080', changeOrigin: true },
+    },
   },
 })

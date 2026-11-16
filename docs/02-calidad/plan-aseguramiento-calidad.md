@@ -152,7 +152,7 @@ La evaluación final (corte 3) seguirá las actividades del proceso de evaluaci�
 | Umbrales propios sin evidencia | Media | Medio | Ajustarlos con entrevistas a comerciantes (Fase 1) |
 | Carga desigual en el equipo | Media | Alto | Asignación explícita por módulo y revisión cruzada |
 
-## 10. Responsables (por completar)
+## 10. Responsables
 
 | Rol | Integrante |
 |---|---|

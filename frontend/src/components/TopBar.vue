@@ -10,7 +10,7 @@ import { MapPin } from 'lucide-vue-next'
       </router-link>
       <div class="flex items-center gap-1.5 text-sm text-slate-500">
         <MapPin class="h-4 w-4" aria-hidden="true" />
-        <span>Armenia, Quindio</span>
+        <span>Armenia, Quindío</span>
       </div>
     </div>
   </header>

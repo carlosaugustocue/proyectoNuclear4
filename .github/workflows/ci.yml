@@ -18,11 +18,16 @@ jobs:
       - name: Construir imagen PHP
         run: docker compose build api
 
-      - name: Instalar dependencias PHP
-        run: docker compose run --rm api composer install --no-interaction --prefer-dist
-
       - name: Copiar .env de pruebas
         run: cp .env.example backend/.env
+
+      # El contenedor corre como el usuario `app` (uid 1000) y el checkout del runner
+      # pertenece al uid 1001: sin esto composer no puede crear vendor/.
+      - name: Dar al usuario del contenedor permisos sobre backend/
+        run: sudo chown -R 1000:1000 backend
+
+      - name: Instalar dependencias PHP
+        run: docker compose run --rm api composer install --no-interaction --prefer-dist
 
       - name: Generar APP_KEY
         run: |
@@ -34,20 +39,34 @@ jobs:
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
             run --rm api php artisan migrate --no-interaction
 
-      - name: Pruebas unitarias e integración (Pest)
+      - name: Pruebas unitarias e integración con cobertura (Pest + pcov) — M-13 / EC-10
         run: |
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
-            run --rm api ./vendor/bin/pest --colors=always --ci
+            run --rm api ./vendor/bin/pest --colors=always --ci \
+              --coverage --min=80 --coverage-clover=build/coverage/clover.xml \
+              --coverage-html=build/coverage/html
+
+      - name: Publicar reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-backend
+          path: backend/build/coverage/
 
       - name: Análisis estático (PHPStan)
         run: |
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
             run --rm api ./vendor/bin/phpstan analyse --memory-limit=512M --no-progress
 
-      - name: Pruebas de arquitectura (Deptrac)
+      - name: Pruebas de arquitectura por contexto — AR-01 / AR-02 (Deptrac)
         run: |
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
             run --rm api ./vendor/bin/deptrac analyse --no-interaction
+
+      - name: Pruebas de arquitectura por capa (Deptrac)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml \
+            run --rm api ./vendor/bin/deptrac analyse --config-file=deptrac-capas.yaml --no-interaction
 
   # ─── Lint del contrato OpenAPI ────────────────────────────────────────────
   openapi:
@@ -75,4 +94,4 @@ jobs:
 
       - name: Instalar dependencias y compilar
         run: |
-          docker compose run --rm pwa sh -c "npm install && npm run build"
+          docker compose run --rm pwa sh -c "npm ci && npm test && npm run build"

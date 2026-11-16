@@ -17,6 +17,11 @@ RUN docker-php-ext-install \
     opcache \
     pcntl
 
+# pcov: driver de cobertura para Pest (M-13, EC-10). Solo se activa al pedir --coverage.
+RUN pecl install pcov && docker-php-ext-enable pcov \
+    && echo "pcov.enabled=1" > /usr/local/etc/php/conf.d/zz-pcov.ini \
+    && echo "pcov.directory=/var/www/html/app" >> /usr/local/etc/php/conf.d/zz-pcov.ini
+
 # Limpiar dependencias de compilación
 RUN apk del $PHPIZE_DEPS linux-headers
 

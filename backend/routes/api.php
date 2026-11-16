@@ -2,17 +2,32 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\V1\PrecioController;
+use App\Http\Controllers\V1\ComparacionController;
+use App\Http\Controllers\V1\EstablecimientoController;
+use App\Http\Controllers\V1\ReportePrecioController;
+use App\Http\Controllers\V1\ProductoController;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes — versión 1
+| API v1 — contrato en docs/03-arquitectura/api/openapi.yaml
 |--------------------------------------------------------------------------
-| Prefijo /v1 configurado en bootstrap/app.php
+| Sin prefijo /api: las rutas coinciden con `servers: http://localhost:8080/v1`
+| (ver apiPrefix en bootstrap/app.php).
 */
 
 Route::prefix('v1')->group(function () {
+    // ── Catálogo ───────────────────────────────────────────────────────
+    Route::get('productos', [ProductoController::class, 'index']);
+    Route::get('productos/{productoId}', [ProductoController::class, 'show'])->whereUuid('productoId');
+
+    // ── Establecimientos ───────────────────────────────────────────────
+    Route::get('establecimientos', [EstablecimientoController::class, 'index']);
+
     // ── Precios ────────────────────────────────────────────────────────
-    Route::post('precios', [PrecioController::class, 'store']);
+    Route::post('reportes-precio', [ReportePrecioController::class, 'store']);
+
+    // ── Comparación (modelo de lectura) ────────────────────────────────
+    Route::get('comparaciones', [ComparacionController::class, 'index']);
+    Route::get('comparaciones/resumen', [ComparacionController::class, 'resumen']);
 });

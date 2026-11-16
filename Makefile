@@ -95,6 +95,7 @@ test-unit:
 
 test-arch:
 	$(DC_API) ./vendor/bin/deptrac analyse --no-interaction
+	$(DC_API) ./vendor/bin/deptrac analyse --config-file=deptrac-capas.yaml --no-interaction
 
 lint:
 	$(DC_API) ./vendor/bin/phpstan analyse --memory-limit=512M

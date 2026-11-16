@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API de la plataforma colaborativa de comparación de precios — Núcleo
-  version: 0.1.0-preliminar
+  version: 0.2.0
   description: |
     Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
     ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
@@ -9,6 +9,16 @@ info:
     - Las respuestas públicas NO incluyen identidad ni ubicación de reportantes (EC-07).
     - La comparación siempre declara su criterio de orden y no tiene campos de patrocinio (EC-06).
     - Errores en formato Problem Details (RFC 9457).
+
+    Estado de implementación (corte 2, 2026-11-16). Implementados y cubiertos por
+    pruebas Feature (`backend/tests/Feature/Api/V1`):
+    `GET /productos`, `GET /productos/{productoId}`, `GET /establecimientos`,
+    `POST /reportes-precio`, `GET /comparaciones` y `GET /comparaciones/resumen`.
+    Los demás endpoints (propuestas, confirmaciones, marcas, referencias mayoristas,
+    mis aportes, moderación y cuentas) siguen PLANIFICADOS y llevan `x-estado: planificado`.
+    Mientras no exista el contexto Identidad (ADR-0014), `POST /reportes-precio` acepta
+    solicitudes anónimas: el servidor agrupa los aportes con un seudónimo HMAC interno
+    que nunca se publica (RN-07, EC-07).
 servers:
   - url: http://localhost:8080/v1
     description: Entorno local (docker compose)
@@ -59,6 +69,7 @@ paths:
 
   /productos/propuestas:
     post:
+      x-estado: planificado
       tags: [Catálogo]
       summary: Proponer un producto o presentación nuevo (RF-03)
       security: [ { bearerAuth: [] } ]
@@ -102,6 +113,7 @@ paths:
 
   /establecimientos/propuestas:
     post:
+      x-estado: planificado
       tags: [Establecimientos]
       summary: Proponer un establecimiento nuevo (RF-07)
       security: [ { bearerAuth: [] } ]
@@ -126,7 +138,8 @@ paths:
         Idempotente mediante `Idempotency-Key` (UUID generado en el cliente al guardar en la cola local).
         Un reintento con la misma clave devuelve 200 con el mismo recurso, sin duplicar (EC-09).
         La evaluación de confianza es asíncrona (ADR-0003): la respuesta indica estado `PENDIENTE_EVALUACION`.
-      security: [ { bearerAuth: [] } ]
+        Autenticación opcional hasta que exista el contexto Identidad (ADR-0014).
+      security: [ {}, { bearerAuth: [] } ]
       parameters:
         - name: Idempotency-Key
           in: header
@@ -161,6 +174,7 @@ paths:
 
   /observaciones/{observacionId}/confirmaciones:
     post:
+      x-estado: planificado
       tags: [Precios]
       summary: Confirmar que un precio sigue vigente — "sigue igual" (RF-10)
       security: [ { bearerAuth: [] } ]
@@ -177,6 +191,7 @@ paths:
 
   /observaciones/{observacionId}/marcas:
     post:
+      x-estado: planificado
       tags: [Confianza]
       summary: Marcar un precio como dudoso (RF-19)
       security: [ { bearerAuth: [] } ]
@@ -204,7 +219,7 @@ paths:
         El orden depende exclusivamente de `orden` (RN-10, ADR-0009).
       parameters:
         - { name: productoId, in: query, required: true, schema: { type: string, format: uuid } }
-        - { name: presentacionId, in: query, schema: { type: string, format: uuid }, description: Si se omite, se comparan todas las presentaciones normalizadas por unidad base }
+        - { name: presentacionId, in: query, schema: { type: string, format: uuid }, description: 'Si se omite, se comparan todas las presentaciones normalizadas por unidad base' }
         - { name: municipio, in: query, schema: { type: string } }
         - $ref: '#/components/parameters/Lat'
         - $ref: '#/components/parameters/Lon'
@@ -227,8 +242,38 @@ paths:
         '400': { $ref: '#/components/responses/Problema' }
         '404': { $ref: '#/components/responses/Problema' }
 
+  /comparaciones/resumen:
+    get:
+      tags: [Comparación]
+      summary: Menor precio vigente por producto (tarjetas de la PWA)
+      description: |
+        Resume el modelo de lectura para varias tarjetas en una sola llamada (evita N consultas, EC-04).
+        Solo cuenta observaciones vigentes (RN-04, RN-09). Conserva el orden de `productoIds`.
+      parameters:
+        - name: productoIds
+          in: query
+          required: true
+          description: Lista separada por comas, máximo 50 UUID
+          schema: { type: string }
+      responses:
+        '200':
+          description: Un resumen por producto solicitado
+          headers:
+            Cache-Control: { schema: { type: string }, example: 'public, max-age=30' }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/ResumenProducto' }
+        '400': { $ref: '#/components/responses/Problema' }
+
   /referencias-mayoristas:
     get:
+      x-estado: planificado
       tags: [Comparación]
       summary: Precio mayorista de referencia (SIPSA), separado de la comparación (RF-25, ADR-0010)
       parameters:
@@ -244,6 +289,7 @@ paths:
 
   /mis-aportes:
     get:
+      x-estado: planificado
       tags: [Precios]
       summary: Aportes del usuario autenticado y su estado (RF-12)
       security: [ { bearerAuth: [] } ]
@@ -265,6 +311,7 @@ paths:
 
   /moderacion/casos:
     get:
+      x-estado: planificado
       tags: [Moderación]
       summary: Cola de casos pendientes (RF-20)
       security: [ { bearerAuth: [moderador] } ]
@@ -286,6 +333,7 @@ paths:
 
   /moderacion/casos/{casoId}/decision:
     post:
+      x-estado: planificado
       tags: [Moderación]
       summary: Resolver un caso; queda en bitácora (RF-20, RNF-11)
       security: [ { bearerAuth: [moderador] } ]
@@ -308,6 +356,7 @@ paths:
 
   /cuentas:
     post:
+      x-estado: planificado
       tags: [Cuentas]
       summary: Crear cuenta con autorización de tratamiento de datos (RF-22)
       requestBody:
@@ -360,7 +409,21 @@ components:
       enum: [G, KG, ML, L, UNIDAD]
     EstadoConfianza:
       type: string
-      enum: [CONFIABLE, POR_VERIFICAR, NO_CONFIABLE]
+      description: |
+        CONFIABLE: corroborada por ≥ 2 reportantes independientes (RN-05).
+        NO_CORROBORADO: un solo reporte, sin anomalía; se muestra sin advertencia.
+        POR_VERIFICAR: anomalía estadística (RN-06); se muestra con advertencia y abre caso de moderación.
+        NO_CONFIABLE: decisión de moderación; no se muestra como vigente.
+      enum: [CONFIABLE, NO_CORROBORADO, POR_VERIFICAR, NO_CONFIABLE]
+    ResumenProducto:
+      type: object
+      required: [productoId, unidadBase, precioPorUnidadMin, establecimientos]
+      properties:
+        productoId: { type: string, format: uuid }
+        unidadBase: { oneOf: [ { $ref: '#/components/schemas/UnidadBase' }, { type: 'null' } ] }
+        precioPorUnidadMin: { type: [string, 'null'], description: Decimal exacto; null si no hay precios vigentes }
+        precioMin: { type: [string, 'null'] }
+        establecimientos: { type: integer, minimum: 0 }
     FuenteObservacion:
       type: string
       enum: [REPORTANTE, COMERCIO, EQUIPO_SEMILLA]

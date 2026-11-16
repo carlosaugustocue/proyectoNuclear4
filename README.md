@@ -20,8 +20,56 @@ Un mismo producto puede tener precios muy distintos según el establecimiento, p
 | Corte | Entregables | Estado |
 |---|---|---|
 | 1 (30 %) | Arquitectura v1 + ADRs · Plan de calidad + especificación de requisitos | 🟡 En revisión del equipo |
-| 2 (30 %) | Núcleo desplegado · Análisis de impacto y arquitectura v2 · Informe TDD · Prueba de usabilidad | ⚪ Pendiente |
+| 2 (30 %) | Núcleo desplegado · Análisis de impacto y arquitectura v2 · Informe TDD · Prueba de usabilidad | 🟡 Núcleo de extremo a extremo listo en local; falta el despliegue en Railway y la evidencia primaria de usabilidad |
 | 3 (40 %) | Sistema integrado · Evaluación de arquitectura · Evaluación de calidad · Documento resumen | ⚪ Pendiente |
+
+## Cómo ejecutarlo (local)
+
+Requisitos: Docker y Docker Compose.
+
+```bash
+cp .env.example .env            # variables de la base de datos
+make install                    # construye imágenes, instala dependencias y genera APP_KEY
+make up                         # api, worker, nginx, postgis y pwa
+make migrate seed               # esquema + datos de DEMOSTRACIÓN (establecimientos ficticios)
+```
+
+- PWA: <http://localhost:5173> (Vite reenvía `/v1` a la API, sin CORS).
+- API: <http://localhost:8080/v1> — contrato en [`docs/03-arquitectura/api/openapi.yaml`](docs/03-arquitectura/api/openapi.yaml).
+- Pruebas: `make test` (Pest), `make test-arch` (Deptrac por contexto y por capa), `make lint` (PHPStan),
+  `cd frontend && npm test` (Vitest).
+
+> Los datos de la semilla son **ilustrativos**: 8 establecimientos ficticios de Armenia y precios inventados
+> (fuente `EQUIPO_SEMILLA`). Sirven para la demostración; no son observaciones de campo.
+
+Endpoints implementados: `GET /v1/productos`, `GET /v1/productos/{id}`, `GET /v1/establecimientos`,
+`POST /v1/reportes-precio` (con `Idempotency-Key`), `GET /v1/comparaciones` y `GET /v1/comparaciones/resumen`.
+
+## Despliegue en Railway (ADR-0013)
+
+Las imágenes de producción están en [`docker/railway/`](docker/railway) y se probaron localmente
+(la API migra al arrancar y responde; la web sirve la PWA con rutas de SPA). El despliegue en sí lo hace el
+equipo con su cuenta:
+
+1. Crear un proyecto en Railway y agregar **PostgreSQL**. En la consola SQL del servicio, ejecutar
+   `CREATE EXTENSION IF NOT EXISTS postgis; CREATE EXTENSION IF NOT EXISTS unaccent;`
+   (si la plantilla de PostgreSQL no trae PostGIS, usar la plantilla «PostGIS» de Railway).
+2. Servicio **api** desde este repositorio. Usa `railway.json` (Dockerfile `docker/railway/api.Dockerfile`).
+   Variables:
+   - `APP_KEY` (generarla con `php artisan key:generate --show`)
+   - `APP_URL`
+   - `DB_CONNECTION=pgsql`
+   - `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` (referencias a las del servicio PostgreSQL)
+   - `CORS_ALLOWED_ORIGINS=https://<dominio-de-la-web>`
+
+   Generar un dominio público.
+3. Servicio **worker** desde el mismo repositorio y la misma imagen. Usa las mismas variables y este comando
+   de inicio: `php artisan queue:work --queue=domain-events --tries=3`. Sin el worker, los reportes no llegan
+   a la comparación.
+4. Servicio **web**. Usa el Dockerfile `docker/railway/web.Dockerfile` y la variable de construcción
+   `VITE_API_URL=https://<dominio-de-la-api>/v1`. Generar un dominio público.
+5. (Opcional, solo para la demo) en el servicio api: `php artisan db:seed --force`.
+6. Anotar aquí las URL públicas y la fecha del despliegue: **pendiente**.
 
 ## Estructura del repositorio
 
