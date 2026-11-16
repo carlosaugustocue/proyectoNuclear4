@@ -7,11 +7,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "brick/money": "^0.9",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
-        "brick/money": "^0.9",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.0",
         "laravel/pail": "^1.1",
