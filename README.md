@@ -137,7 +137,7 @@ Los diagramas (C4, secuencia, mapa de contextos) están escritos en [Mermaid](ht
 |---|---|
 | Carlos Augusto Aranzazu Jinete | [@carlosaugustocue](https://github.com/carlosaugustocue) |
 | Miguel Ángel Rodríguez | [@miguel2607](https://github.com/miguel2607) |
-| Sofía Giraldo González | — |
+| Sofía Giraldo González | [@Sofiagiraldo01](https://github.com/Sofiagiraldo01) |
 
 > Cada integrante completa su usuario de GitHub en su propio *pull request* (ver [CONTRIBUTING.md](CONTRIBUTING.md)).
 
