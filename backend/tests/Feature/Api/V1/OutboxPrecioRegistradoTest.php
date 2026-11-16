@@ -2,68 +2,59 @@
 
 declare(strict_types=1);
 
-use App\Domains\Precios\Infrastructure\Listeners\PublicarPrecioRegistrado;
+use App\Domains\Precios\Domain\Events\PrecioRegistrado;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Str;
+
+/*
+ * ADR-0003: el registro y el evento se guardan en la misma transacción (tabla jobs
+ * como outbox); el worker los procesa en la cola domain-events.
+ */
 
 describe('Outbox — PrecioRegistrado', function () {
-
-    it('encola un job en domain-events al registrar un precio', function () {
-        Queue::fake();
-
-        $this->postJson('/v1/precios', [
-            'producto_id'        => 'prod-panela-500g',
-            'establecimiento_id' => 'est-mercado-armenia',
-            'monto'              => '1800',
-            'latitud'            => 4.5339,
-            'longitud'           => -75.6811,
-        ])->assertStatus(201);
-
-        // Laravel envuelve los listeners queued en CallQueuedListener
-        Queue::assertPushedOn(
-            'domain-events',
-            CallQueuedListener::class,
-            fn ($job) => $job->class === PublicarPrecioRegistrado::class
-        );
+    beforeEach(function () {
+        $productoId = crearProducto();
+        $this->cuerpo = [
+            'presentacionId'    => crearPresentacion($productoId),
+            'establecimientoId' => crearEstablecimiento(),
+            'precio'            => '3250',
+            'observadoEn'       => now()->subMinute()->toIso8601String(),
+        ];
     });
 
-    it('encola exactamente un job por precio registrado', function () {
+    it('encola en domain-events los listeners del evento al registrar un reporte', function () {
         Queue::fake();
 
-        $this->postJson('/v1/precios', [
-            'producto_id'        => 'prod-leche-1l',
-            'establecimiento_id' => 'est-olimpica-armenia',
-            'monto'              => '2800',
-            'latitud'            => 4.5280,
-            'longitud'           => -75.6742,
-        ])->assertStatus(201);
+        $this->withHeaders(['Idempotency-Key' => (string) Str::uuid()])
+            ->postJson('/v1/reportes-precio', $this->cuerpo)->assertStatus(202);
 
-        Queue::assertPushed(CallQueuedListener::class, 1);
+        Queue::assertPushedOn('domain-events', CallQueuedListener::class);
     });
 
-    it('el job lleva el evento con el producto correcto', function () {
+    it('el evento encolado lleva la presentación y el monto exactos', function () {
         Queue::fake();
 
-        $this->postJson('/v1/precios', [
-            'producto_id'        => 'prod-arroz-500g',
-            'establecimiento_id' => 'est-exito-armenia',
-            'monto'              => '3250',
-            'latitud'            => 4.5339,
-            'longitud'           => -75.6811,
-        ])->assertStatus(201);
+        $this->withHeaders(['Idempotency-Key' => (string) Str::uuid()])
+            ->postJson('/v1/reportes-precio', $this->cuerpo)->assertStatus(202);
 
-        Queue::assertPushedOn(
-            'domain-events',
-            CallQueuedListener::class,
-            function ($job) {
-                /** @var \App\Domains\Precios\Domain\Events\PrecioRegistrado $evento */
-                $evento = $job->data[0] ?? null;
-                return $job->class === PublicarPrecioRegistrado::class
-                    && $evento instanceof \App\Domains\Precios\Domain\Events\PrecioRegistrado
-                    && $evento->productoId === 'prod-arroz-500g'
-                    && $evento->monto === '3250.00';
-            }
-        );
+        Queue::assertPushed(CallQueuedListener::class, function (CallQueuedListener $job) {
+            $evento = $job->data[0] ?? null;
+
+            return $evento instanceof PrecioRegistrado
+                && $evento->presentacionId === $this->cuerpo['presentacionId']
+                && $evento->monto === '3250.00';
+        });
     });
 
+    it('un reintento idempotente no vuelve a encolar el evento', function () {
+        Queue::fake();
+        $clave = (string) Str::uuid();
+
+        $this->withHeaders(['Idempotency-Key' => $clave])->postJson('/v1/reportes-precio', $this->cuerpo);
+        $antes = Queue::pushed(CallQueuedListener::class)->count();
+        $this->withHeaders(['Idempotency-Key' => $clave])->postJson('/v1/reportes-precio', $this->cuerpo)->assertOk();
+
+        expect(Queue::pushed(CallQueuedListener::class)->count())->toBe($antes);
+    });
 })->group('feature');
