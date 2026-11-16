@@ -1,0 +1,54 @@
+{
+    "medicion": "EC-03 · M-03 exhaustividad y M-04 falsos positivos",
+    "fecha": "2026-11-16T18:51:42+00:00",
+    "semilla": 3,
+    "conjunto": {
+        "total": 250,
+        "anomalos": 50,
+        "legitimos": 200,
+        "sintetico": true
+    },
+    "matriz": {
+        "vp": 47,
+        "fn": 3,
+        "fp": 6,
+        "vn": 194
+    },
+    "M-03": {
+        "valor": 0.94,
+        "aceptable": ">= 0.80",
+        "objetivo": ">= 0.90"
+    },
+    "M-04": {
+        "valor": 0.03,
+        "aceptable": "<= 0.05",
+        "objetivo": "<= 0.03"
+    },
+    "por_tipo": {
+        "moderado": {
+            "total": 12,
+            "marcados": 12
+        },
+        "legitimo": {
+            "total": 185,
+            "marcados": 1
+        },
+        "descuento": {
+            "total": 15,
+            "marcados": 5
+        },
+        "burdo": {
+            "total": 20,
+            "marcados": 20
+        },
+        "coordinado": {
+            "total": 12,
+            "marcados": 12
+        },
+        "sutil": {
+            "total": 6,
+            "marcados": 3
+        }
+    },
+    "anomalos_con_caso_de_moderacion": 47
+}
