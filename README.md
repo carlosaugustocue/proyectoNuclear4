@@ -19,9 +19,20 @@ Un mismo producto puede tener precios muy distintos según el establecimiento, p
 
 | Corte | Entregables | Estado |
 |---|---|---|
-| 1 (30 %) | Arquitectura v1 + ADRs · Plan de calidad + especificación de requisitos | 🟡 En revisión del equipo |
-| 2 (30 %) | Núcleo desplegado · Análisis de impacto y arquitectura v2 · Informe TDD · Prueba de usabilidad | 🟡 Núcleo de extremo a extremo listo en local; falta el despliegue en Railway y la evidencia primaria de usabilidad |
+| 1 (30 %) | Arquitectura v1 + ADRs · Plan de calidad + especificación de requisitos | 🟢 Documentos completos · 🔴 falta la evidencia de campo de la Fase 1 (entrevistas, encuesta, benchmarking con citas APA) |
+| 2 (30 %) | Núcleo desplegado · Análisis de impacto y arquitectura v2 · Informe TDD · Prueba de usabilidad | 🟢 Núcleo de extremo a extremo integrado en `main` (PR #9) · 🔴 falta el despliegue en Railway y la evidencia primaria de usabilidad |
 | 3 (40 %) | Sistema integrado · Evaluación de arquitectura · Evaluación de calidad · Documento resumen | ⚪ Pendiente |
+
+**Verificación automática (CI en GitHub Actions, cada PR y cada push a `main`):**
+
+| Comprobación | Resultado en `main` (2026-11-16) |
+|---|---|
+| Pruebas Pest, unitarias e integración con PostgreSQL + PostGIS | 153 en verde |
+| Cobertura de líneas del dominio, pcov (M-13; el CI exige ≥ 80 %) | 97,9 % |
+| PHPStan nivel 8 (M-14) | 0 errores |
+| Deptrac por contexto (AR-01, AR-02) y por capa | 0 violaciones |
+| Vitest y build de la PWA | 10 pruebas en verde |
+| Lint del contrato OpenAPI con Spectral | Sin errores |
 
 ## Cómo ejecutarlo (local)
 
@@ -75,20 +86,32 @@ equipo con su cuenta:
 
 ```
 .
+├── backend/                              API en Laravel 11 (PHP 8.3)
+│   ├── app/Domains/<Contexto>/           Un contexto delimitado por carpeta, cada uno con Domain/Application/Infrastructure:
+│   │                                     Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion,
+│   │                                     Moderacion, Identidad, Ingesta (ADR-0002, ADR-0016)
+│   ├── app/Http/                         Controladores v1, validación de peticiones y Problem Details (RFC 9457)
+│   ├── database/                         Migraciones (PostGIS) y semilla de demostración
+│   ├── tests/Unit · tests/Feature        Reglas de negocio (TDD) · API de extremo a extremo
+│   └── deptrac.yaml · deptrac-capas.yaml · phpstan.neon
+├── frontend/                             PWA en Vue 3 + Vite + Tailwind + Pinia; cola offline con Dexie (EC-09)
+├── docker/                               Imágenes de desarrollo (php, node, nginx) y de producción (railway/)
+├── docker-compose.yml · docker-compose.test.yml · Makefile · railway.json
 ├── docs/
-│   ├── README.md                         Índice y lista de verificación de entregas
+│   ├── README.md                         Mapa de entregables por corte y lista de verificación
 │   ├── 00-planteamiento/                 Planteamiento del problema y abordaje inicial de calidad (PDF)
 │   ├── 01-requisitos/                    Especificación, matriz de trazabilidad, instrumentos de la Fase 1
-│   ├── 02-calidad/                       Plan de aseguramiento de la calidad
+│   ├── 02-calidad/                       Plan de calidad, informe de TDD y análisis estático, prueba de usabilidad, evidencias/
 │   └── 03-arquitectura/
 │       ├── documento-arquitectura-v1.md  Alternativas, modelo C4, riesgos y trade-offs
-│       ├── adr/                          Registro de decisiones arquitectónicas
-│       └── api/openapi.yaml              Contrato de la API (OpenAPI 3.1)
-├── .github/                              Plantilla de pull request
+│       ├── documento-arquitectura-v2.md  Arquitectura actualizada con el módulo comercial
+│       ├── analisis-impacto-modulo-comercial.md
+│       ├── adr/                          Registro de decisiones (ADR-0001 a ADR-0016)
+│       ├── api/openapi.yaml              Contrato de la API (OpenAPI 3.1, versión 0.2.0)
+│       └── estudios/                     Estudio REST frente a GraphQL
+├── .github/                              CI (workflows/ci.yml) y plantilla de pull request
 └── CONTRIBUTING.md                       Flujo de trabajo del equipo
 ```
-
-El código fuente se agregará en el corte 2 (ver [ADR-0012](docs/03-arquitectura/adr/0012-stack-tecnologico.md)).
 
 ## Decisiones principales
 
@@ -99,8 +122,10 @@ El código fuente se agregará en el corte 2 (ver [ADR-0012](docs/03-arquitectur
 | PWA con registro *offline-first* | Registro en ≤ 15 s con conectividad limitada (EC-01, EC-09) | [0006](docs/03-arquitectura/adr/0006-pwa-offline-first.md) |
 | Modelo de confianza explicable: marcar, no borrar | Credibilidad de los datos sin perjudicar a comercios legítimos (EC-03) | [0007](docs/03-arquitectura/adr/0007-modelo-confianza.md) |
 | Neutralidad garantizada por diseño | El orden de la comparación no depende de relaciones comerciales (EC-06) | [0009](docs/03-arquitectura/adr/0009-neutralidad-comparacion.md) |
+| Contenedores en Railway, con AWS Well-Architected como marco | Despliegue reproducible al costo de un equipo académico (R-04) | [0013](docs/03-arquitectura/adr/0013-well-architected-framework-despliegue.md) |
+| Fronteras por contexto verificadas con Deptrac en CI | Que el módulo comercial no altere el núcleo (EC-05, AR-01, AR-02) | [0016](docs/03-arquitectura/adr/0016-nucleo-compartido-y-fronteras-por-contexto.md) |
 
-Modelo de calidad: **ISO/IEC 25010:2023** (producto), **ISO/IEC 25012** (datos) e **ISO/IEC 25040** (evaluación). La justificación frente a McCall, Boehm y FURPS+ está en el [plan de calidad](docs/02-calidad/plan-aseguramiento-calidad.md).
+Modelo de calidad: **ISO/IEC 25010:2023** (producto), **ISO/IEC 25012** (datos) e **ISO/IEC 25040:2024** (evaluación). La justificación frente a McCall, Boehm y FURPS+ está en el [plan de calidad](docs/02-calidad/plan-aseguramiento-calidad.md).
 
 ## Cómo leer la documentación
 
@@ -111,11 +136,11 @@ Los diagramas (C4, secuencia, mapa de contextos) están escritos en [Mermaid](ht
 | Integrante | GitHub |
 |---|---|
 | Carlos Augusto Aranzazu Jinete | [@carlosaugustocue](https://github.com/carlosaugustocue) |
-| Miguel Ángel Rodríguez | — |
+| Miguel Ángel Rodríguez | [@miguel2607](https://github.com/miguel2607) |
 | Sofía Giraldo González | — |
 
 > Cada integrante completa su usuario de GitHub en su propio *pull request* (ver [CONTRIBUTING.md](CONTRIBUTING.md)).
 
 ## Uso de inteligencia artificial generativa
 
-Conforme a la guía del proyecto (§12.5), el equipo declara el uso de asistentes de IA generativa (Claude) como apoyo en la redacción y estructuración de la documentación. Los commits asistidos lo indican con un *trailer* `Co-Authored-By`. Todas las decisiones fueron revisadas por el equipo, que responde por ellas.
+Conforme a la guía del proyecto (§12.5), el equipo declara el uso de asistentes de IA generativa (Claude) como apoyo en la redacción y estructuración de la documentación y en la implementación del código. Los commits asistidos lo indican con un *trailer* `Co-Authored-By`. Todas las decisiones fueron revisadas por el equipo, que responde por ellas.
