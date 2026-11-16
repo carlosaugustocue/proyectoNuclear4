@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\V1\EstablecimientoController;
-use App\Http\Controllers\V1\PrecioController;
+use App\Http\Controllers\V1\ReportePrecioController;
 use App\Http\Controllers\V1\ProductoController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,5 +24,5 @@ Route::prefix('v1')->group(function () {
     Route::get('establecimientos', [EstablecimientoController::class, 'index']);
 
     // ── Precios ────────────────────────────────────────────────────────
-    Route::post('precios', [PrecioController::class, 'store']);
+    Route::post('reportes-precio', [ReportePrecioController::class, 'store']);
 });

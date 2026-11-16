@@ -33,6 +33,7 @@ final class PublicarPrecioRegistrado implements ShouldQueue
         // Comparación para actualizar la proyección de precios mínimos.
         logger()->info('PrecioRegistrado procesado por worker', [
             'registro_id'       => $evento->registroId,
+            'presentacion_id'   => $evento->presentacionId,
             'producto_id'       => $evento->productoId,
             'establecimiento_id'=> $evento->establecimientoId,
             'monto'             => $evento->monto,

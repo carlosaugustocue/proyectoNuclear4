@@ -10,6 +10,8 @@ use App\Domains\Establecimientos\Domain\Repositories\DirectorioLectura;
 use App\Domains\Establecimientos\Infrastructure\Persistence\PgDirectorioLectura;
 use App\Domains\Precios\Domain\Events\PrecioRegistrado;
 use App\Domains\Precios\Domain\Repositories\RegistroPrecioRepository;
+use App\Domains\Precios\Domain\Repositories\ResolutorPresentaciones;
+use App\Domains\Precios\Infrastructure\Catalogo\ResolutorPresentacionesCatalogo;
 use App\Domains\Precios\Infrastructure\Listeners\PublicarPrecioRegistrado;
 use App\Domains\Precios\Infrastructure\Persistence\EloquentRegistroPrecioRepository;
 use Illuminate\Support\Facades\Event;
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
             RegistroPrecioRepository::class,
             EloquentRegistroPrecioRepository::class,
         );
+        $this->app->bind(ResolutorPresentaciones::class, ResolutorPresentacionesCatalogo::class);
     }
 
     public function boot(): void
