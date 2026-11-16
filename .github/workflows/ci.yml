@@ -34,10 +34,19 @@ jobs:
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
             run --rm api php artisan migrate --no-interaction
 
-      - name: Pruebas unitarias e integración (Pest)
+      - name: Pruebas unitarias e integración con cobertura (Pest + pcov) — M-13 / EC-10
         run: |
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
-            run --rm api ./vendor/bin/pest --colors=always --ci
+            run --rm api ./vendor/bin/pest --colors=always --ci \
+              --coverage --min=80 --coverage-clover=build/coverage/clover.xml \
+              --coverage-html=build/coverage/html
+
+      - name: Publicar reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-backend
+          path: backend/build/coverage/
 
       - name: Análisis estático (PHPStan)
         run: |
@@ -80,4 +89,4 @@ jobs:
 
       - name: Instalar dependencias y compilar
         run: |
-          docker compose run --rm pwa sh -c "npm install && npm run build"
+          docker compose run --rm pwa sh -c "npm ci && npm test && npm run build"
