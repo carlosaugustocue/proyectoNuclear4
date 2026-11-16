@@ -1,0 +1,64 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domains\Precios\Infrastructure\Persistence;
+
+use App\Domains\Precios\Domain\Repositories\ObservacionesLectura;
+use App\Domains\Precios\Domain\ValueObjects\ObservacionPrecio;
+use DateTimeImmutable;
+use Illuminate\Support\Facades\DB;
+
+final class PgObservacionesLectura implements ObservacionesLectura
+{
+    public function ultimoPrecioPorEstablecimiento(string $presentacionId, string $excluirId, DateTimeImmutable $desde): array
+    {
+        $filas = DB::select(
+            'SELECT DISTINCT ON (establecimiento_id) monto::text AS monto
+               FROM registros_precio
+              WHERE presentacion_id = ? AND id <> ? AND deleted_at IS NULL AND observado_en >= ?
+              ORDER BY establecimiento_id, observado_en DESC',
+            [$presentacionId, $excluirId, $desde->format(DATE_ATOM)],
+        );
+
+        return array_values(array_map(static fn (\stdClass $f): string => (string) $f->monto, $filas));
+    }
+
+    public function historialEnEstablecimiento(string $presentacionId, string $establecimientoId, string $excluirId, int $limite): array
+    {
+        return array_values(DB::table('registros_precio')
+            ->where('presentacion_id', $presentacionId)
+            ->where('establecimiento_id', $establecimientoId)
+            ->where('id', '<>', $excluirId)
+            ->orderByDesc('observado_en')
+            ->limit($limite)
+            ->pluck('monto')
+            ->map(static fn (mixed $m): string => (string) $m)
+            ->all());
+    }
+
+    public function recientesEnEstablecimiento(string $presentacionId, string $establecimientoId, DateTimeImmutable $desde): array
+    {
+        return array_values(DB::table('registros_precio')
+            ->where('presentacion_id', $presentacionId)
+            ->where('establecimiento_id', $establecimientoId)
+            ->whereNull('deleted_at')
+            ->where('observado_en', '>=', $desde->format(DATE_ATOM))
+            ->orderByDesc('observado_en')
+            ->get(['id', 'reportado_por', 'monto', 'observado_en'])
+            ->map(static fn (\stdClass $f): ObservacionPrecio => new ObservacionPrecio(
+                (string) $f->id,
+                (string) $f->reportado_por,
+                (string) $f->monto,
+                new DateTimeImmutable((string) $f->observado_en),
+            ))
+            ->all());
+    }
+
+    public function primerAporteDe(string $reportadoPor): ?DateTimeImmutable
+    {
+        $primero = DB::table('registros_precio')->where('reportado_por', $reportadoPor)->min('registrado_en');
+
+        return is_string($primero) ? new DateTimeImmutable($primero) : null;
+    }
+}

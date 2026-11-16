@@ -12,5 +12,6 @@ final class AporteCorroboracion
         public readonly string            $userId,
         public readonly string            $monto,
         public readonly DateTimeImmutable $registradoEn,
+        public readonly ?string           $observacionId = null,
     ) {}
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\V1\ComparacionController;
 use App\Http\Controllers\V1\EstablecimientoController;
 use App\Http\Controllers\V1\ReportePrecioController;
 use App\Http\Controllers\V1\ProductoController;
@@ -25,4 +26,8 @@ Route::prefix('v1')->group(function () {
 
     // ── Precios ────────────────────────────────────────────────────────
     Route::post('reportes-precio', [ReportePrecioController::class, 'store']);
+
+    // ── Comparación (modelo de lectura) ────────────────────────────────
+    Route::get('comparaciones', [ComparacionController::class, 'index']);
+    Route::get('comparaciones/resumen', [ComparacionController::class, 'resumen']);
 });
