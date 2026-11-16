@@ -1,39 +1,96 @@
-export interface Producto {
+/*
+ * Tipos alineados con docs/03-arquitectura/api/openapi.yaml (fuente de verdad del contrato).
+ * Los montos llegan como string decimal exacto (RN-02): nunca se operan como float.
+ */
+
+export type UnidadBase = 'KG' | 'L' | 'UNIDAD'
+export type EstadoConfianza = 'CONFIABLE' | 'NO_CORROBORADO' | 'POR_VERIFICAR' | 'NO_CONFIABLE'
+export type FuenteObservacion = 'REPORTANTE' | 'COMERCIO' | 'EQUIPO_SEMILLA'
+export type TipoEstablecimiento = 'TIENDA_BARRIO' | 'MINIMERCADO' | 'SUPERMERCADO' | 'DESCUENTO' | 'PLAZA'
+export type OrdenComparacion = 'precio_unidad' | 'distancia'
+
+export interface Presentacion {
+  id: string
+  descripcion: string | null
+  cantidad: string
+  unidad: 'G' | 'KG' | 'ML' | 'L' | 'UNIDAD'
+  unidadesPorEmpaque: number
+  unidadBase: UnidadBase
+  ean: string | null
+}
+
+export interface ProductoResumen {
   id: string
   nombre: string
-  marca: string
-  presentacion: string
+  marca: string | null
   categoria: string
-  imagen?: string
-  precioMin: string
-  precioMax: string
-  tiendas: number
+}
+
+export interface ProductoDetalle extends ProductoResumen {
+  presentaciones: Presentacion[]
+}
+
+export interface Pagina<T> {
+  items: T[]
+  pagina: { pagina: number; tamano: number; total: number }
 }
 
 export interface Establecimiento {
   id: string
   nombre: string
-  tipo: 'supermercado' | 'descuento' | 'tienda_barrio' | 'minimercado'
-  direccion: string
-  distanciaMetros: number | null
+  tipo: TipoEstablecimiento
+  direccion: string | null
+  barrio: string | null
+  municipio: string
+  ubicacion: { lat: number; lon: number }
+  distanciaKm?: number
 }
 
-export interface PrecioComparacion {
-  id: string
-  establecimiento: string
-  tipoEstablecimiento: string
-  montoDisplay: string
-  precioUnidadDisplay: string
-  unidadBase: string
-  estadoVigencia: 'VIGENTE' | 'PUEDE_ESTAR_DESACTUALIZADO' | 'HISTORIAL'
-  estadoConfianza: 'CONFIABLE' | 'POR_VERIFICAR' | 'NO_CORROBORADO' | 'NO_CONFIABLE'
-  distanciaMetros: number | null
-  registradoEn: string
-  fuenteTipo: 'reportado' | 'oficial' | 'sipsa'
+export interface ItemComparacion {
+  posicion: number
+  establecimiento: {
+    id: string
+    nombre: string
+    tipo: TipoEstablecimiento
+    barrio: string | null
+    distanciaKm?: number
+  }
+  presentacion: Presentacion
+  precio: string
+  precioPorUnidad: string
+  observadoEn: string
+  fuente: FuenteObservacion
+  confirmaciones: number
+  estadoConfianza: EstadoConfianza
+  vigente: boolean
+  advertencia: string | null
 }
 
-export interface Categoria {
-  id: string
-  nombre: string
-  icono: string
+export interface ResultadoComparacion {
+  producto: ProductoResumen
+  criterioOrden: { campo: OrdenComparacion; descripcion: string }
+  unidadBase: UnidadBase
+  generadoEn: string
+  items: ItemComparacion[]
+  contenidoPromocional: unknown[]
+}
+
+export interface ResumenProducto {
+  productoId: string
+  unidadBase: UnidadBase | null
+  precioPorUnidadMin: string | null
+  precioMin: string | null
+  establecimientos: number
+}
+
+export interface ReportePrecioNuevo {
+  presentacionId: string
+  establecimientoId: string
+  precio: string
+  observadoEn: string
+}
+
+export interface ReporteAceptado {
+  observacionId: string
+  estado: 'PENDIENTE_EVALUACION'
 }

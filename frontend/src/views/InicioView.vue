@@ -1,45 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Search, TrendingDown, ChevronRight } from 'lucide-vue-next'
-import { categorias, productos } from '@/repositories/mock-data'
 import ProductoCard from '@/components/ProductoCard.vue'
 import CategoriaChip from '@/components/CategoriaChip.vue'
+import { useProductosConPrecio } from '@/composables/useProductosConPrecio'
+import { CATEGORIAS } from '@/utils/catalogo'
 
 const router = useRouter()
 const busqueda = ref('')
-const categoriaActiva = ref('todos')
+const { productos, resumenes, cargando, error, cargar } = useProductosConPrecio()
 
-const productosDestacados = productos.slice(0, 4)
+onMounted(() => cargar({ tamano: 6 }))
 
-function irABuscar() {
-  if (busqueda.value.trim()) {
-    router.push({ name: 'buscar', query: { q: busqueda.value } })
-  } else {
-    router.push({ name: 'buscar' })
-  }
+function irABuscar(categoria?: string | null) {
+  const query: Record<string, string> = {}
+  if (busqueda.value.trim()) query.q = busqueda.value.trim()
+  if (categoria) query.categoria = categoria
+  router.push({ name: 'buscar', query })
 }
 </script>
 
 <template>
   <section aria-labelledby="titulo-inicio">
-    <!-- Hero -->
     <div class="mb-6 text-center">
-      <h1 id="titulo-inicio" class="text-2xl font-extrabold text-slate-900">
-        Compara precios en Armenia
-      </h1>
-      <p class="mt-1 text-sm text-slate-500">
-        Encuentra donde comprar mas barato. Colabora reportando precios.
-      </p>
+      <h1 id="titulo-inicio" class="text-2xl font-extrabold text-slate-900">Compara precios en Armenia</h1>
+      <p class="mt-1 text-sm text-slate-500">Encuentra dónde comprar más barato. Colabora reportando precios.</p>
     </div>
 
-    <!-- Buscador principal -->
-    <form
-      class="relative mb-6"
-      @submit.prevent="irABuscar"
-      role="search"
-      aria-label="Buscar productos"
-    >
+    <form class="relative mb-6" role="search" aria-label="Buscar productos" @submit.prevent="irABuscar()">
       <Search class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" aria-hidden="true" />
       <input
         v-model="busqueda"
@@ -50,38 +39,33 @@ function irABuscar() {
       />
     </form>
 
-    <!-- Categorias -->
-    <section class="mb-6" aria-label="Categorias de productos">
-      <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+    <nav class="mb-6" aria-label="Categorías de productos">
+      <div class="flex gap-2 overflow-x-auto pb-2">
         <CategoriaChip
-          v-for="cat in categorias"
-          :key="cat.id"
-          :categoria="cat"
-          :activa="categoriaActiva === cat.id"
-          @click="categoriaActiva = cat.id"
+          v-for="cat in CATEGORIAS"
+          :key="cat.nombre"
+          :nombre="cat.nombre"
+          :activa="cat.valor === null"
+          @click="irABuscar(cat.valor)"
         />
       </div>
-    </section>
+    </nav>
 
-    <!-- Productos con diferencias significativas -->
     <section aria-labelledby="productos-destacados">
       <div class="mb-3 flex items-center justify-between">
         <h2 id="productos-destacados" class="flex items-center gap-1.5 text-base font-bold text-slate-800">
           <TrendingDown class="h-4 w-4 text-success-500" aria-hidden="true" />
-          Mejores precios hoy
+          Productos del catálogo
         </h2>
         <router-link to="/buscar" class="flex items-center gap-0.5 text-xs font-semibold text-primary-600">
-          Ver todos
-          <ChevronRight class="h-3.5 w-3.5" aria-hidden="true" />
+          Ver todos <ChevronRight class="h-3.5 w-3.5" aria-hidden="true" />
         </router-link>
       </div>
 
-      <div class="grid grid-cols-2 gap-3">
-        <ProductoCard
-          v-for="prod in productosDestacados"
-          :key="prod.id"
-          :producto="prod"
-        />
+      <p v-if="error" class="rounded-lg bg-danger-50 p-3 text-sm text-danger-700" role="alert">{{ error }}</p>
+      <p v-else-if="cargando && productos.length === 0" class="py-8 text-center text-sm text-slate-500" aria-live="polite">Cargando precios…</p>
+      <div v-else class="grid grid-cols-2 gap-3">
+        <ProductoCard v-for="prod in productos" :key="prod.id" :producto="prod" :resumen="resumenes[prod.id]" />
       </div>
     </section>
   </section>

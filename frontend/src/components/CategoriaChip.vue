@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import type { Categoria } from '@/types'
-
-defineProps<{
-  categoria: Categoria
-  activa: boolean
-}>()
-
-defineEmits<{
-  click: []
-}>()
+defineProps<{ nombre: string; activa: boolean }>()
+defineEmits<{ click: [] }>()
 </script>
 
 <template>
   <button
+    type="button"
     class="flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors"
     :class="activa
       ? 'border-primary-600 bg-primary-600 text-white'
@@ -20,6 +13,6 @@ defineEmits<{
     :aria-pressed="activa"
     @click="$emit('click')"
   >
-    {{ categoria.nombre }}
+    {{ nombre }}
   </button>
 </template>
