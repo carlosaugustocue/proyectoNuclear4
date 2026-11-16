@@ -97,3 +97,42 @@ function crearEstablecimiento(array $attrs = [], float $lat = 4.5339, float $lon
 
     return $id;
 }
+
+/**
+ * Registra un reporte de precio por la API real (flujo de extremo a extremo).
+ * En pruebas QUEUE_CONNECTION=sync: los listeners del outbox (Confianza →
+ * Comparación → Moderación) se ejecutan en la misma petición.
+ */
+function reportarPrecio(
+    string $presentacionId,
+    string $establecimientoId,
+    string $precio,
+    string $ip = '10.0.0.1',
+    ?string $observadoEn = null,
+): \Illuminate\Testing\TestResponse {
+    return test()->withServerVariables(['REMOTE_ADDR' => $ip])
+        ->withHeaders(['Idempotency-Key' => (string) Str::uuid()])
+        ->postJson('/v1/reportes-precio', [
+            'presentacionId'    => $presentacionId,
+            'establecimientoId' => $establecimientoId,
+            'precio'            => $precio,
+            'observadoEn'       => $observadoEn ?? now()->subMinute()->toIso8601String(),
+        ]);
+}
+
+/** Recorre recursivamente una respuesta JSON y devuelve todas sus claves. */
+function clavesJson(mixed $valor): array
+{
+    if (! is_array($valor)) {
+        return [];
+    }
+    $claves = [];
+    foreach ($valor as $k => $v) {
+        if (is_string($k)) {
+            $claves[] = $k;
+        }
+        $claves = array_merge($claves, clavesJson($v));
+    }
+
+    return array_values(array_unique($claves));
+}
