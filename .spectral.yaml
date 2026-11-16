@@ -1,0 +1,3 @@
+# Reglas de lint del contrato OpenAPI (job "OpenAPI lint" del CI).
+# Ruleset estándar de Spectral para OpenAPI 3.x; los errores rompen el CI y las advertencias no.
+extends: ["spectral:oas"]
