@@ -7,7 +7,7 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 | Asignatura | Entregable de la guía | Archivo(s) |
 |---|---|---|
 | Arquitectura de Software II | **1. Documento de arquitectura v1** (contexto, requisitos y escenarios, ≥ 2 alternativas, C4, contrato API) | [03-arquitectura/documento-arquitectura-v1.md](03-arquitectura/documento-arquitectura-v1.md) · [api/openapi.yaml](03-arquitectura/api/openapi.yaml) |
-| Arquitectura de Software II | **2. Registro inicial de ADRs** | [03-arquitectura/adr/](03-arquitectura/adr/) (0001–0012) |
+| Arquitectura de Software II | **2. Registro inicial de ADRs** | [03-arquitectura/adr/](03-arquitectura/adr/) (0001–0013) |
 | Modelos de Calidad | **1. Plan de aseguramiento de calidad** | [02-calidad/plan-aseguramiento-calidad.md](02-calidad/plan-aseguramiento-calidad.md) · [00-planteamiento/planteamiento-problema-y-abordaje-calidad.pdf](00-planteamiento/planteamiento-problema-y-abordaje-calidad.pdf) |
 | Modelos de Calidad | **2. Especificación de requisitos y calidad de datos** (RF/RNF, escenarios refinados, 25012, matriz) | [01-requisitos/especificacion-requisitos.md](01-requisitos/especificacion-requisitos.md) · [01-requisitos/matriz-trazabilidad.md](01-requisitos/matriz-trazabilidad.md) |
 | Fase 1 (insumo de ambas) | Entrevistas, encuesta, benchmarking | [01-requisitos/instrumentos-fase1.md](01-requisitos/instrumentos-fase1.md) |
@@ -16,10 +16,10 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 
 | Asignatura | Entregable de la guía | Archivo(s) |
 |---|---|---|
-| Modelos de Calidad | **3. Informe TDD y análisis estático** (ciclo rojo-verde-refactor, PHPStan nivel 8, suites U-01 a U-10) | [02-calidad/informe-tdd-analisis-estatico.md](02-calidad/informe-tdd-analisis-estatico.md) |
-| Arquitectura de Software II | **3. Construcción del núcleo con TDD + despliegue reproducible** | `backend/` (código) · `docker-compose.yml` · `Makefile` |
-| Modelos de Calidad | **4. Prototipo y prueba de usabilidad** | [02-calidad/protocolo-prueba-usabilidad.md](02-calidad/protocolo-prueba-usabilidad.md) · `frontend/` (prototipo PWA) |
-| Arquitectura de Software II | **4. Analisis de impacto modulo Comercial + Arq v2** | [03-arquitectura/analisis-impacto-modulo-comercial.md](03-arquitectura/analisis-impacto-modulo-comercial.md) |
+| Modelos de Calidad | **3. Informe TDD y análisis estático** (ciclo rojo-verde-refactor, PHPStan nivel 8, cobertura medida M-13) | [02-calidad/informe-tdd-analisis-estatico.md](02-calidad/informe-tdd-analisis-estatico.md) (§11: cobertura y commits `test:`→`feat:`) |
+| Arquitectura de Software II | **3. Núcleo funcional desplegado** (registro y comparación de extremo a extremo, API documentada, despliegue reproducible) | `backend/` · `frontend/` · `docker-compose.yml` · `Makefile` · [`docker/railway/`](../docker/railway) · [api/openapi.yaml](03-arquitectura/api/openapi.yaml) 0.2.0 · guía en el [README](../README.md) |
+| Modelos de Calidad | **4. Prototipo y prueba de usabilidad** | [02-calidad/protocolo-prueba-usabilidad.md](02-calidad/protocolo-prueba-usabilidad.md) · `frontend/` · evidencia primaria en [02-calidad/evidencias/](02-calidad/evidencias/) |
+| Arquitectura de Software II | **4. Análisis de impacto del módulo Comercial y arquitectura v2** (ADRs nuevos) | [03-arquitectura/analisis-impacto-modulo-comercial.md](03-arquitectura/analisis-impacto-modulo-comercial.md) · [03-arquitectura/documento-arquitectura-v2.md](03-arquitectura/documento-arquitectura-v2.md) · ADR [0014](03-arquitectura/adr/0014-contexto-comercial-e-identidad-diferida.md), [0015](03-arquitectura/adr/0015-precio-oficial-frente-a-precio-reportado.md), [0016](03-arquitectura/adr/0016-nucleo-compartido-y-fronteras-por-contexto.md) |
 
 ## Convenciones
 
