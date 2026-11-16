@@ -1,58 +1,60 @@
+# Pruebas de arquitectura por CONTEXTO DELIMITADO (ADR-0002, ADR-0016).
+#
+#   AR-01  Un contexto solo puede depender de los contextos declarados en su lista.
+#          Cualquier otra dependencia rompe el pipeline de CI.
+#   AR-02  Ningún contexto del núcleo depende de Comercial (corte 3). Comparación en
+#          particular no puede leer atributos comerciales: la neutralidad (ADR-0009)
+#          queda garantizada por estructura y no solo por convención.
+#
+# Las reglas por capa (Domain/Application/Infrastructure) están en deptrac-capas.yaml.
+# Uso: ./vendor/bin/deptrac analyse            (este archivo)
+#      ./vendor/bin/deptrac analyse --config-file=deptrac-capas.yaml
+
 deptrac:
   paths:
     - ./app
 
   layers:
-    # ── Capas por rol arquitectónico ───────────────────────────────────────
-    - name: Domain
-      collectors:
-        - type: directory
-          value: app/Domains/[^/]+/Domain/.*
-
-    - name: Application
-      collectors:
-        - type: directory
-          value: app/Domains/[^/]+/Application/.*
-
-    - name: Infrastructure
-      collectors:
-        - type: directory
-          value: app/Domains/[^/]+/Infrastructure/.*
-
-    - name: Http
-      collectors:
-        - type: directory
-          value: app/Http/.*
-
-    - name: Providers
-      collectors:
-        - type: directory
-          value: app/Providers/.*
+    - { name: Compartido,       collectors: [ { type: directory, value: app/Domains/Compartido/.* } ] }
+    - { name: Catalogo,         collectors: [ { type: directory, value: app/Domains/Catalogo/.* } ] }
+    - { name: Establecimientos, collectors: [ { type: directory, value: app/Domains/Establecimientos/.* } ] }
+    - { name: Precios,          collectors: [ { type: directory, value: app/Domains/Precios/.* } ] }
+    - { name: Confianza,        collectors: [ { type: directory, value: app/Domains/Confianza/.* } ] }
+    - { name: Comparacion,      collectors: [ { type: directory, value: app/Domains/Comparacion/.* } ] }
+    - { name: Moderacion,       collectors: [ { type: directory, value: app/Domains/Moderacion/.* } ] }
+    - { name: Identidad,        collectors: [ { type: directory, value: app/Domains/Identidad/.* } ] }
+    - { name: Ingesta,          collectors: [ { type: directory, value: app/Domains/Ingesta/.* } ] }
+    - { name: Comercial,        collectors: [ { type: directory, value: app/Domains/Comercial/.* } ] }
+    - { name: Http,             collectors: [ { type: directory, value: app/Http/.* } ] }
+    - { name: Providers,        collectors: [ { type: directory, value: app/Providers/.* } ] }
 
   ruleset:
-    # La capa de dominio no puede depender de ninguna otra capa del proyecto
-    Domain: []
+    # Núcleo compartido (Shared Kernel): dinero, unidades, coordenadas. No depende de nadie.
+    Compartido: []
 
-    # La capa de aplicación solo puede depender del dominio
-    Application:
-      - Domain
+    # Contextos de soporte
+    Catalogo:         [Compartido]
+    Establecimientos: [Compartido]
 
-    # La infraestructura puede depender del dominio y la aplicación
-    Infrastructure:
-      - Domain
-      - Application
+    # Precios recibe observaciones; consulta el catálogo para resolver la presentación.
+    Precios:          [Compartido, Catalogo]
 
-    # Los controladores HTTP dependen de la aplicación (no del dominio directamente)
-    Http:
-      - Application
-      - Domain
+    # Confianza escucha PrecioRegistrado y lee el historial a través del repositorio de Precios.
+    Confianza:        [Compartido, Precios]
 
-    # Los proveedores de servicios pueden tocar todo (configuración del contenedor)
-    Providers:
-      - Domain
-      - Application
-      - Infrastructure
+    # Comparación proyecta el modelo de lectura a partir de ConfianzaEvaluada.
+    # NO incluye Comercial (AR-02).
+    Comparacion:      [Compartido, Confianza, Catalogo, Establecimientos]
 
-  formatters:
-    graphviz:
-      point_to_groups: false
+    # Moderación abre casos a partir de ConfianzaEvaluada.
+    Moderacion:       [Compartido, Confianza]
+
+    Identidad:        [Compartido]
+    Ingesta:          [Compartido, Catalogo, Establecimientos, Precios]
+
+    # Comercial (corte 3) puede leer el núcleo, pero el núcleo nunca lo lee a él.
+    Comercial:        [Compartido, Catalogo, Establecimientos, Precios]
+
+    # Adaptadores de entrada y composición del contenedor
+    Http:      [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta]
+    Providers: [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]

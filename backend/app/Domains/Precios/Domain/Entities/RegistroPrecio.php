@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domains\Precios\Domain\Entities;
 
 use App\Domains\Precios\Domain\Events\PrecioRegistrado;
-use App\Domains\Precios\Domain\ValueObjects\Coordenadas;
-use App\Domains\Precios\Domain\ValueObjects\Precio;
+use App\Domains\Compartido\Domain\ValueObjects\Coordenadas;
+use App\Domains\Compartido\Domain\ValueObjects\Precio;
 use DateTimeImmutable;
 use Ramsey\Uuid\Uuid;
 

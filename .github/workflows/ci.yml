@@ -44,10 +44,15 @@ jobs:
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
             run --rm api ./vendor/bin/phpstan analyse --memory-limit=512M --no-progress
 
-      - name: Pruebas de arquitectura (Deptrac)
+      - name: Pruebas de arquitectura por contexto — AR-01 / AR-02 (Deptrac)
         run: |
           docker compose -f docker-compose.yml -f docker-compose.test.yml \
             run --rm api ./vendor/bin/deptrac analyse --no-interaction
+
+      - name: Pruebas de arquitectura por capa (Deptrac)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.test.yml \
+            run --rm api ./vendor/bin/deptrac analyse --config-file=deptrac-capas.yaml --no-interaction
 
   # ─── Lint del contrato OpenAPI ────────────────────────────────────────────
   openapi:

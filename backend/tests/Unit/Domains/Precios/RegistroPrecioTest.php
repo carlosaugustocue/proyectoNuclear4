@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Domains\Precios\Domain\Entities\RegistroPrecio;
-use App\Domains\Precios\Domain\ValueObjects\Precio;
-use App\Domains\Precios\Domain\ValueObjects\Coordenadas;
+use App\Domains\Compartido\Domain\ValueObjects\Precio;
+use App\Domains\Compartido\Domain\ValueObjects\Coordenadas;
 
 describe('RegistroPrecio (Entity)', function () {
 

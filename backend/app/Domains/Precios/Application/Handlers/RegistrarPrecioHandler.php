@@ -7,8 +7,8 @@ namespace App\Domains\Precios\Application\Handlers;
 use App\Domains\Precios\Application\Commands\RegistrarPrecioCommand;
 use App\Domains\Precios\Domain\Entities\RegistroPrecio;
 use App\Domains\Precios\Domain\Repositories\RegistroPrecioRepository;
-use App\Domains\Precios\Domain\ValueObjects\Coordenadas;
-use App\Domains\Precios\Domain\ValueObjects\Precio;
+use App\Domains\Compartido\Domain\ValueObjects\Coordenadas;
+use App\Domains\Compartido\Domain\ValueObjects\Precio;
 use Illuminate\Contracts\Events\Dispatcher;
 
 final class RegistrarPrecioHandler
