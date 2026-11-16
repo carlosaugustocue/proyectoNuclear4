@@ -145,7 +145,7 @@ CREATE TABLE promoción_vigente (
 
 ```mermaid
 C4Component
-    title Componentes — API con modulo Comercial (Arquitectura v2)
+    title Componentes — API con módulo Comercial (Arquitectura v2)
     Container(pwa, "PWA")
     Container(portal, "Portal Comercial")
     ContainerDb(db, "PostgreSQL + PostGIS")

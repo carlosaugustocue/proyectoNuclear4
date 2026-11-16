@@ -70,8 +70,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-01 NormalizadorUnidad (RN-02: normalización de unidades)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/NormalizadorUnidadTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/NormalizadorUnidad.php`
+**Archivo test:** `tests/Unit/Domains/Compartido/Services/NormalizadorUnidadTest.php`
+**Archivo impl.:** `app/Domains/Compartido/Domain/Services/NormalizadorUnidad.php`
 
 | Caso de prueba | Entrada | Resultado esperado |
 |---|---|---|
@@ -86,8 +86,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-02 Dinero (RN-02: aritmética exacta sin floats)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/DineroTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/Dinero.php`
+**Archivo test:** `tests/Unit/Domains/Compartido/Services/DineroTest.php`
+**Archivo impl.:** `app/Domains/Compartido/Domain/Services/Dinero.php`
 
 | Caso de prueba | Entrada | Resultado esperado |
 |---|---|---|
@@ -100,8 +100,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-03 Comparabilidad (RN-01: comparabilidad de unidades)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/ComparabilidadTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/Comparabilidad.php`
+**Archivo test:** `tests/Unit/Domains/Compartido/Services/ComparabilidadTest.php`
+**Archivo impl.:** `app/Domains/Compartido/Domain/Services/Comparabilidad.php`
 
 | Caso de prueba | Entrada | Resultado esperado |
 |---|---|---|
@@ -114,8 +114,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-04 PoliticaVigencia (RN-04: vigencia por categoría)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/PoliticaVigenciaTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/PoliticaVigencia.php`
+**Archivo test:** `tests/Unit/Domains/Confianza/Services/PoliticaVigenciaTest.php`
+**Archivo impl.:** `app/Domains/Confianza/Domain/Services/PoliticaVigencia.php`
 
 | Caso de prueba | Categoría | Antigüedad | Resultado |
 |---|---|---|---|
@@ -130,8 +130,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-05 Corroboración (RN-05: corroboración cruzada)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/CorroboracionTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/Corroboracion.php`
+**Archivo test:** `tests/Unit/Domains/Confianza/Services/CorroboracionTest.php`
+**Archivo impl.:** `app/Domains/Confianza/Domain/Services/Corroboracion.php`
 
 | Caso de prueba | Resultado |
 |---|---|
@@ -145,8 +145,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-06 DetectorAnomalias (RN-06: detección estadística)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/DetectorAnomaliasTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/DetectorAnomalias.php`
+**Archivo test:** `tests/Unit/Domains/Confianza/Services/DetectorAnomaliasTest.php`
+**Archivo impl.:** `app/Domains/Confianza/Domain/Services/DetectorAnomalias.php`
 
 | Caso de prueba | Resultado |
 |---|---|
@@ -161,8 +161,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-07 PoliticaReputacion (RN-07: reputación del contribuidor)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/PoliticaReputacionTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/PoliticaReputacion.php`
+**Archivo test:** `tests/Unit/Domains/Confianza/Services/PoliticaReputacionTest.php`
+**Archivo impl.:** `app/Domains/Confianza/Domain/Services/PoliticaReputacion.php`
 
 | Caso de prueba | Resultado |
 |---|---|
@@ -185,8 +185,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-09 SelectorPrecioVigente (RN-09: selector de visualización)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/SelectorPrecioVigenteTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/SelectorPrecioVigente.php`
+**Archivo test:** `tests/Unit/Domains/Confianza/Services/SelectorPrecioVigenteTest.php`
+**Archivo impl.:** `app/Domains/Confianza/Domain/Services/SelectorPrecioVigente.php`
 
 | Confianza | Vigencia | Resultado |
 |---|---|---|
@@ -198,8 +198,8 @@ Cada PR requirió revisión de al menos 1 integrante distinto del autor antes de
 
 #### U-10 OrdenComparacion (RN-10: orden neutral + AR-02)
 
-**Archivo test:** `tests/Unit/Domains/Precios/Services/OrdenComparacionTest.php`
-**Archivo impl.:** `app/Domains/Precios/Domain/Services/OrdenComparacion.php`
+**Archivo test:** `tests/Unit/Domains/Comparacion/Services/OrdenComparacionTest.php`
+**Archivo impl.:** `app/Domains/Comparacion/Domain/Services/OrdenComparacion.php`
 
 | Caso de prueba | Resultado |
 |---|---|
