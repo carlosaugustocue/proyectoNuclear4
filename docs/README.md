@@ -30,11 +30,12 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 ## Lista de verificación antes de entregar
 
 **Decisiones de equipo pendientes**
-- [x] ADR-0012: stack tecnológico — PHP 8.3 + Laravel 11 (API) + Vue 3 + Vite + Workbox (PWA).
+- [x] ADR-0012: stack tecnológico — PHP 8.3 + Laravel 11 (API) + Vue 3 + Vite + Tailwind + PWA con Dexie (offline).
 - [x] ADR-0013: Well-Architected Framework (AWS WAF) + proveedor de despliegue (Railway).
 - [ ] Validar los pesos de la comparación de alternativas (arquitectura §4.1).
 - [ ] Validar o ajustar los valores ⚑ (vigencia, corroboración, umbrales de EC-02 y EC-03).
-- [ ] Asignar responsables (plan de calidad §10) y el contexto o módulo de cada integrante.
+- [x] Asignar responsables (plan de calidad §10).
+- [ ] Revisar y aceptar (o justificar) ADR-0014 y ADR-0015.
 
 **Trabajo de campo (Fase 1)**
 - [ ] ≥ 3 entrevistas a consumidores, ≥ 3 a comerciantes (≥ 1 tienda de barrio), encuesta con ≥ 30 respuestas.
@@ -42,7 +43,12 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 - [ ] Datos de variación de precios con fuente verificable (DANE/SIPSA) para el planteamiento.
 
 **Forma**
-- [ ] Repositorio Git creado con esta carpeta `docs/` y commits de **todos** los integrantes (la guía verifica la contribución individual con el historial).
+- [ ] Commits con contenido de **todos** los integrantes y revisiones registradas en los PR (la guía verifica la contribución individual con el historial).
 - [ ] Pasar los entregables a Word con formato APA (si el docente lo exige) y exportar los diagramas.
 - [ ] Sección "Declaración de uso de IA generativa" en cada entregable (guía §12.5). Cada integrante debe poder explicar y defender todas las decisiones.
-- [ ] Verificar contra las normas: nombres en español de las subcaracterísticas de 25010:2023 y actividades de 25040:2024.
+- [x] Actividades de ISO/IEC 25040:2024 verificadas contra el índice oficial (plan de calidad §8).
+- [ ] Verificar los nombres en español de las subcaracterísticas de 25010:2023.
+
+**Despliegue y evidencia (corte 2)**
+- [ ] Desplegar en Railway y anotar las URL públicas en el README.
+- [ ] Evidencia primaria de usabilidad y reporte axe en [02-calidad/evidencias/](02-calidad/evidencias/).

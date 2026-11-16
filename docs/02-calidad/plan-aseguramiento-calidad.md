@@ -134,13 +134,17 @@ Cada medida sigue la forma de la división ISO/IEC 2502n: `X = A / B` con su fun
 
 ## 8. Evaluación según ISO/IEC 25040
 
-La evaluación final (corte 3) seguirá las actividades del proceso de evaluación de ISO/IEC 25040. *Pendiente: verificar la denominación exacta de las actividades en la edición 2024; en la edición 2011 son:*
+La evaluación final (corte 3) seguirá el proceso de evaluación de **ISO/IEC 25040:2024**, que reemplaza a la edición 2011. Sus cinco actividades (cláusulas 5.2 a 5.6 de la norma) se aplican así:
 
-1. **Establecer los requisitos de la evaluación:** propósito, partes del producto y características (secciones 3–4).
-2. **Especificar la evaluación:** medidas y criterios de decisión (sección 5).
-3. **Diseñar la evaluación:** plan de actividades, datos de prueba, herramientas y responsables (sección 6 y cronograma).
-4. **Ejecutar la evaluación:** correr pruebas y registrar resultados contra la matriz de trazabilidad.
-5. **Concluir la evaluación:** comparar con umbrales, reportar incidencias y su tratamiento.
+1. **Definir la evaluación (5.2):** propósito, partes del producto que se evalúan, características priorizadas y requisitos de calidad (secciones 3 y 4).
+2. **Diseñar la evaluación (5.3):** medidas, fuentes de medición y criterios de decisión con sus umbrales (sección 5).
+3. **Planificar la evaluación (5.4):** actividades, datos de prueba, herramientas, responsables y cronograma (secciones 6 y 10).
+4. **Ejecutar la evaluación (5.5):** correr las pruebas, tomar las medidas y registrar los resultados contra la matriz de trazabilidad.
+5. **Concluir la evaluación (5.6):** comparar con los umbrales, emitir el informe, registrar las incidencias y su tratamiento.
+
+> En la edición 2011 las dos primeras actividades se llamaban «establecer los requisitos de la evaluación» y «especificar la evaluación», y la tercera era «diseñar». Se usa la denominación de 2024 porque es la edición vigente.
+>
+> Referencia: ISO/IEC. (2024). *ISO/IEC 25040:2024 Systems and software engineering — Systems and software Quality Requirements and Evaluation (SQuaRE) — Quality evaluation framework*. International Organization for Standardization.
 
 ## 9. Riesgos de calidad
 
