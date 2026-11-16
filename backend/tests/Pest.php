@@ -32,16 +32,68 @@ expect()->extend('toBeOne', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Functions
+| Fixtures del dominio (pruebas de integración)
 |--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
+| Insertan datos mínimos de Catálogo y Establecimientos directamente en la BD
+| para que cada prueba declare explícitamente el escenario que necesita.
 */
 
-function something()
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+/** @param array<string, mixed> $attrs */
+function crearProducto(array $attrs = []): string
 {
-    // ..
+    $id = (string) Str::uuid();
+    DB::table('productos')->insert(array_merge([
+        'id'            => $id,
+        'nombre'        => 'Arroz blanco Diana',
+        'marca'         => 'Diana',
+        'categoria'     => 'Granos',
+        'tipo_vigencia' => 'ABARROTE',
+        'alias'         => json_encode([]),
+        'created_at'    => now(),
+        'updated_at'    => now(),
+    ], $attrs));
+
+    return $id;
+}
+
+/** @param array<string, mixed> $attrs */
+function crearPresentacion(string $productoId, array $attrs = []): string
+{
+    $id = (string) Str::uuid();
+    DB::table('presentaciones')->insert(array_merge([
+        'id'                   => $id,
+        'producto_id'          => $productoId,
+        'descripcion'          => 'Bolsa 500 g',
+        'cantidad'             => '500',
+        'unidad'               => 'G',
+        'unidades_por_empaque' => 1,
+        'unidad_base'          => 'KG',
+        'ean'                  => null,
+        'created_at'           => now(),
+        'updated_at'           => now(),
+    ], $attrs));
+
+    return $id;
+}
+
+/** @param array<string, mixed> $attrs */
+function crearEstablecimiento(array $attrs = [], float $lat = 4.5339, float $lon = -75.6811): string
+{
+    $id = (string) Str::uuid();
+    DB::table('establecimientos')->insert(array_merge([
+        'id'         => $id,
+        'nombre'     => 'Tienda Doña Rosa',
+        'tipo'       => 'TIENDA_BARRIO',
+        'direccion'  => 'Cra 15 # 20-10',
+        'barrio'     => 'Centro',
+        'municipio'  => 'Armenia',
+        'ubicacion'  => DB::raw("ST_GeogFromText('POINT({$lon} {$lat})')"),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ], $attrs));
+
+    return $id;
 }
