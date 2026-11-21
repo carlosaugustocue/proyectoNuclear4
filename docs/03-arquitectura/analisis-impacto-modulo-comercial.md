@@ -31,7 +31,7 @@ Según la especificación de requisitos (§4.8, agregada en esta revisión) y AD
 Según ADR-0009 (neutralidad de la comparación) y la guía del proyecto (§12):
 
 - Un precio oficial **no tiene una posición distinta**: se ordena por el mismo criterio declarado que cualquier precio (RN-10, AR-02) y solo se distingue con la etiqueta «Precio oficial».
-- Un precio oficial **no es confiable por ser oficial**: pasa por RN-05 a RN-07 (ADR-0015).
+- Un precio oficial **no es confiable por ser oficial**: pasa por RN-05 a RN-07 (ADR-0015). Solo es `CONFIABLE` si un reporte de otro autor lo corrobora; si es atípico, queda `POR_VERIFICAR` (ver la nota de revisión de ADR-0015).
 - Las promociones se muestran en un **bloque diferenciado** (`contenidoPromocional`), nunca dentro de `items` (EC-06), y no cambian el total de una canasta (ADR-0019).
 - Ninguna relación comercial puede alterar el criterio de orden.
 
@@ -168,7 +168,7 @@ sequenceDiagram
     A-->>C: 202 Accepted
     W->>DB: Lee outbox
     W->>Co: Evalúa RN-05 a RN-07 (igual que un reporte)
-    Co-->>W: CONFIABLE o POR_VERIFICAR (si difiere > 5 % → caso de moderación)
+    Co-->>W: CONFIABLE (corroborado ≤ 5 %), NO_CORROBORADO o POR_VERIFICAR (atípico → caso de moderación)
     W->>P: Proyecta en comparacion_vigente con la etiqueta «Precio oficial»
     Note over A,P: Las promociones no pasan por aquí: Comparación las lee con el puerto PromocionesVigentes
 ```
@@ -282,7 +282,7 @@ Conforme a la guía del proyecto (§12.5), el equipo declara que utilizó el asi
 
 | # | Sección | Decía (versión 2026-11-11) | Dice ahora | Fuente |
 |---|---|---|---|---|
-| 1 | §3.2, §5 | Confianza marca el precio oficial como `CONFIABLE` automáticamente | El precio oficial pasa por RN-05 a RN-07; si difiere más del 5 %, queda `POR_VERIFICAR` | ADR-0015 |
+| 1 | §2.1, §3.2, §5 | Confianza marca el precio oficial como `CONFIABLE` automáticamente | El precio oficial pasa por RN-05 a RN-07: `CONFIABLE` si se corrobora, `NO_CORROBORADO` si no, `POR_VERIFICAR` si es atípico | ADR-0015 (nota de revisión) y prueba I-08 |
 | 2 | §6 | `GET /v1/comparaciones/{productoId}` con un campo `promociones` | `GET /v1/comparaciones?productoId=` con `contenidoPromocional` | Código y OpenAPI 0.2.0 |
 | 3 | §3.2, §3.4, §7, §9 | Tabla de lectura `promoción_vigente` y tabla `precios_oficiales` | Puerto `PromocionesVigentes`; el precio oficial es una fila de `registros_precio` | ADR-0015, ADR-0023 |
 | 4 | §2 | RF-23, RF-24 y RF-26 como requisitos comerciales | RF-31 a RF-34 (nuevos); RF-24 solo para el rol | Especificación de requisitos |

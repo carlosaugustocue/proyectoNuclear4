@@ -39,3 +39,16 @@ El precio oficial **entra por el mismo flujo que un reporte** (`RegistroPrecio` 
   la moderación debe resolverlo. Hay que medir esa tasa en el corte 3.
 - Pendiente: decidir con evidencia de campo (Fase 1, pregunta 2 a comerciantes) si un precio oficial
   confirmado debe tener una vigencia más larga que uno reportado.
+
+## Nota de revisión (2026-11-21, al construir el módulo)
+
+La prueba de integración I-08 mostró que el segundo punto de la decisión describía mal el comportamiento de Confianza. **La decisión no cambia**: el precio oficial entra por el mismo flujo y las mismas reglas. Lo que cambia es la descripción de su efecto:
+
+| Situación del precio oficial | Estado real | Regla |
+|---|---|---|
+| Coincide (diferencia ≤ 5 % en 48 h) con un reporte de otro autor | `CONFIABLE` | RN-05 |
+| Difiere más del 5 % de los reportes, pero no es atípico | `NO_CORROBORADO`: se muestra, pero no como confiable | RN-05 |
+| Es atípico (\|M\| > 3,5 con n ≥ 5, o más de ±50 % del historial del establecimiento con n < 5) | `POR_VERIFICAR` y abre un caso de moderación | RN-06 |
+
+Por eso M-22 mide la tasa de precios oficiales que **no** quedan `CONFIABLE`, y no solo los que quedan `POR_VERIFICAR`.
+

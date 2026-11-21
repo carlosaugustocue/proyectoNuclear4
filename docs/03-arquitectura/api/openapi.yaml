@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API de la plataforma colaborativa de comparación de precios — Núcleo
-  version: 0.3.0
+  version: 0.4.0
   description: |
     Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
     ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
@@ -29,6 +29,8 @@ tags:
   - name: Comparación
   - name: Canasta
     description: Canasta comparada (Anexo 1, opción A1; ADR-0017 a ADR-0019)
+  - name: Comercial
+    description: Perfiles, precio oficial, promociones y correcciones (corte 3; ADR-0015, ADR-0022, ADR-0023)
   - name: Confianza
   - name: Moderación
   - name: Cuentas
@@ -299,6 +301,157 @@ paths:
               schema: { $ref: '#/components/schemas/ResultadoCanasta' }
         '422': { $ref: '#/components/responses/Problema' }
 
+  /comercial/perfiles:
+    post:
+      tags: [Comercial]
+      summary: Solicita un perfil comercial para un establecimiento del directorio (RF-31)
+      description: |
+        El perfil nace `PENDIENTE` y no puede publicar hasta que un moderador lo verifique (ADR-0022).
+        Los datos de contacto son privados: ninguna respuesta pública los devuelve (EC-07).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SolicitudPerfilComercial' }
+      responses:
+        '201':
+          description: Perfil solicitado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EstadoPerfilComercial' }
+        '422': { $ref: '#/components/responses/Problema' }
+
+  /moderacion/perfiles/{perfilId}/verificacion:
+    post:
+      tags: [Comercial, Moderación]
+      summary: Verifica un perfil pendiente y emite la credencial de comercio (una sola vez)
+      security: [{ credencialModeracion: [] }]
+      parameters:
+        - { name: perfilId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Perfil verificado; la credencial no se vuelve a mostrar (solo se guarda su hash)
+          headers:
+            Cache-Control: { schema: { type: string }, example: 'no-store' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PerfilComercialVerificado' }
+        '401': { $ref: '#/components/responses/Problema' }
+        '404': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+
+  /moderacion/perfiles/{perfilId}/revocacion:
+    post:
+      tags: [Comercial, Moderación]
+      summary: Revoca un perfil; su credencial deja de publicar y sus promociones dejan de mostrarse
+      security: [{ credencialModeracion: [] }]
+      parameters:
+        - { name: perfilId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Perfil revocado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EstadoPerfilComercial' }
+        '401': { $ref: '#/components/responses/Problema' }
+        '404': { $ref: '#/components/responses/Problema' }
+
+  /comercial/precios-oficiales:
+    post:
+      tags: [Comercial]
+      summary: Publica el precio oficial de una presentación del propio establecimiento (RF-32)
+      description: |
+        Entra por el mismo flujo que un reporte, con `fuente = COMERCIO`, y pasa por las mismas reglas de
+        confianza (RN-05 a RN-07, ADR-0015): solo es `CONFIABLE` si se corrobora y queda `POR_VERIFICAR` si
+        es anómalo. Se ordena con el mismo criterio que cualquier precio (RN-10).
+      security: [{ credencialComercio: [] }]
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SolicitudPrecioOficial' }
+      responses:
+        '202':
+          description: Precio oficial aceptado; la confianza se evalúa en el worker
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReportePrecioAceptado' }
+        '200':
+          description: Reintento con una Idempotency-Key ya procesada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReportePrecioAceptado' }
+        '400': { $ref: '#/components/responses/Problema' }
+        '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+
+  /comercial/promociones:
+    post:
+      tags: [Comercial]
+      summary: Publica una promoción del propio establecimiento (RF-33, RN-14)
+      description: |
+        Se muestra solo en `contenidoPromocional` de la comparación y de la canasta, mientras esté vigente
+        y el perfil verificado (RN-16). Nunca cambia `items`, el orden ni el total (EC-06, AR-02).
+      security: [{ credencialComercio: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SolicitudPromocion' }
+      responses:
+        '201':
+          description: Promoción publicada
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PromocionCreada' }
+        '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+
+  /comercial/promociones/{promocionId}:
+    delete:
+      tags: [Comercial]
+      summary: Retira una promoción propia
+      security: [{ credencialComercio: [] }]
+      parameters:
+        - { name: promocionId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '204': { description: Promoción retirada }
+        '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
+        '404': { $ref: '#/components/responses/Problema' }
+
+  /comercial/correcciones:
+    post:
+      tags: [Comercial]
+      summary: Solicita la corrección de información sobre el propio establecimiento (RF-34)
+      security: [{ credencialComercio: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SolicitudCorreccion' }
+      responses:
+        '202':
+          description: Caso de moderación abierto
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [referencia, estado]
+                properties:
+                  referencia: { type: string, format: uuid }
+                  estado: { type: string, enum: [EN_MODERACION] }
+        '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+
   /referencias-mayoristas:
     get:
       x-estado: planificado
@@ -411,6 +564,14 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    credencialComercio:
+      type: http
+      scheme: bearer
+      description: Credencial de 40 caracteres emitida al verificar el perfil comercial (ADR-0022)
+    credencialModeracion:
+      type: http
+      scheme: bearer
+      description: Secreto MODERACION_TOKEN del entorno mientras Identidad sigue diferida (ADR-0022)
 
   parameters:
     ProductoId: { name: productoId, in: path, required: true, schema: { type: string, format: uuid } }
@@ -583,8 +744,8 @@ components:
           items: { $ref: '#/components/schemas/ItemComparacion' }
         contenidoPromocional:
           type: array
-          description: Reservado para el corte 3 (ADR-0009). Siempre separado de `items`; no afecta su orden.
-          items: { type: object }
+          description: Promociones vigentes del módulo Comercial (ADR-0009, ADR-0023). Siempre separado de `items`; no afecta su orden.
+          items: { $ref: '#/components/schemas/PromocionPublica' }
       additionalProperties: false
 
     ItemComparacion:
@@ -664,8 +825,86 @@ components:
           items: { $ref: '#/components/schemas/ResultadoCanastaEstablecimiento' }
         contenidoPromocional:
           type: array
-          description: Siempre separado del resultado; nunca altera el total ni el orden (ADR-0019)
-          items: { type: object }
+          description: Siempre separado del resultado; nunca altera el total ni el orden (ADR-0019, ADR-0023)
+          items: { $ref: '#/components/schemas/PromocionPublica' }
+
+    PromocionPublica:
+      type: object
+      description: Promoción visible (RN-16). No incluye datos del perfil ni de contacto (EC-07).
+      required: [tipo, descripcion, establecimiento, productoId, vigenteHasta, esPromocion]
+      properties:
+        tipo: { type: string, enum: [DESCUENTO_PORCENTUAL, PRECIO_ESPECIAL, PAGUE_X_LLEVE_Y] }
+        descripcion: { type: string, example: '20 % de descuento' }
+        establecimiento:
+          type: object
+          required: [id, nombre]
+          properties:
+            id: { type: string, format: uuid }
+            nombre: { type: string }
+        productoId: { type: string, format: uuid }
+        vigenteHasta: { type: string, format: date-time }
+        esPromocion: { type: boolean, enum: [true] }
+      additionalProperties: false
+
+    SolicitudPerfilComercial:
+      type: object
+      required: [establecimientoId, nombreContacto]
+      properties:
+        establecimientoId: { type: string, format: uuid }
+        nombreContacto: { type: string, maxLength: 120 }
+        telefonoContacto: { type: string, maxLength: 30 }
+
+    EstadoPerfilComercial:
+      type: object
+      required: [perfilId, estado]
+      properties:
+        perfilId: { type: string, format: uuid }
+        estado: { type: string, enum: [PENDIENTE, VERIFICADO, REVOCADO] }
+      additionalProperties: false
+
+    PerfilComercialVerificado:
+      allOf:
+        - $ref: '#/components/schemas/EstadoPerfilComercial'
+        - type: object
+          required: [credencial]
+          properties:
+            credencial: { type: string, minLength: 40, maxLength: 40 }
+
+    SolicitudPrecioOficial:
+      type: object
+      required: [presentacionId, establecimientoId, precio]
+      properties:
+        presentacionId: { type: string, format: uuid }
+        establecimientoId: { type: string, format: uuid }
+        precio: { type: string, pattern: '^[0-9]+(\.[0-9]{1,2})?$', example: '4000.00' }
+
+    SolicitudPromocion:
+      type: object
+      required: [establecimientoId, productoId, tipo, inicio, fin]
+      description: 'RN-14: descuento 1–90 %, precio especial > 0, pague X lleve Y con lleve > pague ≥ 1, vigencia ≤ 31 días.'
+      properties:
+        establecimientoId: { type: string, format: uuid }
+        productoId: { type: string, format: uuid }
+        tipo: { type: string, enum: [DESCUENTO_PORCENTUAL, PRECIO_ESPECIAL, PAGUE_X_LLEVE_Y] }
+        valor: { type: string, description: Porcentaje o precio especial, example: '20' }
+        pague: { type: integer, minimum: 1 }
+        lleve: { type: integer, minimum: 2 }
+        inicio: { type: string, format: date-time }
+        fin: { type: string, format: date-time }
+
+    PromocionCreada:
+      type: object
+      required: [promocionId, descripcion]
+      properties:
+        promocionId: { type: string, format: uuid }
+        descripcion: { type: string }
+
+    SolicitudCorreccion:
+      type: object
+      required: [establecimientoId, detalle]
+      properties:
+        establecimientoId: { type: string, format: uuid }
+        detalle: { type: string, minLength: 10, maxLength: 150 }
 
     ResultadoCanastaEstablecimiento:
       type: object

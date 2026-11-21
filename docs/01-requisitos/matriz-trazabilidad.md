@@ -224,5 +224,5 @@ Ver [`analisis-impacto-modulo-comercial.md`](../03-arquitectura/analisis-impacto
 |---|---|---|
 | C-16 | Contrato | Endpoints `/v1/comercial/*` y `/v1/moderacion/perfiles/*` según OpenAPI; 401 sin credencial, 403 sobre otro establecimiento; ninguna respuesta pública expone contacto ni credencial (EC-07) |
 | C-06 (ampliada) | Contrato | Publicar una promoción no cambia `items` ni su orden en `GET /v1/comparaciones` (AR-02, M-09) |
-| I-08 | Integración | Un precio oficial que difiere > 5 % de dos reportes recientes queda `POR_VERIFICAR` y abre un caso (ADR-0015, M-22) |
+| I-08 | Integración | El precio oficial se guarda con fuente `COMERCIO`; es `CONFIABLE` solo si un reporte de otro autor lo corrobora (≤ 5 %), queda `NO_CORROBORADO` si no, y `POR_VERIFICAR` con caso de moderación si es atípico (ADR-0015, M-22) |
 | AR-01 / AR-02 | Arquitectura | Deptrac: Comercial solo depende de `[Compartido, Catalogo, Establecimientos, Precios, Comparacion, Moderacion]`; ningún contexto depende de Comercial |
