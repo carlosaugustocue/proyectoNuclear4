@@ -38,7 +38,19 @@ Decisiones de seguridad del propio pipeline:
 
 Nada de esto va en el repositorio. Los tokens no se pegan en chats ni en issues.
 
-### 2.1 Railway: entorno staging (decisión de costo)
+### 2.1 Railway: entorno staging — ✅ creado el 2026-11-21
+
+| Servicio | URL de staging |
+|---|---|
+| API | https://api-staging-19337c54.up.railway.app/v1 |
+| PWA | https://web-staging-34744ef9.up.railway.app |
+
+- Se creó con `railway environment new staging --duplicate production`, con **secretos propios**: `APP_KEY`, contraseña de PostgreSQL (cambiada también dentro de la base con `ALTER USER`) y `MODERACION_TOKEN`. Las URLs (`APP_URL`, `CORS_ALLOWED_ORIGINS`, `VITE_API_URL`) apuntan a staging. Ningún valor se imprimió ni quedó en el repositorio.
+- Primer despliegue: commit `9dd9a9a`, la punta de la cadena de ramas, que incluye el módulo Comercial. Migraciones al día y semilla de demostración cargada. La prueba de humo pasó (todas las comprobaciones, p95 191 ms) y la prueba del módulo Comercial también: orden intacto, promoción aparte, 403 sobre otro establecimiento, retiro con 204.
+- Pendiente: `railway config plan --environment staging` falla con el SDK `railway` 3.17.0 de `node_modules`, que pide una CLI ≥ 5.42.1 aunque la instalada es la 5.75. Hay que revisarlo antes del ensayo de reconstrucción (ADR-0020).
+- Falta el token: crear un ***project token* por entorno** (Project Settings → Tokens), uno de `staging` y otro de `production`, y guardarlos en GitHub (§2.2).
+
+Procedimiento original, por si hay que recrear staging (y nota de costo):
 Duplicar api, worker, web y postgres consume crédito del plan Hobby. Si el límite de US$10 no alcanza, se aplica la contingencia de ADR-0020: staging en el servidor del equipo.
 1. Crear el entorno: `railway environment new staging --duplicate production`, o desde el panel. Para recrear la topología: `railway config apply` (`.railway/railway.ts`).
 2. En staging, cargar las variables de cada servicio (como en producción, con valores propios): `APP_KEY`, `DB_*`, `MODERACION_TOKEN`, y `VITE_API_URL` en `web`.
