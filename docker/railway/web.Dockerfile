@@ -9,7 +9,10 @@ ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 RUN npm test && npm run build
 
-FROM nginx:1.27-alpine
+# Rama estable de nginx; apk upgrade aplica los parches de Alpine publicados después de la imagen base.
+# Trivy bloquea el pipeline si queda alguna CVE CRITICAL corregible (ADR-0021, M-20).
+FROM nginx:1.30-alpine
+RUN apk upgrade --no-cache
 COPY docker/railway/web-nginx.conf /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist /usr/share/nginx/html
 ENV PORT=8080
