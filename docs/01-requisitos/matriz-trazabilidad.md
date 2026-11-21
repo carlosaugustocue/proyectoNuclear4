@@ -202,3 +202,27 @@ Los escenarios del Anexo se renumeran (EC-07 del Anexo → EC-11; EC-12 conserva
 | S-12 | Sistema (pipeline) | Un PR con una prueba rota y otro con una CVE CRITICAL corregible no llegan a staging (M-18) |
 | S-13 | Sistema (pipeline) | Un cambio válido llega a staging y pasa la prueba de humo en ≤ 15 min (M-19) |
 | S-14 | Sistema (operación) | Ensayo de reversión cronometrado (M-21) |
+
+## Módulo comercial (corte 3, revisión 2 del análisis de impacto)
+
+Ver [`analisis-impacto-modulo-comercial.md`](../03-arquitectura/analisis-impacto-modulo-comercial.md), ADR-0015, ADR-0022 y ADR-0023.
+
+| RF | Descripción corta | Regla(s) | Escenario | Prueba(s) | Módulo |
+|---|---|---|---|---|---|
+| RF-31 | Solicitar, verificar y revocar el perfil comercial; credencial de comercio | RN-15 | EC-03, EC-07 | U-15, C-16 | Comercial |
+| RF-32 | Publicar un precio oficial por el flujo de confianza | RN-05 a RN-07, RN-15 | EC-03, EC-06 | U-15, I-08, C-16 | Comercial → Precios |
+| RF-33 | Publicar y retirar promociones en un bloque diferenciado | RN-14, RN-16 | EC-06, EC-11 | U-14, U-16, C-06, C-16 | Comercial → Comparación, Canasta |
+| RF-34 | Solicitar una corrección que abre un caso de moderación | RN-15 | EC-03 | C-16 | Comercial → Moderación |
+
+| Regla | Enunciado | Suite TDD |
+|---|---|---|
+| RN-14 | Validez de la promoción (tipo, valor, vigencia ≤ 31 días ⚑) | U-14 `ValidadorPromocion` |
+| RN-15 | Solo un perfil verificado publica, y solo sobre su establecimiento | U-15 `PoliticaPublicacion` |
+| RN-16 | Una promoción se muestra solo si el perfil está verificado, no fue retirada y está en vigencia; nunca en `items` ni en el total | U-16 `VisibilidadPromocion` |
+
+| Prueba | Tipo | Qué verifica |
+|---|---|---|
+| C-16 | Contrato | Endpoints `/v1/comercial/*` y `/v1/moderacion/perfiles/*` según OpenAPI; 401 sin credencial, 403 sobre otro establecimiento; ninguna respuesta pública expone contacto ni credencial (EC-07) |
+| C-06 (ampliada) | Contrato | Publicar una promoción no cambia `items` ni su orden en `GET /v1/comparaciones` (AR-02, M-09) |
+| I-08 | Integración | El precio oficial se guarda con fuente `COMERCIO`; es `CONFIABLE` solo si un reporte de otro autor lo corrobora (≤ 5 %), queda `NO_CORROBORADO` si no, y `POR_VERIFICAR` con caso de moderación si es atípico (ADR-0015, M-22) |
+| AR-01 / AR-02 | Arquitectura | Deptrac: Comercial solo depende de `[Compartido, Catalogo, Establecimientos, Precios, Comparacion, Moderacion]`; ningún contexto depende de Comercial |

@@ -72,7 +72,17 @@ export interface ResultadoComparacion {
   unidadBase: UnidadBase
   generadoEn: string
   items: ItemComparacion[]
-  contenidoPromocional: unknown[]
+  contenidoPromocional: PromocionPublica[]
+}
+
+/** Promoción visible (RN-16): va aparte del resultado y nunca cambia el orden ni el total (ADR-0023). */
+export interface PromocionPublica {
+  tipo: 'DESCUENTO_PORCENTUAL' | 'PRECIO_ESPECIAL' | 'PAGUE_X_LLEVE_Y'
+  descripcion: string
+  establecimiento: { id: string; nombre: string }
+  productoId: string
+  vigenteHasta: string
+  esPromocion: true
 }
 
 export interface ResumenProducto {

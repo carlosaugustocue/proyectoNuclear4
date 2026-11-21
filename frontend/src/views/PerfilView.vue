@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { User, Shield, CloudOff, RefreshCw, Trash2 } from 'lucide-vue-next'
+import { User, Shield, CloudOff, RefreshCw, Trash2, Store, ChevronRight } from 'lucide-vue-next'
 import { useReportesStore } from '@/stores/reportes'
 import { formatearPesos, tiempoRelativo } from '@/utils/formato'
 
@@ -64,6 +64,15 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
         se agrupan con un seudónimo anónimo que nunca se muestra.
       </p>
     </div>
+
+    <router-link to="/comercio" class="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40">
+      <Store class="h-5 w-5 text-primary-600" aria-hidden="true" />
+      <span class="flex-1">
+        <span class="block text-sm font-semibold text-slate-800">¿Tienes un comercio?</span>
+        <span class="block text-xs text-slate-500">Publica tu precio oficial y tus promociones. Nunca cambian el orden de la comparación.</span>
+      </span>
+      <ChevronRight class="h-4 w-4 text-slate-400" aria-hidden="true" />
+    </router-link>
 
     <div class="rounded-lg border border-slate-200 bg-white p-4">
       <div class="mb-2 flex items-center gap-2">

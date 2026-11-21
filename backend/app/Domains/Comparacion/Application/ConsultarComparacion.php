@@ -36,6 +36,7 @@ final class ConsultarComparacion
     public function __construct(
         private readonly ModeloLecturaComparacion $modelo,
         private readonly ConsultarCatalogo        $catalogo,
+        private readonly PromocionesVigentes      $promociones = new SinPromociones(),
     ) {}
 
     /** @return array<string, mixed>|null ResultadoComparacion del contrato; null si el producto no existe */
@@ -72,7 +73,7 @@ final class ConsultarComparacion
             'unidadBase'           => $unidadBase,
             'generadoEn'           => (new DateTimeImmutable())->format(DATE_ATOM),
             'items'                => $items,
-            'contenidoPromocional' => [], // reservado para el corte 3, siempre separado de items (ADR-0009)
+            'contenidoPromocional' => $this->promociones->deProductos([$productoId]), // siempre separado de items (ADR-0009, ADR-0023)
         ];
     }
 

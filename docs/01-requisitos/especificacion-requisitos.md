@@ -97,6 +97,17 @@ Prioridad MoSCoW: **M** = obligatorio en el corte 2, **S** = debería, **C** = p
 | RF-25 | El sistema debe importar periódicamente precios de referencia del SIPSA y mostrarlos como **referencia mayorista**, separados de los precios de tienda (ADR-0010). | S |
 | RF-26 | El sistema debe permitir cargar en lote un catálogo y un directorio semilla (CSV) preparados por el equipo. | M |
 
+### 4.8 Módulo comercial (corte 3)
+
+Agregado el 2026-11-21 (revisión 2 del análisis de impacto, ADR-0022, ADR-0023). El rol `comercio` ya figura en RF-24.
+
+| ID | Requisito | Prioridad |
+|---|---|---|
+| RF-31 | Un comercio debe poder solicitar un perfil vinculado a un establecimiento del directorio; un moderador lo verifica o lo revoca. Solo un perfil verificado puede publicar (RN-15, ADR-0022). | M |
+| RF-32 | Un comercio verificado debe poder publicar el precio oficial de una presentación de su establecimiento. El precio entra por el mismo flujo de confianza que un reporte (RN-05 a RN-07) y se muestra con la etiqueta «Precio oficial», sin otra posición (ADR-0015). | M |
+| RF-33 | Un comercio verificado debe poder publicar y retirar promociones (descuento porcentual, precio especial, pague X lleve Y) con fechas de vigencia. Se muestran en un bloque diferenciado y nunca cambian el orden ni el total (RN-14, RN-16, EC-06). | M |
+| RF-34 | Un comercio verificado debe poder solicitar la corrección de información errónea sobre su establecimiento; la solicitud abre un caso de moderación (guía §12, equidad entre comercios). | S |
+
 ## 5. Reglas de negocio (candidatas a TDD)
 
 Estas reglas son el objetivo principal del desarrollo guiado por pruebas en el corte 2. Cada una debe tener su suite de pruebas escrita **antes** de su implementación.
@@ -113,6 +124,9 @@ Estas reglas son el objetivo principal del desarrollo guiado por pruebas en el c
 | RN-08 | **Límites de aporte** ⚑. Máximo 30 reportes por hora por cuenta. Por presentación, establecimiento y día cuenta solo el último reporte de cada usuario. | Tercer reporte del mismo producto el mismo día → reemplaza el anterior |
 | RN-09 | **Precio vigente mostrado.** Es la observación más reciente en vigencia que no sea `NO_CONFIABLE`. Si es `POR_VERIFICAR`, se muestra con advertencia. | — |
 | RN-10 | **Orden neutral.** Por defecto se ordena por precio por unidad ascendente; también puede ordenarse por distancia. Ante un empate gana la observación más reciente. Ningún atributo comercial interviene en el orden. | Dos tiendas al mismo precio → primero la más reciente |
+| RN-14 | **Promoción válida** ⚑. Descuento porcentual entre 1 % y 90 %; precio especial > 0; «pague X lleve Y» con lleve > pague ≥ 1; fin posterior al inicio y duración ≤ 31 días. Producto existente en el catálogo. | Descuento del 95 % → rechazada |
+| RN-15 | **Autorización comercial.** Solo un perfil `VERIFICADO` publica, y solo sobre su propio establecimiento. Un perfil `REVOCADO` deja de publicar y sus promociones dejan de mostrarse. | Perfil de la tienda A publica precio de la tienda B → rechazado (403) |
+| RN-16 | **Visibilidad de la promoción.** Se muestra si el perfil está verificado, no fue retirada y el momento actual está entre inicio y fin. Va solo en `contenidoPromocional`, nunca en `items` ni en el total. | Promoción que venció ayer → no se muestra |
 
 ## 6. Requisitos no funcionales
 

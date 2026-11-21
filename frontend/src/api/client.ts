@@ -27,6 +27,14 @@ export function mensajeDeError(error: unknown, porDefecto = 'No pudimos conectar
   return porDefecto
 }
 
+/** Todos los mensajes de validación de un Problem Details (p. ej., los de RN-14 juntos). */
+export function todosLosErrores(error: unknown): string[] {
+  if (isAxiosError<Problema>(error) && error.response?.data?.errors) {
+    return Object.values(error.response.data.errors).flat()
+  }
+  return [mensajeDeError(error)]
+}
+
 /** true si el error se debe a falta de red (no a una respuesta del servidor). */
 export function esFallaDeRed(error: unknown): boolean {
   return isAxiosError(error) && !error.response

@@ -11,6 +11,7 @@ import { compararCanasta, type CriterioCanasta, type ResultadoCanasta } from '@/
 import { mensajeDeError } from '@/api/client'
 import { MAX_PRODUCTOS, unidadesPermitidas, useCanastaStore } from '@/stores/canasta'
 import { formatearPesos } from '@/utils/formato'
+import BloquePromociones from '@/components/BloquePromociones.vue'
 import type { ProductoResumen } from '@/types'
 
 const canasta = useCanastaStore()
@@ -181,6 +182,7 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
           </p>
         </li>
       </ol>
+      <BloquePromociones :promociones="resultado.contenidoPromocional" :nombres-producto="nombres" />
       <p class="mt-3 text-[11px] text-slate-400">Las promociones nunca cambian el total ni el orden; se muestran aparte cuando existen.</p>
     </section>
   </section>
