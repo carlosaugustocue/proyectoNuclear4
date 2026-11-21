@@ -60,28 +60,31 @@ Según ADR-0009 (neutralidad de la comparación) y la guía del proyecto (§12):
 
 ### 3.3 Módulo nuevo: Comercial
 
+Estructura construida en el corte 3 (rama `feat/modulo-comercial`). Difiere del borrador de la revisión 2 solo en nombres de archivo: los seis casos de uso quedaron agrupados en dos clases.
+
 ```
 app/Domains/Comercial/
   ├── Domain/
-  │   ├── Entities/
-  │   │   ├── PerfilComercial.php        # PENDIENTE | VERIFICADO | REVOCADO
-  │   │   └── Promocion.php
+  │   ├── Entities/PerfilComercial.php          # inmutable: PENDIENTE → VERIFICADO → REVOCADO
   │   ├── ValueObjects/
-  │   │   ├── TipoPromocion.php          # DESCUENTO_PORCENTUAL | PRECIO_ESPECIAL | PAGUE_X_LLEVE_Y
-  │   │   └── VigenciaPromocion.php      # inicio, fin
-  │   └── Services/
-  │       ├── ValidadorPromocion.php     # RN-14 (U-14)
-  │       ├── PoliticaPublicacion.php    # RN-15 (U-15)
-  │       └── VisibilidadPromocion.php   # RN-16 (U-16)
+  │   │   ├── EstadoPerfil.php · TipoPromocion.php
+  │   │   ├── Promocion.php                     # condiciones validadas + descripcion()
+  │   │   └── PromocionRegistrada.php           # promoción + estado del perfil + retiro (para RN-16)
+  │   ├── Services/
+  │   │   ├── ValidadorPromocion.php            # RN-14 (U-14)
+  │   │   ├── PoliticaPublicacion.php           # RN-15 (U-15)
+  │   │   └── VisibilidadPromocion.php          # RN-16 (U-16)
+  │   ├── Repositories/PerfilesComerciales.php · Promociones.php
+  │   └── Exceptions/ (PromocionInvalida, PublicacionNoAutorizada, PerfilNoEncontrado)
   ├── Application/
-  │   ├── SolicitarPerfil.php · VerificarPerfil.php · RevocarPerfil.php
-  │   ├── PublicarPrecioOficial.php      # delega en Precios\RegistrarPrecio (fuente COMERCIO)
-  │   ├── PublicarPromocion.php · RetirarPromocion.php
-  │   └── SolicitarCorreccion.php        # delega en Moderacion\AbrirCasoPorCorreccion
+  │   ├── GestionarPerfiles.php                 # solicitar, verificar (emite credencial), revocar, autenticar
+  │   └── PublicarComoComercio.php              # precio oficial → Precios; promoción; retiro; corrección → Moderación
   └── Infrastructure/
-      ├── Persistence/ (perfiles y promociones en Eloquent)
-      └── PromocionesVigentesComercial.php   # implementa el puerto de Comparación
+      ├── Persistence/PgPerfilesComerciales.php · PgPromociones.php
+      └── PromocionesVigentesComercial.php      # implementa el puerto de Comparación
 ```
+
+Fuera del contexto: `Http/Middleware/AutenticarComercio.php` y `AutenticarModeracion.php` (ADR-0022), los controladores en `Http/Controllers/V1/Comercial/` y, en el núcleo, solo los puntos de extensión del §3.2.
 
 ### 3.4 Esquema de base de datos (migraciones nuevas)
 
@@ -290,3 +293,4 @@ Conforme a la guía del proyecto (§12.5), el equipo declara que utilizó el asi
 | 6 | §3.1 | Identidad agrega el rol `comercio` | Identidad sigue diferida; credencial de perfil verificado | ADR-0014, ADR-0022 |
 | 7 | §10 | «77 tests» | 153 al cierre del corte 2; 192 con la canasta | Ejecución de la suite |
 | 8 | §8 | Solo la estimación original | Estimación original intacta y reestimación al lado | Necesario para M-08 |
+| 9 | §3.3 | Árbol de archivos previsto | Árbol construido (mismos componentes, casos de uso agrupados en dos clases) | Rama `feat/modulo-comercial` |
