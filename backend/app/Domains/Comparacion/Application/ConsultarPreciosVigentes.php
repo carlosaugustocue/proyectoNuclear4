@@ -34,11 +34,8 @@ final class ConsultarPreciosVigentes
     public function unidadesBase(array $productoIds): array
     {
         $unidades = [];
-        foreach ($productoIds as $id) {
-            $presentaciones = $this->catalogo->detalle($id)['presentaciones'] ?? null;
-            $primera = is_array($presentaciones) ? ($presentaciones[0] ?? null) : null;
-            $base = is_array($primera) && is_string($primera['unidadBase'] ?? null) ? $primera['unidadBase'] : null;
-            if ($base !== null && isset(self::UNIDAD[$base])) {
+        foreach ($this->catalogo->unidadesBase($productoIds) as $id => $base) {
+            if (isset(self::UNIDAD[$base])) {
                 $unidades[$id] = self::UNIDAD[$base];
             }
         }
