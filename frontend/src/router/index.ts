@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('@/views/CompararPreciosView.vue'),
     },
     {
+      path: '/canasta',
+      name: 'canasta',
+      component: () => import('@/views/CanastaView.vue'),
+    },
+    {
       path: '/registrar',
       name: 'registrar',
       component: () => import('@/views/RegistrarPrecioView.vue'),

@@ -143,7 +143,7 @@ Estas reglas son el objetivo principal del desarrollo guiado por pruebas en el c
 
 ## 8. Escenarios de calidad refinados
 
-Formato de seis partes de Bass, Clements y Kazman (2021): fuente, estímulo, artefacto, entorno, respuesta y medida de la respuesta. Los escenarios EC-01 a EC-06 refinan los de la guía; los escenarios EC-07 a EC-10 son nuevos y salen del análisis del equipo.
+Formato de seis partes de Bass, Clements y Kazman (2021): fuente, estímulo, artefacto, entorno, respuesta y medida de la respuesta. Los escenarios EC-01 a EC-06 refinan los de la guía; los escenarios EC-07 a EC-10 son nuevos y salen del análisis del equipo. EC-11 y EC-12 corresponden a la ampliación del corte 3 (§8.2).
 
 | ID | Fuente | Estímulo | Artefacto | Entorno | Respuesta | Medida |
 |---|---|---|---|---|---|---|
@@ -184,6 +184,34 @@ Utilidad
 ```
 
 **Escenarios que guían la arquitectura (★):** EC-03, EC-05, EC-09, EC-04, EC-02 y EC-01.
+
+### 8.2 Escenarios de la ampliación del corte 3 (Anexo 1)
+
+Refinados con la plantilla 8.2 del Anexo 1 (Bass, Clements y Kazman, 2021) antes de construir. El Anexo los numera EC-07 y EC-12; como **EC-07 ya existe en este proyecto** (privacidad), el escenario de la canasta pasa a ser **EC-11** y el del pipeline conserva el número **EC-12**. El análisis está en [`analisis-impacto-ampliacion.md`](../03-arquitectura/ampliacion-corte3/analisis-impacto-ampliacion.md) §2.
+
+**EC-11 — Canasta comparada (A1).** Eficiencia de desempeño · comportamiento temporal; adecuación funcional · corrección funcional (ISO/IEC 25010).
+
+| Parte | Descripción |
+|---|---|
+| Fuente del estímulo | 200 consumidores concurrentes, sin cuenta |
+| Estímulo | Consultan canastas de 20 productos (`POST /v1/canastas/comparacion`) |
+| Artefacto | Contexto Canasta, servicio público de precios vigentes de Comparación y modelo de lectura `comparacion_vigente` |
+| Entorno | Pico de fin de semana de quincena; ≥ 2.000 presentaciones y ≥ 300 establecimientos; algunos establecimientos sin precio vigente para parte de la canasta |
+| Respuesta | Devuelve el total por establecimiento con precios normalizados por unidad, lista los productos sin precio vigente sin sumarlos y ordena según el criterio declarado |
+| Medida de la respuesta | p95 ≤ 3 s y tasa de error < 1 % (M-16); 100 % de los faltantes señalados y 0 sumados como cero (M-17) |
+
+**EC-12 — Pipeline con controles de calidad (B2).** Mantenibilidad · capacidad de ser probado; flexibilidad · instalabilidad (ISO/IEC 25010).
+
+| Parte | Descripción |
+|---|---|
+| Fuente del estímulo | Un integrante del equipo |
+| Estímulo | Incorpora a `main` un cambio que rompe una prueba, introduce un hallazgo crítico de análisis estático o una vulnerabilidad CRITICAL corregible; o un cambio válido |
+| Artefacto | Pipeline `cd.yml` (CI, quality gate, Trivy, despliegue y prueba de humo) y entornos staging y production de Railway |
+| Entorno | Operación normal del repositorio; staging ya creado |
+| Respuesta | El pipeline bloquea la promoción del cambio defectuoso; el cambio válido se despliega en staging sin pasos manuales, pasa la prueba de humo y queda listo para la promoción manual; un despliegue defectuoso se revierte con el runbook |
+| Medida de la respuesta | 100 % de los cambios defectuosos bloqueados (M-18); un cambio válido llega a staging en ≤ 15 min (M-19); 0 vulnerabilidades CRITICAL corregibles y 0 secretos (M-20); reversión en ≤ 5 min (M-21) |
+
+Árbol de utilidad (ampliación): EC-11 (A, M) ★ en Desempeño y Adecuación funcional; EC-12 (A, M) ★ en Mantenibilidad.
 
 ## 9. Calidad de los datos (ISO/IEC 25012)
 

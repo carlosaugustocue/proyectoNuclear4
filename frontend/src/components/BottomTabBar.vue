@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { Home, Search, PlusCircle, Store, User } from 'lucide-vue-next'
+import { Home, Search, PlusCircle, ShoppingBasket, Store, User } from 'lucide-vue-next'
 
 const route = useRoute()
 
 const tabs = [
   { to: '/', label: 'Inicio', icon: Home },
   { to: '/buscar', label: 'Buscar', icon: Search },
+  { to: '/canasta', label: 'Canasta', icon: ShoppingBasket },
   { to: '/registrar', label: 'Registrar', icon: PlusCircle },
   { to: '/establecimientos', label: 'Tiendas', icon: Store },
   { to: '/perfil', label: 'Perfil', icon: User },
@@ -24,7 +25,7 @@ const tabs = [
         v-for="tab in tabs"
         :key="tab.to"
         :to="tab.to"
-        class="flex flex-col items-center gap-0.5 px-3 py-2 text-xs transition-colors"
+        class="flex flex-col items-center gap-0.5 px-2 py-2 text-xs transition-colors"
         :class="route.path === tab.to ? 'text-primary-600 font-semibold' : 'text-slate-400'"
         :aria-label="tab.label"
         :aria-current="route.path === tab.to ? 'page' : undefined"
