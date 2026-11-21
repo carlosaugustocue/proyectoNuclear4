@@ -46,6 +46,25 @@ final class PgPerfilesComerciales implements PerfilesComerciales
         return self::aPerfil(DB::table(self::TABLA)->where('credencial_hash', $hash)->first(['id', 'establecimiento_id', 'estado']));
     }
 
+    public function listar(EstadoPerfil $estado, int $pagina, int $tamano): array
+    {
+        $consulta = DB::table(self::TABLA)->where('estado', $estado->value);
+        $total    = (clone $consulta)->count();
+        $filas    = $consulta->orderBy('created_at')->orderBy('id')->offset(($pagina - 1) * $tamano)->limit($tamano)
+            ->get(['id', 'establecimiento_id', 'estado', 'created_at']); // nunca nombre ni teléfono de contacto
+
+        return [
+            'items' => array_values($filas->map(static function (object $f): array {
+                /** @var object{id: string, establecimiento_id: string, estado: string, created_at: string} $f */
+                return [
+                    'perfil'       => PerfilComercial::reconstituir($f->id, $f->establecimiento_id, EstadoPerfil::from($f->estado)),
+                    'solicitadoEn' => (new \DateTimeImmutable((string) $f->created_at))->format(DATE_ATOM),
+                ];
+            })->all()),
+            'total' => $total,
+        ];
+    }
+
     private static function aPerfil(?object $fila): ?PerfilComercial
     {
         if ($fila === null) {

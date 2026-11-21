@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Precios\Domain\Repositories;
 
+use App\Domains\Precios\Domain\ValueObjects\DetalleObservacion;
 use App\Domains\Precios\Domain\ValueObjects\ObservacionPrecio;
 use DateTimeImmutable;
 
@@ -32,4 +33,7 @@ interface ObservacionesLectura
     public function recientesEnEstablecimiento(string $presentacionId, string $establecimientoId, DateTimeImmutable $desde): array;
 
     public function primerAporteDe(string $reportadoPor): ?DateTimeImmutable;
+
+    /** Observación completa por id; null si no existe o fue retirada. */
+    public function detalle(string $observacionId): ?DetalleObservacion;
 }

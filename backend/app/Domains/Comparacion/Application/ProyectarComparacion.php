@@ -39,7 +39,11 @@ final class ProyectarComparacion
         $observadoEn = new DateTimeImmutable($e->observadoEn);
         $actual      = $this->modelo->obtener($e->presentacionId, $e->establecimientoId);
 
-        if (! PoliticaReemplazoVigente::debeReemplazar(
+        // Reevaluación de la observación ya publicada (p. ej., decisión de moderación): su fila
+        // siempre se actualiza, para que una invalidación la retire y una confirmación quite la advertencia.
+        $mismaObservacion = $actual !== null && $actual->observacionId === $e->observacionId;
+
+        if (! $mismaObservacion && ! PoliticaReemplazoVigente::debeReemplazar(
             $actual === null ? null : self::comoVigente($actual),
             $e->monto,
             Estados::confianza($e->estado),

@@ -16,4 +16,7 @@ interface EvaluacionesRepositorio
     public function marcarConfirmadas(array $observacionIds): void;
 
     public function aportesConfirmadosDe(string $reportadoPor): int;
+
+    /** @return array{estado: string, confirmaciones: int, permiso: string}|null */
+    public function obtener(string $observacionId): ?array;
 }

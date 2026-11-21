@@ -32,4 +32,14 @@ final class PgEvaluacionesRepositorio implements EvaluacionesRepositorio
     {
         return DB::table('evaluaciones_confianza')->where('reportado_por', $reportadoPor)->where('confirmada', true)->count();
     }
+
+    public function obtener(string $observacionId): ?array
+    {
+        $f = DB::table('evaluaciones_confianza')->where('observacion_id', $observacionId)->first(['estado', 'confirmaciones', 'permiso']);
+        if ($f === null) {
+            return null;
+        }
+        /** @var object{estado: string, confirmaciones: int|string, permiso: string} $f */
+        return ['estado' => (string) $f->estado, 'confirmaciones' => (int) $f->confirmaciones, 'permiso' => (string) $f->permiso];
+    }
 }

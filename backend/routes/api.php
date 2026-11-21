@@ -38,6 +38,12 @@ Route::prefix('v1')->group(function () {
         Route::post('verificacion', [\App\Http\Controllers\V1\Comercial\PerfilComercialController::class, 'verificar'])->whereUuid('perfilId');
         Route::post('revocacion', [\App\Http\Controllers\V1\Comercial\PerfilComercialController::class, 'revocar'])->whereUuid('perfilId');
     });
+    // Consola de moderación (RF-20): cola de casos, decisiones con bitácora y perfiles pendientes
+    Route::middleware(\App\Http\Middleware\AutenticarModeracion::class)->prefix('moderacion')->group(function () {
+        Route::get('casos', [\App\Http\Controllers\V1\Moderacion\ModeracionController::class, 'casos']);
+        Route::post('casos/{casoId}/decision', [\App\Http\Controllers\V1\Moderacion\ModeracionController::class, 'decidir'])->whereUuid('casoId');
+        Route::get('perfiles', [\App\Http\Controllers\V1\Moderacion\ModeracionController::class, 'perfiles']);
+    });
     Route::middleware(\App\Http\Middleware\AutenticarComercio::class)->prefix('comercial')->group(function () {
         Route::post('precios-oficiales', [\App\Http\Controllers\V1\Comercial\PublicacionComercialController::class, 'precioOficial']);
         Route::post('promociones', [\App\Http\Controllers\V1\Comercial\PublicacionComercialController::class, 'promocion']);

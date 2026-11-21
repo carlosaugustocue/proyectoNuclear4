@@ -7,6 +7,7 @@ namespace App\Domains\Comercial\Application;
 use App\Domains\Comercial\Domain\Entities\PerfilComercial;
 use App\Domains\Comercial\Domain\Exceptions\PerfilNoEncontradoException;
 use App\Domains\Comercial\Domain\Repositories\PerfilesComerciales;
+use App\Domains\Comercial\Domain\ValueObjects\EstadoPerfil;
 use App\Domains\Establecimientos\Application\ConsultarDirectorio;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
@@ -31,6 +32,12 @@ final class GestionarPerfiles
         $this->perfiles->registrar($perfil, $nombreContacto, $telefonoContacto);
 
         return $perfil;
+    }
+
+    /** @return array{items: list<array{perfil: PerfilComercial, solicitadoEn: string}>, total: int} */
+    public function listar(EstadoPerfil $estado, int $pagina, int $tamano): array
+    {
+        return $this->perfiles->listar($estado, $pagina, $tamano);
     }
 
     /** @return array{perfil: PerfilComercial, credencial: string} la credencial se entrega una sola vez */

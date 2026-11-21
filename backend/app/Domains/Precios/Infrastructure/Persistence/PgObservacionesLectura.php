@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Precios\Infrastructure\Persistence;
 
+use App\Domains\Precios\Domain\ValueObjects\DetalleObservacion;
 use App\Domains\Precios\Domain\Repositories\ObservacionesLectura;
 use App\Domains\Precios\Domain\ValueObjects\ObservacionPrecio;
 use DateTimeImmutable;
@@ -60,5 +61,25 @@ final class PgObservacionesLectura implements ObservacionesLectura
         $primero = DB::table('registros_precio')->where('reportado_por', $reportadoPor)->min('registrado_en');
 
         return is_string($primero) ? new DateTimeImmutable($primero) : null;
+    }
+
+    public function detalle(string $observacionId): ?DetalleObservacion
+    {
+        $f = DB::table('registros_precio')->where('id', $observacionId)->whereNull('deleted_at')
+            ->first(['id', 'producto_id', 'presentacion_id', 'establecimiento_id', 'monto', 'observado_en', 'fuente', 'reportado_por']);
+        if ($f === null) {
+            return null;
+        }
+        /** @var object{id: string, producto_id: string, presentacion_id: string, establecimiento_id: string, monto: string, observado_en: string, fuente: string, reportado_por: string} $f */
+        return new DetalleObservacion(
+            id:                (string) $f->id,
+            productoId:        (string) $f->producto_id,
+            presentacionId:    (string) $f->presentacion_id,
+            establecimientoId: (string) $f->establecimiento_id,
+            monto:             (string) $f->monto,
+            observadoEn:       (new DateTimeImmutable((string) $f->observado_en))->format(DATE_ATOM),
+            fuente:            (string) $f->fuente,
+            reportadoPor:      (string) $f->reportado_por,
+        );
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domains\Comercial\Domain\Repositories;
 
+use App\Domains\Comercial\Domain\ValueObjects\EstadoPerfil;
+
 use App\Domains\Comercial\Domain\Entities\PerfilComercial;
 
 interface PerfilesComerciales
@@ -17,4 +19,11 @@ interface PerfilesComerciales
     public function porId(string $id): ?PerfilComercial;
 
     public function porCredencialHash(string $hash): ?PerfilComercial;
+
+    /**
+     * Perfiles por estado, los más antiguos primero. Sin datos de contacto (EC-07).
+     *
+     * @return array{items: list<array{perfil: PerfilComercial, solicitadoEn: string}>, total: int}
+     */
+    public function listar(EstadoPerfil $estado, int $pagina, int $tamano): array;
 }
