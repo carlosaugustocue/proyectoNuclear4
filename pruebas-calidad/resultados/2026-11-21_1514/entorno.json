@@ -1,0 +1,9 @@
+{
+  "fecha": "2026-11-21T15:14:44-05:00",
+  "commit": "82443ec",
+  "cpu": "Intel(R) Core(TM) i7-6500U CPU @ 2.50GHz (4 hilos)",
+  "memoria_gb": 11.6,
+  "docker": "29.8.0",
+  "php_cli_server_workers": 4,
+  "vus": 500, "vus_canasta": 200, "rampa": "1m", "duracion": "3m", "cambios": 20
+}
