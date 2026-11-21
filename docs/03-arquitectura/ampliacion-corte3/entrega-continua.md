@@ -57,6 +57,18 @@ Duplicar api, worker, web y postgres consume crédito del plan Hobby. Si el lím
 3. Generar un ***project token* por entorno** (Project Settings → Tokens): uno limitado a `staging` y otro a `production`.
 
 ### 2.2 GitHub (Settings del repositorio)
+
+**Estado al 2026-11-21:**
+- ✅ Environments `staging` y `production` creados, los dos limitados a la rama `main`.
+- ✅ `production` exige la aprobación de `miguel2607` o `Sofiagiraldo01`.
+- ✅ Variables `API_URL` y `WEB_URL` en los dos entornos, y `CD_HABILITADO=true` en el repositorio.
+- ⏳ **Falta `RAILWAY_TOKEN` en cada entorno.** La sesión de la CLI no tiene permiso para crear tokens de proyecto (`projectTokenCreate` responde «Not Authorized»). Hay que crearlos en el panel y cargarlos sin pegarlos en ningún chat:
+  ```bash
+  # en una terminal propia; gh pide el valor con entrada oculta
+  GH_TOKEN=$(gh auth token -u carlosaugustocue) gh secret set RAILWAY_TOKEN --env staging    --repo carlosaugustocue/proyectoNuclear4
+  GH_TOKEN=$(gh auth token -u carlosaugustocue) gh secret set RAILWAY_TOKEN --env production --repo carlosaugustocue/proyectoNuclear4
+  ```
+- ⏳ SonarCloud (`SONAR_TOKEN`) y la regla de protección de `main`.
 | Dónde | Nombre | Valor |
 |---|---|---|
 | Environment `staging` → Secrets | `RAILWAY_TOKEN` | project token de staging |
