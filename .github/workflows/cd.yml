@@ -17,7 +17,10 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  RAILWAY_CLI: npx --yes @railway/cli@5.71.0
+  # Se instala una vez por job (paso «Instalar la CLI de Railway»). Con npx en paralelo, los tres
+  # despliegues competían por la caché y el binario no quedaba instalado («railway: not found»).
+  RAILWAY_CLI: railway
+  RAILWAY_CLI_VERSION: 5.71.0
   K6_IMAGE: grafana/k6@sha256:3656673de3f30424e8ebcfa46acd9558d83b6a43612d0f668ffeac953950c6c7
 
 jobs:
@@ -44,6 +47,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Instalar la CLI de Railway (versión fijada)
+        run: npm install -g --no-fund --no-audit "@railway/cli@${RAILWAY_CLI_VERSION}" && railway --version
 
       - name: Verificar la configuración del entorno
         run: |
@@ -84,6 +90,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Instalar la CLI de Railway (versión fijada)
+        run: npm install -g --no-fund --no-audit "@railway/cli@${RAILWAY_CLI_VERSION}" && railway --version
 
       - name: Verificar la configuración del entorno
         run: |
