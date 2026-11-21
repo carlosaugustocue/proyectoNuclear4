@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API de la plataforma colaborativa de comparación de precios — Núcleo
-  version: 0.2.0
+  version: 0.3.0
   description: |
     Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
     ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
@@ -27,6 +27,8 @@ tags:
   - name: Establecimientos
   - name: Precios
   - name: Comparación
+  - name: Canasta
+    description: Canasta comparada (Anexo 1, opción A1; ADR-0017 a ADR-0019)
   - name: Confianza
   - name: Moderación
   - name: Cuentas
@@ -270,6 +272,32 @@ paths:
                     type: array
                     items: { $ref: '#/components/schemas/ResumenProducto' }
         '400': { $ref: '#/components/responses/Problema' }
+
+  /canastas/comparacion:
+    post:
+      tags: [Canasta]
+      summary: Compara una canasta de 1 a 20 productos entre establecimientos
+      description: |
+        Calcula, por establecimiento, el total de la canasta con el menor precio vigente por unidad base
+        (RN-01, RN-02, RN-04, RN-09, RN-12). Los productos sin precio vigente se listan en `faltantes` y
+        **nunca se suman como cero** (ADR-0019). El orden responde solo al criterio declarado en
+        `criterioOrden` (RN-13, ADR-0009); las promociones van aparte en `contenidoPromocional`.
+        Consulta segura e idempotente: la canasta no se guarda ni requiere cuenta (ADR-0018). Se usa POST
+        porque la lista no cabe de forma razonable en la URL.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SolicitudCanasta' }
+      responses:
+        '200':
+          description: Resultado de la canasta por establecimiento
+          headers:
+            Cache-Control: { schema: { type: string }, example: 'no-store' }
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ResultadoCanasta' }
+        '422': { $ref: '#/components/responses/Problema' }
 
   /referencias-mayoristas:
     get:
@@ -585,6 +613,89 @@ components:
           type: [string, 'null']
           example: Precio reportado hace 9 días; puede estar desactualizado
       additionalProperties: false
+
+    SolicitudCanasta:
+      type: object
+      required: [items]
+      additionalProperties: false
+      properties:
+        items:
+          type: array
+          minItems: 1
+          maxItems: 20
+          description: Productos distintos (RN-11)
+          items:
+            type: object
+            required: [productoId, cantidad, unidad]
+            additionalProperties: false
+            properties:
+              productoId: { type: string, format: uuid }
+              cantidad: { type: string, pattern: '^[0-9]+(\.[0-9]{1,3})?$', example: '500' }
+              unidad: { type: string, enum: [g, kg, mL, L, unidad], description: Debe ser comparable con la unidad base del producto (RN-03) }
+        orden:
+          type: string
+          enum: [disponibilidad, total]
+          default: disponibilidad
+        municipio: { type: string, maxLength: 60, example: Armenia }
+
+    ResultadoCanasta:
+      type: object
+      required: [criterioOrden, totalProductos, items, generadoEn, establecimientos, contenidoPromocional]
+      properties:
+        criterioOrden:
+          type: object
+          required: [campo, descripcion]
+          properties:
+            campo: { type: string, enum: [disponibilidad, total] }
+            descripcion: { type: string }
+        totalProductos: { type: integer, minimum: 1, maximum: 20 }
+        items:
+          type: array
+          items:
+            type: object
+            required: [productoId, cantidad, unidadBase]
+            properties:
+              productoId: { type: string, format: uuid }
+              cantidad: { type: string, description: Cantidad en la unidad base }
+              unidadBase: { type: string, enum: [kg, L, unidad] }
+        generadoEn: { type: string, format: date-time }
+        establecimientos:
+          type: array
+          items: { $ref: '#/components/schemas/ResultadoCanastaEstablecimiento' }
+        contenidoPromocional:
+          type: array
+          description: Siempre separado del resultado; nunca altera el total ni el orden (ADR-0019)
+          items: { type: object }
+
+    ResultadoCanastaEstablecimiento:
+      type: object
+      required: [posicion, establecimiento, total, disponibles, totalProductos, completa, faltantes, lineas]
+      properties:
+        posicion: { type: integer, minimum: 1 }
+        establecimiento:
+          type: object
+          required: [id, nombre]
+          properties:
+            id: { type: string, format: uuid }
+            nombre: { type: string }
+        total: { $ref: '#/components/schemas/Dinero' }
+        disponibles: { type: integer }
+        totalProductos: { type: integer }
+        completa: { type: boolean }
+        faltantes:
+          type: array
+          description: productoId sin precio vigente en el establecimiento; no se suman al total
+          items: { type: string, format: uuid }
+        lineas:
+          type: array
+          items:
+            type: object
+            required: [productoId, precioPorUnidad, cantidad, subtotal]
+            properties:
+              productoId: { type: string, format: uuid }
+              precioPorUnidad: { $ref: '#/components/schemas/Dinero' }
+              cantidad: { type: string }
+              subtotal: { $ref: '#/components/schemas/Dinero' }
 
     ReferenciaMayorista:
       type: object
