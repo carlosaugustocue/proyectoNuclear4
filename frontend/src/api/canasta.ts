@@ -1,4 +1,5 @@
 import apiClient from './client'
+import type { PromocionPublica } from '@/types'
 
 /* POST /v1/canastas/comparacion — contrato OpenAPI 0.3.0 (ADR-0017 a ADR-0019). */
 export type CriterioCanasta = 'disponibilidad' | 'total'
@@ -25,7 +26,7 @@ export interface ResultadoCanasta {
   totalProductos: number
   generadoEn: string
   establecimientos: ResultadoCanastaEstablecimiento[]
-  contenidoPromocional: unknown[]
+  contenidoPromocional: PromocionPublica[]
 }
 
 export async function compararCanasta(solicitud: SolicitudCanasta): Promise<ResultadoCanasta> {
