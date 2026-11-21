@@ -35,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Catálogo y Establecimientos
         $this->app->bind(CatalogoLectura::class, PgCatalogoLectura::class);
+        $this->app->bind(\App\Domains\Canasta\Domain\Ports\FuentePreciosVigentes::class, \App\Domains\Canasta\Infrastructure\FuentePreciosVigentesComparacion::class);
         $this->app->bind(DirectorioLectura::class, PgDirectorioLectura::class);
 
         // Precios

@@ -24,6 +24,7 @@ deptrac:
     - { name: Moderacion,       collectors: [ { type: directory, value: app/Domains/Moderacion/.* } ] }
     - { name: Identidad,        collectors: [ { type: directory, value: app/Domains/Identidad/.* } ] }
     - { name: Ingesta,          collectors: [ { type: directory, value: app/Domains/Ingesta/.* } ] }
+    - { name: Canasta,          collectors: [ { type: directory, value: app/Domains/Canasta/.* } ] }
     - { name: Comercial,        collectors: [ { type: directory, value: app/Domains/Comercial/.* } ] }
     - { name: Http,             collectors: [ { type: directory, value: app/Http/.* } ] }
     - { name: Providers,        collectors: [ { type: directory, value: app/Providers/.* } ] }
@@ -53,11 +54,14 @@ deptrac:
     Identidad:        [Compartido]
     Ingesta:          [Compartido, Catalogo, Establecimientos, Precios]
 
+    # Canasta (Anexo 1, A1; ADR-0017): solo usa la interfaz pública de Comparación. NO incluye Comercial (AR-02).
+    Canasta:          [Compartido, Comparacion]
+
     # Comercial (corte 3) puede leer el núcleo, pero el núcleo nunca lo lee a él.
     Comercial:        [Compartido, Catalogo, Establecimientos, Precios]
 
     # Adaptadores de entrada y composición del contenedor
-    Http:      [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta]
-    Providers: [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
+    Http:      [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta]
+    Providers: [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
     # Comandos de medición de calidad (pruebas-calidad/): adaptador de entrada, como Http.
     Console:   [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion]
