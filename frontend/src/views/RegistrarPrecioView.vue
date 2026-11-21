@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImagenProducto from '@/components/ImagenProducto.vue'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { CheckCircle, CloudOff, MapPin, Store, Package, DollarSign, ChevronRight, Search } from 'lucide-vue-next'
 import { buscarEstablecimientos } from '@/api/establecimientos'
@@ -182,8 +183,13 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
             :aria-checked="form.productoId === prod.id"
             @click="elegirProducto(prod.id)"
           >
-            <p class="font-semibold">{{ prod.nombre }}</p>
-            <p class="text-xs text-slate-500">{{ prod.marca ?? prod.categoria }}</p>
+            <span class="flex items-center gap-3">
+              <ImagenProducto tamano="sm" :categoria="prod.categoria" :imagen="prod.imagen" />
+              <span>
+                <span class="block font-semibold">{{ prod.nombre }}</span>
+                <span class="block text-xs text-slate-500">{{ prod.marca ?? prod.categoria }}</span>
+              </span>
+            </span>
           </button>
           <div v-if="form.productoId === prod.id && detalle" class="mt-2 flex flex-wrap gap-2 pl-2" role="radiogroup" aria-label="Presentación">
             <button

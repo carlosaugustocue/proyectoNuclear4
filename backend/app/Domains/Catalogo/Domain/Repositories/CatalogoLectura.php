@@ -9,14 +9,14 @@ use App\Domains\Catalogo\Domain\ValueObjects\PresentacionCatalogo;
 /**
  * Puerto de lectura del catálogo.
  *
- * @phpstan-type ProductoResumen array{id: string, nombre: string, marca: ?string, categoria: string}
+ * @phpstan-type ProductoResumen array{id: string, nombre: string, marca: ?string, categoria: string, imagen: ?array{url: string, credito: ?string}}
  */
 interface CatalogoLectura
 {
-    /** @return array{items: list<array{id: string, nombre: string, marca: ?string, categoria: string}>, total: int} */
+    /** @return array{items: list<array{id: string, nombre: string, marca: ?string, categoria: string, imagen: ?array{url: string, credito: ?string}}>, total: int} */
     public function buscar(?string $texto, ?string $ean, ?string $categoria, int $pagina, int $tamano): array;
 
-    /** @return array{id: string, nombre: string, marca: ?string, categoria: string}|null */
+    /** @return array{id: string, nombre: string, marca: ?string, categoria: string, imagen: ?array{url: string, credito: ?string}}|null */
     public function resumen(string $productoId): ?array;
 
     /** @return list<PresentacionCatalogo> */

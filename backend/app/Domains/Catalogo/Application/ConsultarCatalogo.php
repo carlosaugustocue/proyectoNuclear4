@@ -12,7 +12,7 @@ final class ConsultarCatalogo
 {
     public function __construct(private readonly CatalogoLectura $lectura) {}
 
-    /** @return array{items: list<array{id: string, nombre: string, marca: ?string, categoria: string}>, total: int} */
+    /** @return array{items: list<array{id: string, nombre: string, marca: ?string, categoria: string, imagen: ?array{url: string, credito: ?string}}>, total: int} */
     public function buscar(?string $texto, ?string $ean, ?string $categoria, int $pagina, int $tamano): array
     {
         return $this->lectura->buscar($texto, $ean, $categoria, $pagina, $tamano);
@@ -36,7 +36,7 @@ final class ConsultarCatalogo
         ]);
     }
 
-    /** @return array{id: string, nombre: string, marca: ?string, categoria: string}|null */
+    /** @return array{id: string, nombre: string, marca: ?string, categoria: string, imagen: ?array{url: string, credito: ?string}}|null */
     public function resumen(string $productoId): ?array
     {
         return $this->lectura->resumen($productoId);

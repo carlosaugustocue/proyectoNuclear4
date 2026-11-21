@@ -40,6 +40,19 @@ final class SemillaDemostracionSeeder extends Seeder
         ['Papel higiénico', 'Familia', 'Aseo', 'ABARROTE', ['papel'], [['Paquete x 12', '12', 'UNIDAD', 1, 'UNIDAD', 18900]]],
     ];
 
+    /**
+     * Fotos con licencia libre, por [nombre, marca] del producto. Solo coincidencias verificadas por
+     * código de barras en Open Food Facts (CC BY-SA 3.0); el resto muestra la ilustración de su
+     * categoría. Nunca fotos de catálogos de cadenas (R-06). La migración 2026_11_22_000002 las aplica
+     * también a bases ya sembradas.
+     */
+    public const IMAGENES = [
+        ['Arroz blanco', 'Diana', 'https://images.openfoodfacts.org/images/products/770/251/100/0014/front_en.30.400.jpg'],
+        ['Aceite de girasol', 'Premier', 'https://images.openfoodfacts.org/images/products/770/101/800/7151/front_es.3.400.jpg'],
+    ];
+
+    public const CREDITO_OPEN_FOOD_FACTS = 'Foto: Open Food Facts (CC BY-SA 3.0)';
+
     /** [nombre, tipo, dirección, barrio, lat, lon, factor de precio] — establecimientos ficticios de Armenia */
     private const ESTABLECIMIENTOS = [
         ['Tienda Doña Rosa', 'TIENDA_BARRIO', 'Cra 15 # 20-10', 'Centro', 4.5352, -75.6757, 1.06],
@@ -63,6 +76,17 @@ final class SemillaDemostracionSeeder extends Seeder
     }
 
     /** @return list<array{id: string, precio: int}> */
+    /** Asigna la foto conocida del producto, si la hay. Idempotente. */
+    public static function aplicarImagen(string $productoId, string $nombre, ?string $marca): void
+    {
+        foreach (self::IMAGENES as [$n, $m, $url]) {
+            if ($n === $nombre && $m === $marca) {
+                DB::table('productos')->where('id', $productoId)
+                    ->update(['imagen_url' => $url, 'imagen_credito' => self::CREDITO_OPEN_FOOD_FACTS]);
+            }
+        }
+    }
+
     private function sembrarCatalogo(): array
     {
         $resultado = [];
@@ -73,6 +97,7 @@ final class SemillaDemostracionSeeder extends Seeder
                 'tipo_vigencia' => $vigencia, 'alias' => json_encode($alias, JSON_UNESCAPED_UNICODE),
                 'created_at' => now(), 'updated_at' => now(),
             ]);
+            self::aplicarImagen($productoId, $nombre, $marca);
 
             foreach ($presentaciones as [$descripcion, $cantidad, $unidad, $empaque, $base, $precio]) {
                 $id = Uuid::uuid7()->toString();

@@ -631,6 +631,17 @@ components:
         nombre: { type: string, example: Arroz blanco Diana }
         marca: { type: string }
         categoria: { type: string, example: Abarrotes }
+        imagen:
+          description: >-
+            Foto del producto con licencia libre y su crédito, que el cliente debe mostrar. Solo https.
+            null cuando no hay foto: el cliente muestra una ilustración de la categoría.
+          oneOf:
+            - type: 'null'
+            - type: object
+              required: [url]
+              properties:
+                url: { type: string, format: uri, pattern: '^https://' }
+                credito: { type: [string, 'null'], example: 'Foto: Open Food Facts (CC BY-SA 3.0)' }
 
     Producto:
       allOf:

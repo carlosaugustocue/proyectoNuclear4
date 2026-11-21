@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 final class PgCatalogoLectura implements CatalogoLectura
 {
+    private const COLUMNAS_RESUMEN = ['id', 'nombre', 'marca', 'categoria', 'imagen_url', 'imagen_credito'];
+
     public function buscar(?string $texto, ?string $ean, ?string $categoria, int $pagina, int $tamano): array
     {
         $consulta = DB::table('productos')->where('estado_catalogo', 'APROBADO');
@@ -36,7 +38,7 @@ final class PgCatalogoLectura implements CatalogoLectura
         $filas = $consulta->orderBy('nombre')
             ->offset(($pagina - 1) * $tamano)
             ->limit($tamano)
-            ->get(['id', 'nombre', 'marca', 'categoria']);
+            ->get(self::COLUMNAS_RESUMEN);
 
         return [
             'items' => array_values($filas->map(fn (\stdClass $f): array => self::resumenDe($f))->all()),
@@ -46,7 +48,7 @@ final class PgCatalogoLectura implements CatalogoLectura
 
     public function resumen(string $productoId): ?array
     {
-        $fila = DB::table('productos')->where('id', $productoId)->first(['id', 'nombre', 'marca', 'categoria']);
+        $fila = DB::table('productos')->where('id', $productoId)->first(self::COLUMNAS_RESUMEN);
 
         return $fila === null ? null : self::resumenDe(self::fila($fila));
     }
@@ -87,7 +89,7 @@ final class PgCatalogoLectura implements CatalogoLectura
         return $fila === null ? null : self::presentacionDe(self::fila($fila));
     }
 
-    /** @return array{id: string, nombre: string, marca: ?string, categoria: string} */
+    /** @return array{id: string, nombre: string, marca: ?string, categoria: string, imagen: ?array{url: string, credito: ?string}} */
     private static function resumenDe(\stdClass $f): array
     {
         return [
@@ -95,7 +97,24 @@ final class PgCatalogoLectura implements CatalogoLectura
             'nombre'    => (string) $f->nombre,
             'marca'     => $f->marca === null ? null : (string) $f->marca,
             'categoria' => (string) $f->categoria,
+            'imagen'    => self::imagenDe($f),
         ];
+    }
+
+    /**
+     * Solo URLs https: descarta javascript:, data: y http (contenido mixto). Sin foto → null y el
+     * cliente muestra la ilustración de la categoría.
+     *
+     * @return array{url: string, credito: ?string}|null
+     */
+    private static function imagenDe(\stdClass $f): ?array
+    {
+        $url = isset($f->imagen_url) ? (string) $f->imagen_url : '';
+        if (! str_starts_with($url, 'https://') || filter_var($url, FILTER_VALIDATE_URL) === false) {
+            return null;
+        }
+
+        return ['url' => $url, 'credito' => isset($f->imagen_credito) ? (string) $f->imagen_credito : null];
     }
 
     public function unidadesBase(array $productoIds): array

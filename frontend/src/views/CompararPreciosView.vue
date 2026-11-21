@@ -7,6 +7,7 @@ import { mensajeDeError } from '@/api/client'
 import { useUbicacion } from '@/composables/useUbicacion'
 import BadgeVigencia from '@/components/BadgeVigencia.vue'
 import BadgeConfianza from '@/components/BadgeConfianza.vue'
+import ImagenProducto from '@/components/ImagenProducto.vue'
 import BloquePromociones from '@/components/BloquePromociones.vue'
 import { describirPresentacion, estadoVigencia, TIPO_ESTABLECIMIENTO } from '@/utils/catalogo'
 import { formatearDistancia, formatearPesos, precioPorUnidadTexto, tiempoRelativo } from '@/utils/formato'
@@ -55,6 +56,7 @@ watch([productoId, orden, incluirNoVigentes], cargar, { immediate: true })
       <router-link to="/buscar" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100" aria-label="Volver a buscar">
         <ArrowLeft class="h-5 w-5" />
       </router-link>
+      <ImagenProducto v-if="resultado" tamano="lg" :categoria="resultado.producto.categoria" :imagen="resultado.producto.imagen" />
       <div>
         <h1 id="titulo-comparar" class="text-lg font-bold text-slate-900">{{ resultado?.producto.nombre ?? 'Comparación de precios' }}</h1>
         <p v-if="resultado" class="text-xs text-slate-500">{{ resultado.producto.marca ?? resultado.producto.categoria }}</p>
