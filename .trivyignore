@@ -1,0 +1,2 @@
+# Excepciones de Trivy (ADR-0021). Cada línea exige justificación, responsable y fecha de revisión.
+# Hoy no hay ninguna: el pipeline bloquea toda CVE CRITICAL con corrección disponible.
