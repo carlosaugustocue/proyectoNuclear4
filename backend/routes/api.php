@@ -30,4 +30,7 @@ Route::prefix('v1')->group(function () {
     // ── Comparación (modelo de lectura) ────────────────────────────────
     Route::get('comparaciones', [ComparacionController::class, 'index']);
     Route::get('comparaciones/resumen', [ComparacionController::class, 'resumen']);
+
+    // Canasta comparada (Anexo 1, A1; ADR-0017 a ADR-0019)
+    Route::post('canastas/comparacion', [\App\Http\Controllers\V1\CanastaController::class, 'comparar']);
 });
