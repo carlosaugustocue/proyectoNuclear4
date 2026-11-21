@@ -50,3 +50,10 @@ Al crear el proyecto `precios-armenia`, la CLI de Railway (5.75) informó que `r
 - `railway.json` se elimina.
 - **Respuesta actualizada a la pregunta de diseño de B2** («¿staging puede reconstruirse desde cero sin pasos manuales?»): la topología se recrea con `railway environment new staging` + `railway config apply`. Solo los secretos se cargan por separado. El trade-off anterior («creación inicial en el panel») se reduce a esa carga.
 - **Verificación adicional:** `railway config plan` sin diferencias contra el entorno es parte del ensayo de reconstrucción de staging.
+
+## Nota de implementación (2026-11-21)
+- `railway up --ci` termina al acabar la **construcción**, no cuando el servicio está activo. `scripts/ci/railway-desplegar.sh` consulta `railway deployment list` hasta que el despliegue creado en esa ejecución queda en `SUCCESS` (o falla con `FAILED`/`CRASHED`). Así la prueba de humo nunca corre contra la versión anterior.
+- api, worker y web se despliegan en paralelo para cuidar M-19.
+- El despliegue se activa con la variable `CD_HABILITADO=true`. Mientras el equipo no cree staging ni cargue los secretos, `cd.yml` corre solo las compuertas, sin quedar en rojo por configuración faltante.
+- Reversión: además del *rollback* del panel (procedimiento A), el workflow `reversion.yml` redespliega un commit sano (procedimiento B), con aprobación en producción y duración anotada para M-21.
+- Configuración y medición: `ampliacion-corte3/entrega-continua.md`.

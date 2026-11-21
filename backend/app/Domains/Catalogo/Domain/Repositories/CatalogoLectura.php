@@ -28,4 +28,12 @@ interface CatalogoLectura
     public function estadoCatalogo(string $productoId): ?string;
 
     public function presentacion(string $presentacionId): ?PresentacionCatalogo;
+
+    /**
+     * Unidad base de la primera presentación (por cantidad) de cada producto, en UNA consulta.
+     *
+     * @param  list<string>          $productoIds
+     * @return array<string, string> productoId => unidad base (KG, L, UNIDAD); omite los que no tienen presentaciones
+     */
+    public function unidadesBase(array $productoIds): array;
 }

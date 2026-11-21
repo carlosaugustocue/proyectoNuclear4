@@ -1,10 +1,26 @@
 name: CI
 
+# Compuertas de calidad (ADR-0021). Corren en cada PR hacia main y, como workflow reutilizable,
+# al inicio de la entrega continua (cd.yml, ADR-0020): un cambio que no las pasa nunca llega a staging.
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # Trivy 0.69.3 fijado por digest: las versiones 0.69.4 a 0.69.6 y las etiquetas de trivy-action
+  # fueron comprometidas en marzo de 2026 (CVE-2026-33634). No usar etiquetas mutables.
+  TRIVY_IMAGE: aquasec/trivy@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c
 
 jobs:
   # ─── Pruebas del backend ──────────────────────────────────────────────────
@@ -46,6 +62,10 @@ jobs:
               --coverage --min=80 --coverage-clover=build/coverage/clover.xml \
               --coverage-html=build/coverage/html
 
+      # Las rutas del reporte son las del contenedor (/var/www/html/...); SonarCloud las necesita relativas al repositorio.
+      - name: Ajustar rutas del reporte de cobertura
+        run: sudo sed -i 's#/var/www/html/#backend/#g' backend/build/coverage/clover.xml
+
       - name: Publicar reporte de cobertura
         if: always()
         uses: actions/upload-artifact@v4
@@ -76,10 +96,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Lint openapi.yaml con Spectral
-        uses: stoplightio/spectral-action@latest
+      - uses: actions/setup-node@v4
         with:
-          file_glob: docs/03-arquitectura/api/openapi.yaml
+          node-version: 22
+
+      # Versión fijada (antes: spectral-action@latest, etiqueta mutable). Falla con ≥ 1 error.
+      - name: Lint openapi.yaml con Spectral
+        run: npx --yes @stoplight/spectral-cli@6.11.1 lint --fail-severity=error docs/03-arquitectura/api/openapi.yaml
 
   # ─── Build del frontend ───────────────────────────────────────────────────
   frontend:
@@ -95,3 +118,94 @@ jobs:
       - name: Instalar dependencias y compilar
         run: |
           docker compose run --rm pwa sh -c "npm ci && npm test && npm run build"
+
+  # ─── Escaneo de las imágenes de producción (Trivy) — M-20 ─────────────────
+  imagenes:
+    name: Imágenes de producción (Trivy)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        servicio: [api, web]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir la imagen ${{ matrix.servicio }} con el Dockerfile que usa Railway
+        run: |
+          docker build -f docker/railway/${{ matrix.servicio }}.Dockerfile \
+            --build-arg VITE_API_URL=https://staging.invalid/v1 -t pn4-${{ matrix.servicio }}:${{ github.sha }} .
+
+      - name: Bloquear si hay CVE CRITICAL con corrección disponible (ADR-0021)
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:/repo:ro" "$TRIVY_IMAGE" \
+            image --scanners vuln --severity CRITICAL --ignore-unfixed --exit-code 1 \
+            --ignorefile /repo/.trivyignore pn4-${{ matrix.servicio }}:${{ github.sha }}
+
+      - name: Informe de HIGH y CRITICAL (no bloquea los HIGH)
+        if: always()
+        run: |
+          mkdir -p informe
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock "$TRIVY_IMAGE" \
+            image --scanners vuln --severity CRITICAL,HIGH --ignore-unfixed \
+            pn4-${{ matrix.servicio }}:${{ github.sha }} | tee informe/trivy-${{ matrix.servicio }}.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-${{ matrix.servicio }}
+          path: informe/
+
+  # ─── Secretos en el repositorio (Trivy) — M-20 / R-01 ─────────────────────
+  secretos:
+    name: Secretos en el repositorio (Trivy)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bloquear si hay ≥ 1 secreto
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" "$TRIVY_IMAGE" \
+            fs --scanners secret --exit-code 1 --skip-dirs /repo/.git /repo
+
+  # ─── Quality gate de SonarCloud — M-14 / M-13 ─────────────────────────────
+  # Se activa cuando el equipo crea el proyecto en SonarCloud y guarda SONAR_TOKEN como secreto.
+  # Sin el token (p. ej., PR desde un fork) el job lo avisa y las demás puertas siguen bloqueando.
+  sonarcloud:
+    name: Quality gate (SonarCloud)
+    runs-on: ubuntu-latest
+    needs: backend
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ¿Está configurado SONAR_TOKEN?
+        id: token
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ -n "$SONAR_TOKEN" ]; then echo "hay=true" >> "$GITHUB_OUTPUT"; else
+            echo "hay=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::SONAR_TOKEN no está configurado: se omite el quality gate de SonarCloud (ADR-0021)."
+          fi
+
+      - uses: actions/download-artifact@v4
+        if: steps.token.outputs.hay == 'true'
+        with:
+          name: cobertura-backend
+          path: backend/build/coverage/
+
+      # v8.4.0 fijada por SHA de commit (no por etiqueta).
+      - name: Análisis y espera del quality gate
+        if: steps.token.outputs.hay == 'true'
+        uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.timeout=300

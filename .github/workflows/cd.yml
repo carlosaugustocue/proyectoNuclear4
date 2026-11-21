@@ -1,0 +1,104 @@
+name: CD
+
+# Entrega continua (ADR-0020 · EC-12). En cada push a main:
+#   compuertas de calidad (ci.yml) → staging + prueba de humo → aprobación manual → producción + prueba de humo.
+# El despliegue se activa con la variable de repositorio CD_HABILITADO=true, cuando el equipo crea el entorno
+# staging en Railway y carga los secretos (ver docs/03-arquitectura/ampliacion-corte3/entrega-continua.md).
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Un despliegue a la vez; uno nuevo espera a que termine el anterior (no lo cancela a mitad).
+concurrency:
+  group: cd-main
+  cancel-in-progress: false
+
+env:
+  RAILWAY_CLI: npx --yes @railway/cli@5.71.0
+  K6_IMAGE: grafana/k6@sha256:3656673de3f30424e8ebcfa46acd9558d83b6a43612d0f668ffeac953950c6c7
+
+jobs:
+  calidad:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  staging:
+    name: Staging (despliegue + humo)
+    needs: calidad
+    if: vars.CD_HABILITADO == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: staging
+      url: ${{ vars.WEB_URL }}
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      API_URL: ${{ vars.API_URL }}
+      WEB_URL: ${{ vars.WEB_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verificar la configuración del entorno
+        run: |
+          faltan=""
+          [ -n "$RAILWAY_TOKEN" ] || faltan="$faltan RAILWAY_TOKEN(secreto)"
+          [ -n "$API_URL" ] || faltan="$faltan API_URL(variable)"
+          [ -n "$WEB_URL" ] || faltan="$faltan WEB_URL(variable)"
+          if [ -n "$faltan" ]; then echo "::error::Falta en el GitHub Environment 'staging':$faltan"; exit 1; fi
+
+      - name: Desplegar api, worker y web en paralelo
+        run: |
+          for s in api worker web; do scripts/ci/railway-desplegar.sh "$s" staging > "despliegue-$s.log" 2>&1 & done
+          fallo=0; for j in $(jobs -p); do wait "$j" || fallo=1; done
+          for s in api worker web; do echo "::group::$s"; cat "despliegue-$s.log"; echo "::endgroup::"; done
+          exit $fallo
+
+      - name: Prueba de humo (0 errores, p95 ≤ 2 s)
+        run: |
+          docker run --rm -v "$PWD/pruebas-calidad/k6:/scripts:ro" -e API_URL -e WEB_URL \
+            "$K6_IMAGE" run --quiet /scripts/humo-staging.js
+
+  produccion:
+    name: Producción (aprobación manual + humo)
+    needs: staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # El GitHub Environment 'production' exige la aprobación de un revisor del equipo antes de empezar.
+    environment:
+      name: production
+      url: ${{ vars.WEB_URL }}
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      API_URL: ${{ vars.API_URL }}
+      WEB_URL: ${{ vars.WEB_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verificar la configuración del entorno
+        run: |
+          if [ -z "$RAILWAY_TOKEN" ] || [ -z "$API_URL" ] || [ -z "$WEB_URL" ]; then
+            echo "::error::Faltan RAILWAY_TOKEN, API_URL o WEB_URL en el GitHub Environment 'production'"; exit 1
+          fi
+
+      - name: Desplegar el mismo commit en producción
+        run: |
+          for s in api worker web; do scripts/ci/railway-desplegar.sh "$s" production > "despliegue-$s.log" 2>&1 & done
+          fallo=0; for j in $(jobs -p); do wait "$j" || fallo=1; done
+          for s in api worker web; do echo "::group::$s"; cat "despliegue-$s.log"; echo "::endgroup::"; done
+          exit $fallo
+
+      - name: Prueba de humo en producción (solo lectura)
+        run: |
+          docker run --rm -v "$PWD/pruebas-calidad/k6:/scripts:ro" -e API_URL -e WEB_URL -e VUS=2 -e DURACION=15s \
+            "$K6_IMAGE" run --quiet /scripts/humo-staging.js

@@ -16,3 +16,17 @@
 Nota: el prototipo evaluado el 2026-11-11 usaba datos simulados. Desde el 2026-11-16 la PWA consume la API real
 con los mismos flujos y la misma apariencia, así que una repetición de la prueba (plan de mejora de M-01) puede
 hacerse sobre la versión conectada.
+
+
+## Entrega continua (B2 · EC-12)
+
+Carpeta `b2/`.
+
+| Archivo | Estado | Contenido |
+|---|---|---|
+| `trivy-web-nginx-1.27-antes.txt` | ✅ | Escaneo local con Trivy 0.69.3: la imagen `web` con `nginx:1.27-alpine` tenía 3 CVE CRITICAL corregibles; la compuerta la habría bloqueado |
+| `trivy-web-despues.txt` · `trivy-api-despues.txt` | ✅ | Tras actualizar a `nginx:1.30-alpine` y `apk upgrade`: 0 CRITICAL. En api queda 1 HIGH no explotable (ver `entrega-continua.md` §3) |
+| Captura: PR con una prueba rota en rojo | ⏳ equipo | S-12 / M-18 |
+| Captura: PR que vuelve a `nginx:1.27-alpine` en rojo | ⏳ equipo | S-12 / M-18 |
+| Captura: ejecución de CD con marcas de tiempo (push → humo en staging) | ⏳ equipo | S-13 / M-19 |
+| Tabla del ensayo de reversión | ⏳ equipo | S-14 / M-21, en `runbook-reversion.md` §4 |

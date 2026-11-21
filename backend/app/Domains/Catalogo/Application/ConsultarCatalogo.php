@@ -46,4 +46,15 @@ final class ConsultarCatalogo
     {
         return $this->lectura->presentacion($presentacionId);
     }
+
+    /**
+     * Unidad base de varios productos en una sola consulta (la canasta la necesita para 20 productos, K-02).
+     *
+     * @param  list<string>          $productoIds
+     * @return array<string, string> productoId => KG | L | UNIDAD
+     */
+    public function unidadesBase(array $productoIds): array
+    {
+        return $this->lectura->unidadesBase($productoIds);
+    }
 }

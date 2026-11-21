@@ -1,0 +1,72 @@
+name: Reversión
+
+# Procedimiento B del runbook de reversión (ADR-0020 · M-21): redespliega un commit sano anterior.
+# El procedimiento A (Rollback desde el panel de Railway, sin reconstruir) es más rápido; este se usa
+# cuando la imagen anterior ya no está retenida (72 h en Hobby) o el panel no está disponible.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: SHA del último commit sano (ya pasó el pipeline)
+        required: true
+        type: string
+      entorno:
+        description: Entorno que se revierte
+        required: true
+        type: choice
+        options: [staging, production]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-main
+  cancel-in-progress: false
+
+env:
+  RAILWAY_CLI: npx --yes @railway/cli@5.71.0
+  K6_IMAGE: grafana/k6@sha256:3656673de3f30424e8ebcfa46acd9558d83b6a43612d0f668ffeac953950c6c7
+
+jobs:
+  revertir:
+    name: Revertir ${{ inputs.entorno }} a ${{ inputs.ref }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: ${{ inputs.entorno }}
+      url: ${{ vars.WEB_URL }}
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      API_URL: ${{ vars.API_URL }}
+      WEB_URL: ${{ vars.WEB_URL }}
+
+    steps:
+      - name: Validar el SHA
+        env:
+          REF: ${{ inputs.ref }}
+        run: |
+          [[ "$REF" =~ ^[0-9a-f]{7,40}$ ]] || { echo "::error::ref debe ser un SHA de commit"; exit 1; }
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Redesplegar api, worker y web desde el commit sano
+        env:
+          ENTORNO: ${{ inputs.entorno }}
+          DESPLIEGUE_SHA: ${{ inputs.ref }}
+        run: |
+          inicio=$(date +%s)
+          for s in api worker web; do scripts/ci/railway-desplegar.sh "$s" "$ENTORNO" > "despliegue-$s.log" 2>&1 & done
+          fallo=0; for j in $(jobs -p); do wait "$j" || fallo=1; done
+          for s in api worker web; do echo "::group::$s"; cat "despliegue-$s.log"; echo "::endgroup::"; done
+          echo "Duración del redespliegue: $(( $(date +%s) - inicio )) s (M-21: ≤ 300 s)" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit $fallo
+
+      - name: Prueba de humo
+        run: |
+          docker run --rm -v "$PWD/pruebas-calidad/k6:/scripts:ro" -e API_URL -e WEB_URL -e VUS=2 -e DURACION=15s \
+            "$K6_IMAGE" run --quiet /scripts/humo-staging.js

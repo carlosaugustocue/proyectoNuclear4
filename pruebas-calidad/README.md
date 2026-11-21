@@ -65,5 +65,30 @@ Evidencia: `resultados/2026-11-16_1351/` (completa, 1 proceso) y `resultados/202
 de aplicaciones (`artisan serve`) y, con 4 procesos, la CPU compartida del portátil. Siguiente paso: un servidor de
 producción (php-fpm + nginx, o FrankenPHP/Octane) y repetir K-01 con el generador de carga en otra máquina.
 
+## K-02 · Canasta comparada (EC-11), 2026-11-21
+
+200 usuarios, canastas de 20 productos al azar sobre 308 establecimientos, 3 min sostenidos. `SOLO=k02 ./ejecutar.sh`.
+
+| Corrida | Procesos PHP | Peticiones/s | p95 (sostenida) | Errores | M-17 faltantes correctos | Evidencia |
+|---|---|---|---|---|---|---|
+| Antes del arreglo | 1 | 6,2 | 25,2 s | 7,16 % | 1556/1556 | `resultados/2026-11-21_1456/` |
+| Antes del arreglo | 4 | 12,9 | 11,0 s | 0,06 % | 3434/3434 | `resultados/2026-11-21_1501/` |
+| Después del arreglo | 1 | 14,1 | 9,9 s | 0,08 % | 3718/3718 | `resultados/2026-11-21_1509/` |
+| Después del arreglo | 4 | 21,6 | 6,3 s | 0,00 % | 5661/5661 | `resultados/2026-11-21_1514/` |
+
+Umbrales: M-16 p95 ≤ 3 s (objetivo ≤ 1,5 s) · errores < 1 % · M-17 = 1.
+
+**Defecto que encontró K-02 (corregido):** cada canasta hacía **162 consultas**. 160 venían de `unidadesBase()`, que pedía el detalle del catálogo producto por producto, dos veces (N+1). Ahora es una sola consulta (`ConsultarCatalogo::unidadesBase`), con una prueba de regresión en `CanastaTest` («mismo número de consultas con 20 productos que con 1»). Con 1 proceso, el rendimiento se duplicó (6,2 → 14,1 pet/s) y el p95 bajó de 25 s a 9,9 s.
+
+**Veredicto:**
+- **M-17 se cumple al 100 %**, incluso bajo saturación: ninguna respuesta sumó un faltante.
+- **Errores:** < 1 %.
+- **M-16 no se cumple** en este equipo (p95 6,3 s con 4 procesos). El cuello de botella es el mismo de K-01: `php artisan serve` y la CPU de 4 hilos compartida con PostgreSQL y el generador de carga.
+- **Siguientes palancas, en orden de costo:**
+  1. Un servidor de producción (php-fpm/FrankenPHP), como concluyó K-01.
+  2. Medir en Railway o con el generador en otra máquina.
+  3. Reducir la respuesta. Una canasta de 20 devuelve unos 280 KB con unos 250 establecimientos: limitar a los N mejores o filtrar por municipio cambia el contrato y requiere un ADR.
+  4. La caché de 30 s de ADR-0017 ayuda poco, porque las canastas casi nunca se repiten.
+
 ---
 Elaborado con apoyo de IA generativa (Claude); el equipo revisa y responde por el diseño de las mediciones.

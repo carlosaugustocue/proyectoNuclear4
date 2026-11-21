@@ -116,6 +116,45 @@ def seccion_k01(d, entorno):
     return filas
 
 
+def seccion_k02(d, entorno):
+    r = cargar(d / "k02-canasta.json")
+    if not r:
+        return []
+    m = r["metrics"]
+    s = m.get("http_req_duration{fase:sostenida}", {}).get("values", {})
+    errores = m.get("http_req_failed", {}).get("values", {}).get("rate")
+    reqs = m.get("http_reqs", {}).get("values", {})
+    fc = m.get("faltantes_correctos", {}).get("values", {})
+    filas = [
+        "## EC-11 · Carga de la canasta comparada (M-16, M-17)",
+        "",
+        f"{entorno.get('vus_canasta')} usuarios virtuales concurrentes (rampa {entorno.get('rampa')}, sostenida "
+        f"{entorno.get('duracion')}), canastas de 20 productos al azar, pausa de 2–5 s; 300 establecimientos. "
+        f"Peticiones: {reqs.get('count', 0)} ({reqs.get('rate', 0):.1f}/s).",
+        "",
+        "| Medida | p50 | p95 | p99 | Máximo | Umbral aceptable | Resultado |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    if s:
+        filas.append(
+            f"| M-16 tiempo de respuesta (fase sostenida) | {ms(s['med'])} | {ms(s['p(95)'])} | {ms(s['p(99)'])} | "
+            f"{ms(s['max'])} | p95 ≤ 3 s | {veredicto(s['p(95)'] / 1000, 3, 1.5, True)} |"
+        )
+    if errores is not None:
+        filas.append(
+            f"| Tasa de error | | | | | < 1 % | {errores * 100:.2f} % · "
+            f"{'✅ objetivo' if errores < 0.001 else ('🟡 aceptable' if errores < 0.01 else '❌ no aceptable')} |"
+        )
+    if fc:
+        total = fc.get("passes", 0) + fc.get("fails", 0)
+        filas.append(
+            f"| M-17 faltantes señalados y no sumados | | | | | = 1 | {fc.get('passes', 0)}/{total} respuestas · "
+            f"{'✅ objetivo' if total and fc.get('fails', 0) == 0 else '❌ no aceptable'} |"
+        )
+    filas.append("")
+    return filas
+
+
 def main():
     d = Path(sys.argv[1])
     entorno = cargar(d / "entorno.json") or {}
@@ -132,7 +171,7 @@ def main():
         "Los datos son sintéticos (prefijos «[CARGA]» y «[EC-03]»).",
         "",
     ]
-    lineas += seccion_ec03(d) + seccion_i02(d) + seccion_k01(d, entorno)
+    lineas += seccion_ec03(d) + seccion_i02(d) + seccion_k01(d, entorno) + seccion_k02(d, entorno)
     (d / "resumen.md").write_text("\n".join(lineas))
     print("\n".join(lineas))
 

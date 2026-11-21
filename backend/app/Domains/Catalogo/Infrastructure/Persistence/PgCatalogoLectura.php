@@ -98,6 +98,24 @@ final class PgCatalogoLectura implements CatalogoLectura
         ];
     }
 
+    public function unidadesBase(array $productoIds): array
+    {
+        if ($productoIds === []) {
+            return [];
+        }
+
+        // DISTINCT ON: la primera presentación por cantidad de cada producto, igual que presentacionesDe().
+        return DB::table('presentaciones')
+            ->selectRaw('DISTINCT ON (producto_id) producto_id, unidad_base')
+            ->whereIn('producto_id', $productoIds)
+            ->orderBy('producto_id')
+            ->orderBy('cantidad')
+            ->orderBy('id')
+            ->pluck('unidad_base', 'producto_id')
+            ->map(static fn (mixed $u): string => (string) $u)
+            ->all();
+    }
+
     private static function presentacionDe(\stdClass $f): PresentacionCatalogo
     {
         return new PresentacionCatalogo(

@@ -11,7 +11,8 @@ COPY backend/ ./
 RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
 
 FROM php:8.3-cli-alpine
-RUN apk add --no-cache postgresql-libs libzip \
+RUN apk upgrade --no-cache \
+    && apk add --no-cache postgresql-libs libzip \
     && apk add --no-cache --virtual .build postgresql-dev libzip-dev $PHPIZE_DEPS \
     && docker-php-ext-install pdo_pgsql zip bcmath opcache pcntl \
     && apk del .build

@@ -40,3 +40,10 @@ Las licencias se registran en el informe (Ley 23 de 1982, Decisión Andina 351):
 ## Verificación
 - S-12: un PR con una prueba rota y otro con una dependencia o imagen con una CVE CRITICAL corregible terminan en rojo y no despliegan (M-18 = 100 %).
 - Capturas de las ejecuciones en `docs/02-calidad/evidencias/`.
+
+## Nota de implementación (2026-11-21)
+- **No se usa `aquasecurity/trivy-action`.** En marzo de 2026 se secuestraron 76 de sus 77 etiquetas y se publicaron binarios maliciosos de Trivy 0.69.4 a 0.69.6 (CVE-2026-33634, GHSA-69fq-xp46-6x23). El CI ejecuta la imagen `aquasec/trivy` 0.69.3 **fijada por digest** (publicada el 2026-03-03, antes del incidente). Por la misma razón, las acciones de terceros se fijan por SHA de commit (SonarCloud v8.4.0) y Spectral pasó de `spectral-action@latest` a `@stoplight/spectral-cli@6.11.1`.
+- **Primer resultado de la compuerta:** con `nginx:1.27-alpine`, la imagen `web` tenía 3 CVE CRITICAL corregibles (brotli y OpenSSL). Se actualizó a `nginx:1.30-alpine` con `apk upgrade`; la imagen de la API también hace `apk upgrade`. Resultado: 0 CRITICAL (evidencia en `docs/02-calidad/evidencias/b2/`).
+- **HIGH abierto, no bloqueante:** `laravel/framework` 11.x, GHSA-5vg9-5847-vvmq. Solo se corrige en Laravel 12 o 13 y afecta la regla `email`, que el proyecto no usa.
+- **Cobertura en SonarCloud:** se importa el reporte de pcov del backend. Las vistas Vue, los controladores HTTP y los modelos de Eloquent se excluyen **de la métrica de cobertura**, no del análisis, porque M-13 mide el dominio y la aplicación. La interfaz se valida con la prueba de usabilidad, axe y la prueba de humo.
+- Si `SONAR_TOKEN` no está configurado, el job lo advierte y no bloquea. Las demás puertas siguen bloqueando.
