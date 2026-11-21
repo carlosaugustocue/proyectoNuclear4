@@ -65,7 +65,7 @@ equipo con su cuenta:
 1. Crear un proyecto en Railway y agregar **PostgreSQL**. En la consola SQL del servicio, ejecutar
    `CREATE EXTENSION IF NOT EXISTS postgis; CREATE EXTENSION IF NOT EXISTS unaccent;`
    (si la plantilla de PostgreSQL no trae PostGIS, usar la plantilla «PostGIS» de Railway).
-2. Servicio **api** desde este repositorio. Usa `railway.json` (Dockerfile `docker/railway/api.Dockerfile`).
+2. Servicio **api** desde este repositorio. Usa el Dockerfile `docker/railway/api.Dockerfile` (declarado en `.railway/railway.ts`).
    Variables:
    - `APP_KEY` (generarla con `php artisan key:generate --show`)
    - `APP_URL`
@@ -80,7 +80,13 @@ equipo con su cuenta:
 4. Servicio **web**. Usa el Dockerfile `docker/railway/web.Dockerfile` y la variable de construcción
    `VITE_API_URL=https://<dominio-de-la-api>/v1`. Generar un dominio público.
 5. (Opcional, solo para la demo) en el servicio api: `php artisan db:seed --force`.
-6. Anotar aquí las URL públicas y la fecha del despliegue: **pendiente**.
+6. URL públicas (desplegado el 2026-11-21, proyecto `precios-armenia`, entorno `production`):
+   - PWA: https://web-production-5b284b25.up.railway.app
+   - API: https://api-production-3b3251a9.up.railway.app/v1 (salud: `/up`)
+
+La topología de servicios está declarada como código en [`.railway/railway.ts`](.railway/railway.ts)
+(IaC de Railway, ADR-0020): `railway config plan` muestra las diferencias y `railway config apply` las aplica.
+Las variables y los secretos no se gestionan desde el código: viven solo en Railway.
 
 ## Estructura del repositorio
 
