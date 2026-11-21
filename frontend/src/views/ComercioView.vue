@@ -163,7 +163,7 @@ const boton = 'rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-wh
           <input id="telefono" v-model="solicitud.telefonoContacto" maxlength="30" inputmode="tel" :class="campo" />
           <button type="submit" :class="[boton, 'mt-3 w-full']" :disabled="!elegido">Solicitar</button>
           <p v-if="perfilSolicitado" class="mt-2 text-xs text-slate-600" role="status">
-            Solicitud recibida (perfil {{ perfilSolicitado.slice(0, 8) }}…). Un moderador verificará que representas al establecimiento y te entregará una credencial.
+            Solicitud recibida. Número de solicitud: <code class="break-all font-mono">{{ perfilSolicitado }}</code>. Un moderador verificará que representas al establecimiento y te entregará una credencial.
           </p>
           <p v-if="errorSolicitud" class="mt-2 text-xs text-danger-700" role="alert">{{ errorSolicitud }}</p>
         </form>
