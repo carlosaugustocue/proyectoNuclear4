@@ -82,3 +82,40 @@ describe('GET /v1/productos/{productoId}', function () {
             ->assertJsonPath('status', 404);
     });
 })->group('feature');
+
+describe('Imagen del producto (fotos con licencia libre y crédito visible)', function () {
+    it('expone la imagen con su crédito en la búsqueda y en el detalle', function () {
+        $id = crearProducto([
+            'imagen_url'     => 'https://images.openfoodfacts.org/images/products/770/251/100/0014/front_en.30.400.jpg',
+            'imagen_credito' => 'Open Food Facts · CC BY-SA 3.0',
+        ]);
+
+        $this->getJson('/v1/productos?q=arroz')
+            ->assertOk()
+            ->assertJsonPath('items.0.imagen.url', 'https://images.openfoodfacts.org/images/products/770/251/100/0014/front_en.30.400.jpg')
+            ->assertJsonPath('items.0.imagen.credito', 'Open Food Facts · CC BY-SA 3.0');
+        $this->getJson("/v1/productos/{$id}")->assertOk()->assertJsonPath('imagen.credito', 'Open Food Facts · CC BY-SA 3.0');
+    });
+
+    it('sin foto, imagen es null (el cliente muestra la ilustración de la categoría)', function () {
+        crearProducto();
+
+        $this->getJson('/v1/productos')->assertOk()->assertJsonPath('items.0.imagen', null);
+    });
+
+    it('nunca expone una URL que no sea https (evita javascript: y contenido mixto)', function () {
+        crearProducto(['imagen_url' => 'javascript:alert(1)', 'imagen_credito' => 'x']);
+        crearProducto(['nombre' => 'Lenteja', 'imagen_url' => 'http://inseguro.example/a.jpg', 'imagen_credito' => 'x']);
+
+        $this->getJson('/v1/productos')->assertOk()
+            ->assertJsonPath('items.0.imagen', null)
+            ->assertJsonPath('items.1.imagen', null);
+    });
+
+    it('la comparación incluye la imagen del producto', function () {
+        $id = crearProducto(['imagen_url' => 'https://images.openfoodfacts.org/a.jpg', 'imagen_credito' => 'Open Food Facts · CC BY-SA 3.0']);
+        crearPresentacion($id);
+
+        $this->getJson("/v1/comparaciones?productoId={$id}")->assertOk()->assertJsonPath('producto.imagen.url', 'https://images.openfoodfacts.org/a.jpg');
+    });
+});
