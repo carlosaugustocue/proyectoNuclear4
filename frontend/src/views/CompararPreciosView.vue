@@ -7,6 +7,7 @@ import { mensajeDeError } from '@/api/client'
 import { useUbicacion } from '@/composables/useUbicacion'
 import BadgeVigencia from '@/components/BadgeVigencia.vue'
 import BadgeConfianza from '@/components/BadgeConfianza.vue'
+import BloquePromociones from '@/components/BloquePromociones.vue'
 import { describirPresentacion, estadoVigencia, TIPO_ESTABLECIMIENTO } from '@/utils/catalogo'
 import { formatearDistancia, formatearPesos, precioPorUnidadTexto, tiempoRelativo } from '@/utils/formato'
 import type { OrdenComparacion, ResultadoComparacion } from '@/types'
@@ -155,5 +156,7 @@ watch([productoId, orden, incluirNoVigentes], cargar, { immediate: true })
       <p class="text-sm text-slate-500">Aún no hay precios vigentes para este producto.</p>
       <router-link to="/registrar" class="mt-3 inline-block text-sm font-semibold text-primary-700 underline">Reporta el primero</router-link>
     </div>
+
+    <BloquePromociones v-if="resultado" :promociones="resultado.contenidoPromocional" />
   </section>
 </template>
