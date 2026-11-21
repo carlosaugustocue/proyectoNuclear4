@@ -87,6 +87,12 @@ Cada medida sigue la forma de la división ISO/IEC 2502n: `X = A / B` con su fun
 | M-13 Cobertura del dominio | líneas cubiertas / líneas del dominio | < 0,80 | ≥ 0,80 | ≥ 0,90 | Reporte de cobertura |
 | M-14 Hallazgos críticos de análisis estático | cuenta abierta al cierre del corte | ≥ 1 | 0 | 0 | SonarQube / SonarCloud |
 | M-15 Precios vencidos mostrados como vigentes | X = vencidos sin advertencia / mostrados | > 0 | 0 | 0 | Auditoría de datos (consulta SQL) |
+| M-16 p95 de la canasta (EC-11) | percentil 95 del tiempo de respuesta de `POST /v1/canastas/comparacion` con 200 VU | > 3 s | ≤ 3 s | ≤ 1,5 s | k6 (K-02) |
+| M-17 Faltantes señalados (EC-11) | X = faltantes señalados y no sumados / faltantes reales | < 1 | 1 | 1 | U-11, C-14, verificación en K-02 |
+| M-18 Cambios defectuosos bloqueados (EC-12) | X = cambios defectuosos que no llegan a staging / cambios defectuosos introducidos | < 1 | 1 | 1 | S-12 (PRs de prueba) |
+| M-19 Tiempo hasta staging (EC-12) | T = t(fin de la prueba de humo en staging) − t(push a `main`) | > 15 min | ≤ 15 min | ≤ 10 min | Marcas de tiempo de GitHub Actions (S-13) |
+| M-20 Vulnerabilidades y secretos en la imagen (EC-12) | cuenta de CVE CRITICAL corregibles + secretos detectados | ≥ 1 | 0 | 0 | Trivy |
+| M-21 Tiempo de reversión (EC-12) | T = t(servicio restablecido) − t(inicio de la reversión) | > 5 min | ≤ 5 min | ≤ 2 min | Ensayo cronometrado del runbook (S-14) |
 
 **Justificación de umbrales propios (⚑):**
 - **M-02 (5 min):** un consumidor decide la compra en el momento; los precios en tiendas cambian, como mucho, a diario. Cinco minutos son tres órdenes de magnitud menores que la frecuencia de cambio y permiten una proyección asíncrona simple (ADR-0003). Se valida con lo que digan los comerciantes en las entrevistas.

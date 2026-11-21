@@ -20,6 +20,8 @@
 | RNF-09 | EC-09 | Fiabilidad · tolerancia a fallos | % registros offline sincronizados; duplicados | < 100 % / 100 % / 100 % · ≥ 1 / 0 / 0 | S-09 (modo avión simulado), I-09 (idempotencia) | ADR-0006 |
 | RNF-10 | EC-10 | Mantenibilidad · capacidad de ser probado | Cobertura de líneas del dominio; duración suite | < 80 % / ≥ 80 % / ≥ 90 % · > 60 s / ≤ 60 s / ≤ 20 s | Reporte de cobertura en CI | ADR-0011 |
 | RNF-11 | EC-03 | Trazabilidad (25012); Seguridad · responsabilidad | % observaciones con fuente y fecha; % decisiones de moderación registradas | < 100 % / 100 % / 100 % | D-11 (consulta a BD), I-20 | ADR-0007 |
+| RNF-12 | EC-11 | Eficiencia de desempeño · comportamiento temporal; Adecuación funcional · corrección | p95 canasta; faltantes señalados sin sumar | > 3 s / ≤ 3 s / ≤ 1,5 s · < 100 % / 100 % / 100 % | K-02 (k6, 200 VU), U-11, U-12, U-13, C-14, C-15 | ADR-0017, ADR-0018, ADR-0019 |
+| RNF-13 | EC-12 | Mantenibilidad · capacidad de ser probado; Flexibilidad · instalabilidad | % cambios defectuosos bloqueados; tiempo hasta staging; CVE críticas; tiempo de reversión | < 100 % / 100 % / 100 % · > 15 / ≤ 15 / ≤ 10 min · ≥ 1 / 0 / 0 · > 5 / ≤ 5 / ≤ 2 min | S-12, S-13, S-14 | ADR-0020, ADR-0021 |
 
 ## 2. Requisitos funcionales y reglas de negocio
 
@@ -176,3 +178,27 @@ Conforme a la guía del proyecto (§12.5), el equipo declara que utilizó el asi
 | Relación de pruebas implementadas (§4, 2026-11-16) | Inventario de archivos de prueba y su correspondencia con RF, RN, EC y medidas | El equipo debe verificar que cada correspondencia es correcta antes de entregar |
 
 **Compromisos del equipo:** la trazabilidad entre requisitos, escenarios y pruebas refleja decisiones de diseño del equipo. Ninguna relación de la matriz fue aceptada sin verificar que conecta correctamente el requisito con su evidencia de cumplimiento. Cada integrante está en capacidad de recorrer cualquier fila de la matriz y explicar por qué existe esa relación.
+
+
+## Ampliación del corte 3 (Anexo 1: A1 Canasta comparada + B2 Entrega continua)
+
+Los escenarios del Anexo se renumeran (EC-07 del Anexo → EC-11; EC-12 conserva su número) porque EC-07 a EC-10 ya existían. Ver [`analisis-impacto-ampliacion.md`](../03-arquitectura/ampliacion-corte3/analisis-impacto-ampliacion.md).
+
+| RF | Descripción corta | Regla(s) | Escenario | Prueba(s) | Módulo |
+|---|---|---|---|---|---|
+| RF-27 | Armar una canasta de 1 a 20 productos con cantidad y unidad, sin cuenta (guardada en el dispositivo) | RN-11 (límite y validación) | EC-11, EC-07 | U-13, C-14 | Canasta (PWA) |
+| RF-28 | Calcular el total por establecimiento con precios vigentes normalizados por unidad | RN-01, RN-02, RN-04, RN-09, RN-12 | EC-11 | U-11, C-14, K-02 | Canasta |
+| RF-29 | Señalar por establecimiento los productos sin precio vigente, sin sumarlos como cero | RN-12 | EC-11 | U-11, C-14 | Canasta |
+| RF-30 | Ordenar los establecimientos por un criterio declarado (`disponibilidad` o `total`) y mostrarlo | RN-10, RN-13 | EC-11, EC-06 | U-12, C-14, AR-02 | Canasta |
+
+| Regla | Enunciado | Suite TDD |
+|---|---|---|
+| RN-11 | Una canasta tiene de 1 a 20 productos distintos; cada cantidad es > 0 y su unidad debe ser comparable con la unidad base del producto (RN-03) | U-13 `ValidadorCanasta` |
+| RN-12 | Subtotal = menor precio por unidad base vigente del establecimiento × cantidad normalizada; el total suma solo los productos con precio vigente; los demás se listan como faltantes | U-11 `CalculadoraCanasta` |
+| RN-13 | Orden `disponibilidad`: más disponibles → menor total → nombre. Orden `total`: menor total → más disponibles → nombre. Las promociones no alteran el total ni el orden | U-12 `OrdenCanasta` |
+
+| Prueba | Tipo | Qué verifica |
+|---|---|---|
+| S-12 | Sistema (pipeline) | Un PR con una prueba rota y otro con una CVE CRITICAL corregible no llegan a staging (M-18) |
+| S-13 | Sistema (pipeline) | Un cambio válido llega a staging y pasa la prueba de humo en ≤ 15 min (M-19) |
+| S-14 | Sistema (operación) | Ensayo de reversión cronometrado (M-21) |
