@@ -11,9 +11,12 @@ describe('U-12 OrdenCanasta', function () {
 
     $resultado = function (string $id, string $nombre, string $total, int $disponibles, int $totalProductos = 3): ResultadoEstablecimiento {
         $lineas = array_map(fn (int $i) => new LineaCanasta("p{$i}", '1.00', '1', '1.00'), range(1, $disponibles));
-        $faltantes = array_map(fn (int $i) => "f{$i}", range(1, $totalProductos - $disponibles) ?: []);
+        $faltantes = [];
+        for ($i = $disponibles + 1; $i <= $totalProductos; $i++) {
+            $faltantes[] = "f{$i}";
+        }
 
-        return new ResultadoEstablecimiento($id, $nombre, $total, $lineas, $disponibles === $totalProductos ? [] : array_slice($faltantes, 0, $totalProductos - $disponibles), $totalProductos);
+        return new ResultadoEstablecimiento($id, $nombre, $total, $lineas, $faltantes, $totalProductos);
     };
 
     $ids = fn (array $r): array => array_map(fn (ResultadoEstablecimiento $x): string => $x->establecimientoId, $r);

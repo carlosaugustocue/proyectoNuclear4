@@ -64,6 +64,7 @@ final class CalculadoraCanasta
         $lineas = [];
         $faltantes = [];
         $total = BigDecimal::zero();
+        $nombre = '';
 
         foreach ($items as $item) {
             $oferta = $porProducto[$item->productoId] ?? null;
@@ -75,12 +76,13 @@ final class CalculadoraCanasta
                 ->multipliedBy($item->cantidad)
                 ->toScale(2, RoundingMode::HALF_UP);
             $total = $total->plus($subtotal);
+            $nombre = $oferta->establecimientoNombre;
             $lineas[] = new LineaCanasta($item->productoId, $oferta->precioPorUnidad, $item->cantidad, (string) $subtotal);
         }
 
         return new ResultadoEstablecimiento(
             $establecimientoId,
-            reset($porProducto)->establecimientoNombre,
+            $nombre,
             (string) $total->toScale(2),
             $lineas,
             $faltantes,
