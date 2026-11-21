@@ -93,6 +93,7 @@ Cada medida sigue la forma de la división ISO/IEC 2502n: `X = A / B` con su fun
 | M-19 Tiempo hasta staging (EC-12) | T = t(fin de la prueba de humo en staging) − t(push a `main`) | > 15 min | ≤ 15 min | ≤ 10 min | Marcas de tiempo de GitHub Actions (S-13) |
 | M-20 Vulnerabilidades y secretos en la imagen (EC-12) | cuenta de CVE CRITICAL corregibles + secretos detectados | ≥ 1 | 0 | 0 | Trivy |
 | M-21 Tiempo de reversión (EC-12) | T = t(servicio restablecido) − t(inicio de la reversión) | > 5 min | ≤ 5 min | ≤ 2 min | Ensayo cronometrado del runbook (S-14) |
+| M-22 Precios oficiales en verificación (ADR-0015) | X = precios oficiales que quedan POR_VERIFICAR / precios oficiales publicados ⚑ | > 0,10 | ≤ 0,10 | ≤ 0,05 | Consulta SQL sobre `registros_precio` (fuente COMERCIO) e integración I-08 |
 
 **Justificación de umbrales propios (⚑):**
 - **M-02 (5 min):** un consumidor decide la compra en el momento; los precios en tiendas cambian, como mucho, a diario. Cinco minutos son tres órdenes de magnitud menores que la frecuencia de cambio y permiten una proyección asíncrona simple (ADR-0003). Se valida con lo que digan los comerciantes en las entrevistas.
