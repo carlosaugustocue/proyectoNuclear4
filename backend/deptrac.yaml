@@ -58,10 +58,11 @@ deptrac:
     Canasta:          [Compartido, Comparacion]
 
     # Comercial (corte 3) puede leer el núcleo, pero el núcleo nunca lo lee a él.
-    Comercial:        [Compartido, Catalogo, Establecimientos, Precios]
+    # ADR-0023: también usa Moderación (correcciones) e implementa el puerto de Comparación.
+    Comercial:        [Compartido, Catalogo, Establecimientos, Precios, Comparacion, Moderacion]
 
     # Adaptadores de entrada y composición del contenedor
-    Http:      [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta]
+    Http:      [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
     Providers: [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
     # Comandos de medición de calidad (pruebas-calidad/): adaptador de entrada, como Http.
     Console:   [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion]

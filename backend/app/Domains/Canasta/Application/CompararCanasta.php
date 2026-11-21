@@ -12,6 +12,8 @@ use App\Domains\Canasta\Domain\ValueObjects\ItemCanasta;
 use App\Domains\Canasta\Domain\ValueObjects\ItemSolicitado;
 use App\Domains\Canasta\Domain\ValueObjects\LineaCanasta;
 use App\Domains\Canasta\Domain\ValueObjects\ResultadoEstablecimiento;
+use App\Domains\Comparacion\Application\PromocionesVigentes;
+use App\Domains\Comparacion\Application\SinPromociones;
 use DateTimeImmutable;
 
 /**
@@ -21,7 +23,10 @@ use DateTimeImmutable;
  */
 final class CompararCanasta
 {
-    public function __construct(private readonly FuentePreciosVigentes $fuente) {}
+    public function __construct(
+        private readonly FuentePreciosVigentes $fuente,
+        private readonly PromocionesVigentes   $promociones = new SinPromociones(),
+    ) {}
 
     /**
      * @param  list<ItemSolicitado> $solicitados
@@ -45,7 +50,7 @@ final class CompararCanasta
             ], $items),
             'generadoEn'           => (new DateTimeImmutable())->format(DATE_ATOM),
             'establecimientos'     => array_map(self::establecimiento(...), $ordenados, array_keys($ordenados)),
-            'contenidoPromocional' => [],
+            'contenidoPromocional' => $this->promociones->deProductos($ids), // fuera del total (ADR-0019, ADR-0023)
         ];
     }
 
