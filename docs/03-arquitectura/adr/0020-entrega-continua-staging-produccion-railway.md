@@ -19,7 +19,7 @@ EC-12 pide bloquear el 100 % de los cambios defectuosos y que un cambio válido 
 | Autodespliegue de Railway desde GitHub (cada push a `main`) | Configuración mínima | El pipeline no controla el orden: Railway puede desplegar aunque falle una etapa de calidad, y la prueba de humo queda fuera del flujo |
 | Construir la imagen en Actions, publicarla en GHCR y apuntar Railway a la etiqueta | Se despliega exactamente el artefacto escaneado | Railway no redespliega solo con una etiqueta nueva y hay reportes de que no vuelve a descargar etiquetas mutables. Habría que cambiar la referencia de imagen por la API GraphQL: más complejidad y más fragilidad. |
 | Kubernetes gestionado (AKS/GKE) con canary | Máxima capacidad de orquestación | El costo y la operación son inviables para el equipo (R-04); ADR-0002 lo descartó |
-| **GitHub Actions orquesta: CI + quality gate + Trivy → `railway up --ci` a staging → humo k6 → aprobación manual → `railway up --ci` a production** | El pipeline decide qué se despliega y en qué orden. Usa los entornos y el *rollback* nativos de Railway. Tokens limitados por entorno. | Railway reconstruye la imagen desde el mismo commit y Dockerfile: no es el mismo binario que escanea Trivy. La creación inicial de los entornos se hace una vez en el panel (sin IaC declarativa). |
+| **GitHub Actions orquesta: CI + quality gate + Trivy → `railway up --ci` a staging → humo k6 → aprobación manual → `railway up --ci` a production** | El pipeline decide qué se despliega y en qué orden. Usa los entornos y el *rollback* nativos de Railway. Tokens limitados por entorno. | Railway reconstruye la imagen desde el mismo commit y Dockerfile: no es el mismo binario que escanea Trivy. Railway reconstruye la imagen en cada entorno. |
 
 ## Decisión
 - `.github/workflows/cd.yml` corre en cada push a `main`. Encadena:
@@ -42,3 +42,11 @@ EC-12 pide bloquear el 100 % de los cambios defectuosos y que un cambio válido 
 - S-12: un PR que rompe una prueba y otro con una vulnerabilidad crítica quedan bloqueados (100 %; M-18).
 - S-13: tiempo del push al final de la prueba de humo en staging ≤ 15 min (M-19), según las marcas de tiempo de GitHub Actions.
 - S-14: ensayo de reversión cronometrado ≤ 5 min (M-21).
+
+## Revisión 2026-11-21: infraestructura como código de Railway
+
+Al crear el proyecto `precios-armenia`, la CLI de Railway (5.75) informó que `railway.json` (*config as code*) queda obsoleto desde el 2026-12-01 y que existe **infraestructura como código** declarativa (`.railway/railway.ts`, con `railway config plan` y `railway config apply`). Se adopta:
+- `.railway/railway.ts` declara los servicios `postgres` (imagen PostGIS con volumen), `api`, `worker` (misma imagen con `queue:work`) y `web`, con su Dockerfile y su política de reinicio. Las **variables quedan fuera del código** (`variables: unmanaged`): los secretos siguen solo en Railway.
+- `railway.json` se elimina.
+- **Respuesta actualizada a la pregunta de diseño de B2** («¿staging puede reconstruirse desde cero sin pasos manuales?»): la topología se recrea con `railway environment new staging` + `railway config apply`. Solo los secretos se cargan por separado. El trade-off anterior («creación inicial en el panel») se reduce a esa carga.
+- **Verificación adicional:** `railway config plan` sin diferencias contra el entorno es parte del ensayo de reconstrucción de staging.

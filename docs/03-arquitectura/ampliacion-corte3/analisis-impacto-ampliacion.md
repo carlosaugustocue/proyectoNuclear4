@@ -135,7 +135,7 @@ El esfuerzo estimado y el tipo de cambio se diligencian **antes de construir**. 
 2. **¿Cómo se revierte un despliegue defectuoso y en cuánto tiempo?**
    Con el *rollback* de Railway, que restaura la imagen anterior sin reconstruir (retención de 72 h en Hobby). La alternativa es redesplegar el commit sano anterior. Meta: ≤ 5 min (M-21), medida en un ensayo (`runbook-reversion.md`).
 3. **¿Staging puede reconstruirse desde cero sin pasos manuales?**
-   El código y las migraciones sí: la API migra al arrancar y el pipeline despliega desde el repositorio. La creación inicial de los servicios en Railway se hace una vez en el panel, porque no hay IaC declarativa equivalente en el plan usado. Es un trade-off registrado en ADR-0020. Después, cada despliegue es automático (EC-12).
+   El código y las migraciones sí: la API migra al arrancar y el pipeline despliega desde el repositorio. Además, la topología de servicios queda declarada en `.railway/railway.ts` (IaC de Railway; revisión de ADR-0020), de modo que staging se recrea con `railway config apply`; solo los secretos se cargan aparte. Después, cada despliegue es automático (EC-12).
 
 ## 6. Segunda medición de EC-05
 
