@@ -16,9 +16,9 @@ beforeEach(function () {
     $this->tiendaA  = crearEstablecimiento(['nombre' => 'Tienda A', 'tipo' => 'TIENDA_BARRIO']);
     $this->tiendaB  = crearEstablecimiento(['nombre' => 'Supermercado B', 'tipo' => 'SUPERMERCADO']);
 
-    reportarPrecio($this->arroz1kg, $this->tiendaA, '4000.00', '10.0.0.1')->assertCreated();
-    reportarPrecio($this->leche1l, $this->tiendaA, '3000.00', '10.0.0.2')->assertCreated();
-    reportarPrecio($this->arroz1kg, $this->tiendaB, '3500.00', '10.0.0.3')->assertCreated();
+    reportarPrecio($this->arroz1kg, $this->tiendaA, '4000.00', '10.0.0.1')->assertAccepted();
+    reportarPrecio($this->leche1l, $this->tiendaA, '3000.00', '10.0.0.2')->assertAccepted();
+    reportarPrecio($this->arroz1kg, $this->tiendaB, '3500.00', '10.0.0.3')->assertAccepted();
 });
 
 function canasta(array $cuerpo)
