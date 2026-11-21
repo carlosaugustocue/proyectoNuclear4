@@ -12,7 +12,7 @@ beforeEach(function () {
     $this->arroz  = crearProducto(['nombre' => 'Arroz blanco', 'tipo_vigencia' => 'ABARROTE']);
     $this->leche  = crearProducto(['nombre' => 'Leche entera', 'tipo_vigencia' => 'ABARROTE']);
     $this->arroz1kg = crearPresentacion($this->arroz, ['descripcion' => 'Bolsa 1 kg', 'cantidad' => '1', 'unidad' => 'KG']);
-    $this->leche1l  = crearPresentacion($this->leche, ['descripcion' => 'Bolsa 1 L', 'cantidad' => '1', 'unidad' => 'L']);
+    $this->leche1l  = crearPresentacion($this->leche, ['descripcion' => 'Bolsa 1 L', 'cantidad' => '1', 'unidad' => 'L', 'unidad_base' => 'L']);
     $this->tiendaA  = crearEstablecimiento(['nombre' => 'Tienda A', 'tipo' => 'TIENDA_BARRIO']);
     $this->tiendaB  = crearEstablecimiento(['nombre' => 'Supermercado B', 'tipo' => 'SUPERMERCADO']);
 
