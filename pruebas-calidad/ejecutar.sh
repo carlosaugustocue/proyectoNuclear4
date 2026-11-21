@@ -4,22 +4,23 @@
 #   EC-03 · M-03 / M-04  detección de anomalías con un conjunto etiquetado (comando calidad:deteccion)
 #   EC-02 · M-02         latencia de actualidad por el flujo asíncrono real (k6, i02-actualidad.js)
 #   EC-04 · M-05 / M-06  carga de consultas con VUS usuarios concurrentes (k6, k01-carga-comparacion.js)
+#   EC-11 · M-16 / M-17  carga de la canasta con VUS_CANASTA usuarios y canastas de 20 (k6, k02-carga-canasta.js)
 #
 # Levanta un entorno aislado con las imágenes de producción (docker-compose.calidad.yml), corre las
 # mediciones, guarda los resultados en resultados/<fecha>/ y genera resumen.md. Al final lo apaga.
 #
 # Variables: VUS=500 RAMPA=1m DURACION=3m (EC-04 pide 15m) SEMILLAS="1 2 3 4 5" CAMBIOS=20
-#            PHP_CLI_SERVER_WORKERS=1 SOLO="ec03 i02 k01" CONSERVAR=0
+#            VUS_CANASTA=200 PHP_CLI_SERVER_WORKERS=1 SOLO="ec03 i02 k01 k02" CONSERVAR=0
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 
-export VUS="${VUS:-500}" RAMPA="${RAMPA:-1m}" DURACION="${DURACION:-3m}" CAMBIOS="${CAMBIOS:-20}"
+export VUS="${VUS:-500}" VUS_CANASTA="${VUS_CANASTA:-200}" RAMPA="${RAMPA:-1m}" DURACION="${DURACION:-3m}" CAMBIOS="${CAMBIOS:-20}"
 export PHP_CLI_SERVER_WORKERS="${PHP_CLI_SERVER_WORKERS:-1}"
 export UID_GID="$(id -u):$(id -g)"
 SEMILLAS="${SEMILLAS:-1 2 3 4 5}"
-SOLO="${SOLO:-ec03 i02 k01}"
+SOLO="${SOLO:-ec03 i02 k01 k02}"
 FECHA="$(date +%Y-%m-%d_%H%M)"
 export RESULTADOS="$DIR/resultados/$FECHA"
 export CALIDAD_APP_KEY="base64:$(head -c 32 /dev/urandom | base64)"
@@ -55,7 +56,7 @@ curl -fs "http://127.0.0.1:${CALIDAD_PUERTO:-8090}/v1/productos" >/dev/null || {
   echo "  \"memoria_gb\": $(awk '/MemTotal/ {printf "%.1f", $2/1048576}' /proc/meminfo),"
   echo "  \"docker\": \"$(docker version --format '{{.Server.Version}}')\","
   echo "  \"php_cli_server_workers\": $PHP_CLI_SERVER_WORKERS,"
-  echo "  \"vus\": $VUS, \"rampa\": \"$RAMPA\", \"duracion\": \"$DURACION\", \"cambios\": $CAMBIOS"
+  echo "  \"vus\": $VUS, \"vus_canasta\": $VUS_CANASTA, \"rampa\": \"$RAMPA\", \"duracion\": \"$DURACION\", \"cambios\": $CAMBIOS"
   echo "}"
 } > "$RESULTADOS/entorno.json"
 
@@ -67,7 +68,7 @@ if quiere ec03; then
   done
 fi
 
-if quiere i02 || quiere k01; then
+if quiere i02 || quiere k01 || quiere k02; then
   log "Datos: semilla de demostración + volumen de EC-04"
   "${DC[@]}" exec -T api php artisan db:seed --force >/dev/null
   "${DC[@]}" exec -T api php artisan db:seed --class=VolumenCargaSeeder --force
@@ -90,6 +91,12 @@ if quiere k01; then
   "${DC[@]}" --profile k6 run --rm -e VUS="$VUS" -e RAMPA="$RAMPA" -e DURACION="$DURACION" \
     k6 run --quiet /scripts/k01-carga-comparacion.js || echo "(K-01 no cumplió algún umbral; ver el resumen)"
   "${DC[@]}" logs --no-color api 2>/dev/null | grep -ciE "error|exception" > "$RESULTADOS/api-errores-en-log.txt" || true
+fi
+
+if quiere k02; then
+  log "EC-11 · canasta: $VUS_CANASTA usuarios, canastas de 20, rampa $RAMPA, sostenida $DURACION"
+  "${DC[@]}" --profile k6 run --rm -e VUS="$VUS_CANASTA" -e RAMPA="$RAMPA" -e DURACION="$DURACION" \
+    k6 run --quiet /scripts/k02-carga-canasta.js || echo "(K-02 no cumplió algún umbral; ver el resumen)"
 fi
 
 python3 -I "$DIR/resumen.py" "$RESULTADOS"
