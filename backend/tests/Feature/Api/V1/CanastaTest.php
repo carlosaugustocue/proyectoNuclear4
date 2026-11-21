@@ -95,3 +95,28 @@ describe('C-15 privacidad de la canasta', function () {
         expect($tablas->filter(fn (string $t): bool => str_contains($t, 'canasta')))->toBeEmpty();
     });
 });
+
+describe('K-02 · costo de la canasta (EC-11)', function () {
+
+    it('hace el mismo número de consultas con 20 productos que con 1 (sin N+1)', function () {
+        $productos = [$this->arroz];
+        for ($i = 1; $i < 20; $i++) {
+            $p = crearProducto(['nombre' => "Producto $i", 'tipo_vigencia' => 'ABARROTE']);
+            reportarPrecio(crearPresentacion($p, ['descripcion' => 'Bolsa 1 kg', 'cantidad' => '1', 'unidad' => 'KG']),
+                $this->tiendaA, (string) (1000 + $i).'.00', "10.0.1.$i")->assertAccepted();
+            $productos[] = $p;
+        }
+        $consultas = function (array $ids): int {
+            \Illuminate\Support\Facades\DB::flushQueryLog();
+            \Illuminate\Support\Facades\DB::enableQueryLog();
+            canasta(['items' => array_map(fn ($id) => ['productoId' => $id, 'cantidad' => '1', 'unidad' => 'kg'], $ids)])
+                ->assertOk()->assertJsonPath('totalProductos', count($ids));
+            $n = count(\Illuminate\Support\Facades\DB::getQueryLog());
+            \Illuminate\Support\Facades\DB::disableQueryLog();
+
+            return $n;
+        };
+
+        expect($consultas($productos))->toBe($consultas([$this->arroz]));
+    });
+});
