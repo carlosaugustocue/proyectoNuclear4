@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Store } from 'lucide-vue-next'
+import ImagenProducto from './ImagenProducto.vue'
 import type { ProductoResumen, ResumenProducto } from '@/types'
 import { formatearPesos, precioPorUnidadTexto } from '@/utils/formato'
 
@@ -28,9 +29,7 @@ const etiqueta = computed(() =>
     class="group block rounded-xl border border-slate-200 bg-white p-3 transition-shadow hover:shadow-md"
     :aria-label="etiqueta"
   >
-    <div class="mb-2 flex h-20 items-center justify-center rounded-lg bg-slate-50 text-2xl" aria-hidden="true">
-      🛒
-    </div>
+    <ImagenProducto class="mb-2" :categoria="producto.categoria" :imagen="producto.imagen" con-credito />
 
     <p class="truncate text-sm font-semibold text-slate-800 group-hover:text-primary-700">
       {{ producto.nombre }}

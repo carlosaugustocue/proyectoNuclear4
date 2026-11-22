@@ -19,11 +19,18 @@ export interface Presentacion {
   ean: string | null
 }
 
+export interface ImagenProducto {
+  url: string
+  credito: string | null
+}
+
 export interface ProductoResumen {
   id: string
   nombre: string
   marca: string | null
   categoria: string
+  /** Foto con licencia libre; null → ilustración de la categoría. */
+  imagen?: ImagenProducto | null
 }
 
 export interface ProductoDetalle extends ProductoResumen {

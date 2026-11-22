@@ -56,6 +56,16 @@ export default defineConfig({
               networkTimeoutSeconds: 10,
             },
           },
+          {
+            // Fotos de productos (Open Food Facts): no cambian; se guardan para verlas sin conexión.
+            urlPattern: /^https:\/\/images\.openfoodfacts\.org\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'imagenes-productos',
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
         ],
       },
     }),

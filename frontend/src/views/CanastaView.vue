@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ImagenProducto from '@/components/ImagenProducto.vue'
 /*
  * Canasta comparada (Anexo 1, A1; RF-27 a RF-30). La canasta vive en el dispositivo (ADR-0018).
  * Los productos sin precio vigente se nombran en texto y nunca se suman (ADR-0019); el criterio
@@ -100,7 +101,10 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
     </form>
     <ul v-if="sugerencias.length" class="mb-4 divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white" aria-label="Productos encontrados">
       <li v-for="p in sugerencias" :key="p.id" class="flex items-center justify-between px-3 py-2 text-sm">
-        <span>{{ p.nombre }} <span class="text-xs text-slate-400">{{ p.marca ?? p.categoria }}</span></span>
+        <span class="flex items-center gap-2">
+          <ImagenProducto tamano="sm" :categoria="p.categoria" :imagen="p.imagen" />
+          <span>{{ p.nombre }} <span class="text-xs text-slate-400">{{ p.marca ?? p.categoria }}</span></span>
+        </span>
         <button type="button" class="rounded-full px-3 py-1 text-xs font-semibold text-primary-700 hover:bg-primary-50" @click="agregar(p)">Agregar</button>
       </li>
     </ul>
