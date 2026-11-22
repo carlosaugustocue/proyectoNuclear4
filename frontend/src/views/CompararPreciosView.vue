@@ -9,6 +9,7 @@ import BadgeVigencia from '@/components/BadgeVigencia.vue'
 import BadgeConfianza from '@/components/BadgeConfianza.vue'
 import ImagenProducto from '@/components/ImagenProducto.vue'
 import BloquePromociones from '@/components/BloquePromociones.vue'
+import AccionesPrecio from '@/components/AccionesPrecio.vue'
 import { describirPresentacion, estadoVigencia, TIPO_ESTABLECIMIENTO } from '@/utils/catalogo'
 import { formatearDistancia, formatearPesos, precioPorUnidadTexto, tiempoRelativo } from '@/utils/formato'
 import type { OrdenComparacion, ResultadoComparacion } from '@/types'
@@ -157,6 +158,9 @@ watch([productoId, orden, incluirNoVigentes], cargar, { immediate: true })
           <AlertTriangle class="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           <span>{{ item.advertencia }}</span>
         </p>
+
+        <!-- RF-10 y RF-19: solo sobre precios vigentes; nunca cambian la posición -->
+        <AccionesPrecio v-if="item.vigente" :observacion-id="item.observacionId" :establecimiento="item.establecimiento.nombre" @confirmado="cargar" />
       </li>
     </ul>
 

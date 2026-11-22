@@ -36,4 +36,11 @@ interface ObservacionesLectura
 
     /** Observación completa por id; null si no existe o fue retirada. */
     public function detalle(string $observacionId): ?DetalleObservacion;
+
+    /**
+     * Aportes activos de un reportante, el más reciente primero (RF-12).
+     *
+     * @return array{items: list<DetalleObservacion>, total: int}
+     */
+    public function aportesDe(string $reportadoPor, int $pagina, int $tamano): array;
 }

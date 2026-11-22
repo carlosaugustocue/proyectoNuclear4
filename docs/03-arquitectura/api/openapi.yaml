@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API de la plataforma colaborativa de comparación de precios — Núcleo
-  version: 0.5.0
+  version: 0.6.0
   description: |
     Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
     ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
@@ -14,10 +14,10 @@ info:
     pruebas Feature (`backend/tests/Feature/Api/V1`):
     `GET /productos`, `GET /productos/{productoId}`, `GET /establecimientos`,
     `POST /reportes-precio`, `GET /comparaciones` y `GET /comparaciones/resumen`.
-    Los demás endpoints (propuestas, confirmaciones, marcas, referencias mayoristas,
-    mis aportes) siguen PLANIFICADOS y llevan `x-estado: planificado`. La consola de
-    moderación (`/moderacion/casos`, `/moderacion/perfiles`), Comercial e Identidad (`/cuentas`,
-    `/sesiones`; ADR-0025) ya están implementados.
+    La consola de moderación (`/moderacion/casos`, `/moderacion/perfiles`), Comercial, Identidad
+    (`/cuentas`, `/sesiones`; ADR-0025) y los aportes con cuenta (confirmaciones, marcas y
+    `/mis-aportes`; ADR-0026) ya están implementados. Siguen PLANIFICADOS, con
+    `x-estado: planificado`, las propuestas de producto y establecimiento y las referencias mayoristas.
     Límite por IP (ADR-0024): 600 lecturas y 60 escrituras por minuto; al superarlo responde 429
     con Retry-After (Problem Details). Las respuestas incluyen X-RateLimit-Limit y X-RateLimit-Remaining.
     `POST /reportes-precio` acepta solicitudes anónimas (el servidor agrupa los aportes con un
@@ -183,9 +183,12 @@ paths:
 
   /observaciones/{observacionId}/confirmaciones:
     post:
-      x-estado: planificado
-      tags: [Precios]
+      tags: [Confianza]
       summary: Confirmar que un precio sigue vigente — "sigue igual" (RF-10)
+      description: |
+        ADR-0026. Registra una observación NUEVA del mismo precio a nombre de quien confirma, con
+        fecha actual; pasa por el flujo normal (RN-05 a RN-08, outbox). Solo se confirma el precio
+        que la comparación muestra para ese establecimiento. Idempotente por `Idempotency-Key`.
       security: [ { bearerAuth: [] } ]
       parameters:
         - $ref: '#/components/parameters/ObservacionId'
@@ -194,15 +197,30 @@ paths:
           required: true
           schema: { type: string, format: uuid }
       responses:
-        '202': { description: Confirmación aceptada }
+        '202':
+          description: Confirmación aceptada; la evaluación de confianza es asíncrona
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConfirmacionAceptada' }
+        '200':
+          description: Reintento con la misma Idempotency-Key; devuelve la misma observación
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConfirmacionAceptada' }
+        '400': { description: Falta la Idempotency-Key o no es un UUID, $ref: '#/components/responses/Problema' }
+        '401': { $ref: '#/components/responses/Problema' }
         '404': { $ref: '#/components/responses/Problema' }
+        '409': { description: 'El precio es propio, ya no es el que se muestra o fue invalidado', $ref: '#/components/responses/Problema' }
         '429': { $ref: '#/components/responses/Problema' }
 
   /observaciones/{observacionId}/marcas:
     post:
-      x-estado: planificado
-      tags: [Confianza]
+      tags: [Moderación]
       summary: Marcar un precio como dudoso (RF-19)
+      description: |
+        ADR-0026. Una marca por cuenta y precio. Todas las marcas de un precio se suman a un solo
+        caso MARCA_USUARIO, que no identifica a quien marca (EC-07). La marca no cambia la
+        comparación: decide un moderador (ADR-0007).
       security: [ { bearerAuth: [] } ]
       parameters: [ { $ref: '#/components/parameters/ObservacionId' } ]
       requestBody:
@@ -216,8 +234,20 @@ paths:
                 motivo: { type: string, enum: [PRECIO_INCORRECTO, PRODUCTO_EQUIVOCADO, ESTABLECIMIENTO_EQUIVOCADO, DESACTUALIZADO, OTRO] }
                 comentario: { type: string, maxLength: 280 }
       responses:
-        '201': { description: Marca registrada; puede abrir un caso de moderación }
+        '201':
+          description: Marca registrada y caso de moderación abierto (o actualizado)
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [estado, mensaje]
+                properties:
+                  estado: { type: string, const: EN_REVISION }
+                  mensaje: { type: string }
+        '401': { $ref: '#/components/responses/Problema' }
         '404': { $ref: '#/components/responses/Problema' }
+        '409': { description: Esta cuenta ya marcó el precio, $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
 
   /comparaciones:
     get:
@@ -477,9 +507,12 @@ paths:
 
   /mis-aportes:
     get:
-      x-estado: planificado
       tags: [Precios]
       summary: Aportes del usuario autenticado y su estado (RF-12)
+      description: |
+        ADR-0026. Incluye la reputación (RN-07). No informa cuántas veces se consultó cada aporte:
+        medirlo exigiría escribir en cada lectura de la comparación y va contra EC-04. Respuesta
+        con `Cache-Control: no-store`.
       security: [ { bearerAuth: [] } ]
       parameters:
         - $ref: '#/components/parameters/Pagina'
@@ -496,6 +529,13 @@ paths:
                     type: array
                     items: { $ref: '#/components/schemas/MiAporte' }
                   pagina: { $ref: '#/components/schemas/Paginacion' }
+                  reputacion:
+                    type: object
+                    required: [aportesConfirmados, requiereCorroboracion]
+                    properties:
+                      aportesConfirmados: { type: integer, minimum: 0 }
+                      requiereCorroboracion: { type: boolean, description: 'RN-07: true si los aportes propios necesitan corroboración para reemplazar un precio vigente' }
+        '401': { $ref: '#/components/responses/Problema' }
 
   /moderacion/casos:
     get:
@@ -913,9 +953,10 @@ components:
 
     ItemComparacion:
       type: object
-      required: [posicion, establecimiento, presentacion, precio, precioPorUnidad, observadoEn, fuente, estadoConfianza, vigente]
+      required: [posicion, observacionId, establecimiento, presentacion, precio, precioPorUnidad, observadoEn, fuente, estadoConfianza, vigente]
       properties:
         posicion: { type: integer, minimum: 1 }
+        observacionId: { type: string, format: uuid, description: 'Id opaco del precio mostrado, para confirmarlo o marcarlo (ADR-0026). No identifica al reportante.' }
         establecimiento:
           type: object
           required: [id, nombre, tipo]
@@ -1112,14 +1153,25 @@ components:
 
     MiAporte:
       type: object
+      required: [observacionId, precio, observadoEn, estadoConfianza]
       properties:
         observacionId: { type: string, format: uuid }
-        producto: { type: string }
-        establecimiento: { type: string }
+        producto: { type: [string, 'null'] }
+        presentacion: { type: [string, 'null'] }
+        establecimiento: { type: [string, 'null'] }
         precio: { $ref: '#/components/schemas/Dinero' }
         observadoEn: { type: string, format: date-time }
-        estadoConfianza: { $ref: '#/components/schemas/EstadoConfianza' }
-        vecesConsultado: { type: integer }
+        estadoConfianza:
+          oneOf:
+            - { $ref: '#/components/schemas/EstadoConfianza' }
+            - { type: string, const: PENDIENTE_EVALUACION }
+
+    ConfirmacionAceptada:
+      type: object
+      required: [observacionId, estado]
+      properties:
+        observacionId: { type: string, format: uuid, description: Id de la observación nueva creada por la confirmación }
+        estado: { type: string, const: PENDIENTE_EVALUACION }
 
     CasoModeracion:
       type: object

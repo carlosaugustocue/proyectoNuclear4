@@ -49,6 +49,11 @@ const router = createRouter({
       component: () => import('@/views/CuentaView.vue'),
     },
     {
+      path: '/mis-aportes',
+      name: 'mis-aportes',
+      component: () => import('@/views/MisAportesView.vue'),
+    },
+    {
       path: '/privacidad',
       name: 'privacidad',
       component: () => import('@/views/PoliticaDatosView.vue'),

@@ -63,13 +63,27 @@ final class PgObservacionesLectura implements ObservacionesLectura
         return is_string($primero) ? new DateTimeImmutable($primero) : null;
     }
 
+    private const COLUMNAS_DETALLE = ['id', 'producto_id', 'presentacion_id', 'establecimiento_id', 'monto', 'observado_en', 'fuente', 'reportado_por'];
+
     public function detalle(string $observacionId): ?DetalleObservacion
     {
-        $f = DB::table('registros_precio')->where('id', $observacionId)->whereNull('deleted_at')
-            ->first(['id', 'producto_id', 'presentacion_id', 'establecimiento_id', 'monto', 'observado_en', 'fuente', 'reportado_por']);
-        if ($f === null) {
-            return null;
-        }
+        $f = DB::table('registros_precio')->where('id', $observacionId)->whereNull('deleted_at')->first(self::COLUMNAS_DETALLE);
+
+        return $f === null ? null : self::aDetalle($f);
+    }
+
+    public function aportesDe(string $reportadoPor, int $pagina, int $tamano): array
+    {
+        $consulta = DB::table('registros_precio')->whereNull('deleted_at')->where('reportado_por', $reportadoPor);
+        $total    = (clone $consulta)->count();
+        $filas    = $consulta->orderByDesc('observado_en')->orderByDesc('registrado_en')
+            ->offset(($pagina - 1) * $tamano)->limit($tamano)->get(self::COLUMNAS_DETALLE);
+
+        return ['items' => array_values($filas->map(static fn (object $f): DetalleObservacion => self::aDetalle($f))->all()), 'total' => $total];
+    }
+
+    private static function aDetalle(object $f): DetalleObservacion
+    {
         /** @var object{id: string, producto_id: string, presentacion_id: string, establecimiento_id: string, monto: string, observado_en: string, fuente: string, reportado_por: string} $f */
         return new DetalleObservacion(
             id:                (string) $f->id,

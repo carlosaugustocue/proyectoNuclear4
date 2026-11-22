@@ -55,6 +55,8 @@ export interface Establecimiento {
 
 export interface ItemComparacion {
   posicion: number
+  /** Id opaco de la observación, para confirmarla o marcarla (RF-10, RF-19). */
+  observacionId: string
   establecimiento: {
     id: string
     nombre: string
