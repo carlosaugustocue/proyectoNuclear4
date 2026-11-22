@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import { User, Shield, CloudOff, RefreshCw, Trash2, Store, ChevronRight } from 'lucide-vue-next'
+import { User, Shield, CloudOff, RefreshCw, Trash2, Store, ChevronRight, ListChecks } from 'lucide-vue-next'
 import { useReportesStore } from '@/stores/reportes'
 import { useSesionStore } from '@/stores/sesion'
 import { formatearPesos, tiempoRelativo } from '@/utils/formato'
@@ -70,6 +70,15 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
           <span class="block text-sm font-semibold text-slate-800">Entra o crea tu cuenta</span>
           <span class="block text-xs text-slate-500">Opcional: sin cuenta tus aportes van con un seudónimo anónimo.</span>
         </template>
+      </span>
+      <ChevronRight class="h-4 w-4 text-slate-400" aria-hidden="true" />
+    </router-link>
+
+    <router-link v-if="autenticado" to="/mis-aportes" class="mb-6 -mt-3 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40">
+      <ListChecks class="h-5 w-5 text-primary-600" aria-hidden="true" />
+      <span class="flex-1">
+        <span class="block text-sm font-semibold text-slate-800">Mis aportes</span>
+        <span class="block text-xs text-slate-500">Tus reportes, su estado y tu reputación.</span>
       </span>
       <ChevronRight class="h-4 w-4 text-slate-400" aria-hidden="true" />
     </router-link>

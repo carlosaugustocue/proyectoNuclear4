@@ -61,7 +61,7 @@ Prioridad MoSCoW: **M** = obligatorio en el corte 2, **S** = debería, **C** = p
 | RF-09 | El registro debe poder hacerse sin conexión: queda en una cola local y se sincroniza al recuperar conectividad, sin duplicarse (EC-09). | M |
 | RF-10 | El reportante debe poder confirmar con un solo toque que un precio ya mostrado sigue vigente ("sigue igual"). | M |
 | RF-11 | El sistema debe sugerir el establecimiento más cercano según la ubicación del dispositivo, previa autorización del usuario. | S |
-| RF-12 | El reportante debe poder consultar sus aportes y su estado (confiable, por verificar, etc.) y cuántas veces fueron consultados. | C |
+| RF-12 | El reportante debe poder consultar sus aportes y su estado (confiable, por verificar, etc.) y cuántas veces fueron consultados. *(Revisado en ADR-0026: el conteo de consultas no se implementa porque obligaría a escribir en cada lectura —EC-04—; se muestra en cambio la reputación RN-07.)* | C |
 
 ### 4.4 Comparación
 

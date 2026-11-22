@@ -136,6 +136,7 @@ Las variables y los secretos no se gestionan desde el código: viven solo en Rai
 | Neutralidad garantizada por diseño | El orden de la comparación no depende de relaciones comerciales (EC-06) | [0009](docs/03-arquitectura/adr/0009-neutralidad-comparacion.md) |
 | Contenedores en Railway, con AWS Well-Architected como marco | Despliegue reproducible al costo de un equipo académico (R-04) | [0013](docs/03-arquitectura/adr/0013-well-architected-framework-despliegue.md) |
 | Cuentas con consentimiento (Ley 1581), sesión con token opaco solo en memoria y moderadores con cuenta | Responsable en cada decisión de moderación, suspensión de cuentas y reputación por persona (RF-20 a RF-24, EC-07) | [0025](docs/03-arquitectura/adr/0025-identidad-cuentas-sesiones-y-moderadores.md) |
+| Confirmar un precio es registrar una observación nueva; las marcas se suman en un solo caso; mis aportes muestran la reputación | RF-10, RF-12 y RF-19 sin saltarse RN-05 a RN-08 ni exponer reportantes (EC-03, EC-07) | [0026](docs/03-arquitectura/adr/0026-aportes-con-cuenta-confirmar-marcar-mis-aportes.md) |
 | Fronteras por contexto verificadas con Deptrac en CI | Que el módulo comercial no altere el núcleo (EC-05, AR-01, AR-02) | [0016](docs/03-arquitectura/adr/0016-nucleo-compartido-y-fronteras-por-contexto.md) |
 
 Modelo de calidad: **ISO/IEC 25010:2023** (producto), **ISO/IEC 25012** (datos) e **ISO/IEC 25040:2024** (evaluación). La justificación frente a McCall, Boehm y FURPS+ está en el [plan de calidad](docs/02-calidad/plan-aseguramiento-calidad.md).

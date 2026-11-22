@@ -36,16 +36,16 @@
 | RF-07 | Proponer establecimiento | — | — | I-07 | Establecimientos |
 | RF-08 | Registrar precio | RN-08 | EC-01 | U-08, C-08, S-08 | Precios |
 | RF-09 | Registro offline | — | EC-09 | S-09, I-09 | Cliente PWA / Precios |
-| RF-10 | Confirmar "sigue igual" | RN-05 | EC-01, EC-03 | U-05, S-10 | Precios / Confianza |
+| RF-10 | Confirmar "sigue igual" (ADR-0026: observación nueva) | RN-05, RN-07, RN-08 | EC-01, EC-03 | U-05, C-10 (`AportesTest`), S-10 | Confianza / Precios |
 | RF-11 | Sugerir establecimiento cercano | — | EC-01, EC-07 | S-11 | Cliente PWA |
-| RF-12 | Mis aportes | — | — | C-12 | Precios |
+| RF-12 | Mis aportes y reputación (ADR-0026; sin «veces consultado», ver ADR) | RN-07 | EC-07 | C-12 (`AportesTest`) | Precios / Confianza |
 | RF-13 | Comparar | RN-09, RN-10 | EC-04, EC-06 | U-09, U-10, K-01, C-13 | Comparación |
 | RF-14 | Comparar presentaciones distintas | RN-01, RN-02, RN-03 | EC-06 | U-01, U-02, U-03 | Comparación (dominio de Catálogo) |
 | RF-15 | Filtros y criterio de orden visible | RN-10 | EC-06 | U-10, S-15 | Comparación |
 | RF-16 | No mostrar como vigente lo vencido/no confiable | RN-04, RN-09 | EC-02, EC-03 | U-04, U-09, I-02 | Comparación / Confianza |
 | RF-17 | Consulta sin cuenta | — | EC-04 | C-17 | API |
 | RF-18 | Estado de confianza automático | RN-04 a RN-08 | EC-03 | U-04…U-08, I-03 | Confianza |
-| RF-19 | Marcar dudoso | — | EC-03 | C-19 | Confianza |
+| RF-19 | Marcar dudoso (ADR-0026: un caso MARCA_USUARIO por precio) | — | EC-03, EC-07 | C-19 (`AportesTest`) | Moderación |
 | RF-20 | Cola de moderación (incluye suspender cuenta, ADR-0025) | — | EC-03 | I-20, S-20, C-17 | Moderación, Identidad |
 | RF-21 | Límite de reportes | RN-08 | EC-03 | U-08, I-21 | Precios |
 | RF-22 | Autorización de datos | — | EC-07 | S-22, C-19, U-11 | Identidad |
