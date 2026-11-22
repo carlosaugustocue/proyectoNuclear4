@@ -53,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
         // Confianza, Comparación y Moderación
         $this->app->bind(EvaluacionesRepositorio::class, PgEvaluacionesRepositorio::class);
         $this->app->bind(ModeloLecturaComparacion::class, PgModeloLecturaComparacion::class);
+        $this->app->bind(\App\Domains\Confianza\Domain\Ports\PrecioPublicado::class, \App\Domains\Comparacion\Infrastructure\PrecioPublicadoComparacion::class);
         $this->app->bind(CasosModeracion::class, PgCasosModeracion::class);
         $this->app->bind(\App\Domains\Moderacion\Domain\Repositories\MarcasObservacion::class, \App\Domains\Moderacion\Infrastructure\Persistence\PgMarcasObservacion::class);
         $this->app->bind(\App\Domains\Moderacion\Domain\Ports\SuspensionDeCuentas::class, \App\Domains\Identidad\Infrastructure\SuspensionDeCuentasIdentidad::class);

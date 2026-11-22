@@ -6,6 +6,7 @@ namespace App\Domains\Confianza\Application;
 
 use App\Domains\Confianza\Domain\Exceptions\ConfirmacionNoAplicableException;
 use App\Domains\Confianza\Domain\Exceptions\ObservacionNoEncontradaException;
+use App\Domains\Confianza\Domain\Ports\PrecioPublicado;
 use App\Domains\Confianza\Domain\Repositories\EvaluacionesRepositorio;
 use App\Domains\Confianza\Domain\ValueObjects\EstadoConfianza;
 use App\Domains\Precios\Application\Commands\RegistrarReportePrecioCommand;
@@ -27,6 +28,7 @@ final class ConfirmarPrecio
         private readonly RegistroPrecioRepository      $registros,
         private readonly EvaluacionesRepositorio       $evaluaciones,
         private readonly RegistrarReportePrecioHandler $registrar,
+        private readonly PrecioPublicado               $publicado,
     ) {}
 
     public function confirmar(string $observacionId, string $cuentaId, string $claveIdempotencia): ResultadoRegistro
@@ -46,8 +48,8 @@ final class ConfirmarPrecio
         if (($this->evaluaciones->obtener($observacionId)['estado'] ?? null) === EstadoConfianza::NO_CONFIABLE->name) {
             throw new ConfirmacionNoAplicableException('Este precio fue invalidado por moderación; si ves otro, repórtalo.');
         }
-        if ($this->observaciones->masRecienteEn($obs->presentacionId, $obs->establecimientoId) !== $observacionId) {
-            throw new ConfirmacionNoAplicableException('Hay un precio más reciente en este establecimiento; confirma ese o reporta el que ves.');
+        if ($this->publicado->observacionPublicada($obs->presentacionId, $obs->establecimientoId) !== $observacionId) {
+            throw new ConfirmacionNoAplicableException('Este precio ya no es el que se muestra para esta tienda; actualiza la página o reporta el que ves.');
         }
 
         return $this->registrar->handle(new RegistrarReportePrecioCommand(

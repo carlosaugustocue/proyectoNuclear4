@@ -72,15 +72,6 @@ final class PgObservacionesLectura implements ObservacionesLectura
         return $f === null ? null : self::aDetalle($f);
     }
 
-    public function masRecienteEn(string $presentacionId, string $establecimientoId): ?string
-    {
-        $id = DB::table('registros_precio')->whereNull('deleted_at')
-            ->where('presentacion_id', $presentacionId)->where('establecimiento_id', $establecimientoId)
-            ->orderByDesc('observado_en')->orderByDesc('registrado_en')->value('id');
-
-        return is_string($id) ? $id : null;
-    }
-
     public function aportesDe(string $reportadoPor, int $pagina, int $tamano): array
     {
         $consulta = DB::table('registros_precio')->whereNull('deleted_at')->where('reportado_por', $reportadoPor);

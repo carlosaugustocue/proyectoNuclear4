@@ -37,9 +37,6 @@ interface ObservacionesLectura
     /** Observación completa por id; null si no existe o fue retirada. */
     public function detalle(string $observacionId): ?DetalleObservacion;
 
-    /** Id de la observación activa más reciente de la presentación en el establecimiento (RF-10). */
-    public function masRecienteEn(string $presentacionId, string $establecimientoId): ?string;
-
     /**
      * Aportes activos de un reportante, el más reciente primero (RF-12).
      *
