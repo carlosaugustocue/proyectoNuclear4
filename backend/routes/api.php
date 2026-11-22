@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 | (ver apiPrefix en bootstrap/app.php).
 */
 
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->middleware('throttle:api-por-ip')->group(function () {
     // ── Catálogo ───────────────────────────────────────────────────────
     Route::get('productos', [ProductoController::class, 'index']);
     Route::get('productos/{productoId}', [ProductoController::class, 'show'])->whereUuid('productoId');

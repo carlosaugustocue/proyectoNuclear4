@@ -14,6 +14,9 @@ x-api: &api
   environment:
     APP_ENV: calidad                  # distinto de production: permite las semillas sintéticas
     APP_DEBUG: "false"
+    # K-01/K-02 salen de una sola IP (el contenedor de k6): sin esto medirían el límite C-18 y no la API.
+    LIMITE_LECTURAS_POR_MINUTO: "1000000"
+    LIMITE_ESCRITURAS_POR_MINUTO: "1000000"
     APP_KEY: "${CALIDAD_APP_KEY:?ejecute pruebas-calidad/ejecutar.sh, que genera la clave}"
     LOG_LEVEL: warning
     DB_CONNECTION: pgsql

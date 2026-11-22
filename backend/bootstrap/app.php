@@ -15,7 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         apiPrefix: '',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Detrás del proxy de Railway: se confía SOLO en el salto inmediato (REMOTE_ADDR). Así
+        // request->ip() es la IP real del cliente (la última que agregó el proxy en X-Forwarded-For)
+        // y un cliente no puede suplantar a otro anteponiendo IPs falsas (C-18; RN-05, RN-07, RN-08).
+        $middleware->trustProxies(at: '*', headers: Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PROTO
+            | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT);
+        $middleware->append(\App\Http\Middleware\CabecerasSeguridad::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // Errores de la API en formato RFC 9457 (Problem Details) — ADR-0004
