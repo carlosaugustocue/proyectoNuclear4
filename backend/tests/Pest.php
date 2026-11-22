@@ -110,7 +110,8 @@ function reportarPrecio(
     string $ip = '10.0.0.1',
     ?string $observadoEn = null,
 ): \Illuminate\Testing\TestResponse {
-    return test()->withServerVariables(['REMOTE_ADDR' => $ip])
+    // Reporte anónimo: sin cabeceras heredadas de llamadas anteriores (p. ej., una sesión).
+    return test()->flushHeaders()->withServerVariables(['REMOTE_ADDR' => $ip])
         ->withHeaders(['Idempotency-Key' => (string) Str::uuid()])
         ->postJson('/v1/reportes-precio', [
             'presentacionId'    => $presentacionId,

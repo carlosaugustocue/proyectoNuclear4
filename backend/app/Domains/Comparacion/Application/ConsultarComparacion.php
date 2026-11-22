@@ -188,6 +188,7 @@ final class ConsultarComparacion
 
         return [
             'posicion'        => $posicion,
+            'observacionId'   => $f->observacionId, // opaco: para confirmar o marcar (RF-10, RF-19)
             'establecimiento' => $establecimiento,
             'presentacion'    => $f->presentacion,
             'precio'          => $f->precio,

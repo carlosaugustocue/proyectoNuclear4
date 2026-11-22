@@ -208,8 +208,12 @@ describe('GET /v1/comparaciones — contrato, privacidad y errores', function ()
             ->not->toContain('reportado_por')
             ->not->toContain('ip')
             ->not->toContain('claveIdempotencia')
-            ->not->toContain('observacionId')
             ->and($res->getContent())->not->toContain('anon-');
+        // ADR-0026: el id de la observación se expone para confirmarla o marcarla (RF-10, RF-19). Es un
+        // UUID opaco sin relación con quien reportó: ningún endpoint público lo asocia a un reportante.
+        expect($res->json('items.0.observacionId'))->toMatch('/^[0-9a-f-]{36}$/')
+            ->and(DB::table('registros_precio')->where('id', $res->json('items.0.observacionId'))->value('reportado_por'))
+            ->not->toBeIn(array_map('strval', \Illuminate\Support\Arr::flatten($res->json())));
     });
 
     it('cada item solo tiene los campos del contrato: ningún atributo comercial (C-06, AR-02)', function () {

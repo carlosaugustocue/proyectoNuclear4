@@ -36,6 +36,7 @@ final class EvaluarConfianzaObservacion
         private readonly ObservacionesLectura    $observaciones,
         private readonly EvaluacionesRepositorio $evaluaciones,
         private readonly Dispatcher              $eventos,
+        private readonly ConsultarReputacion     $reputacion,
     ) {}
 
     public function evaluar(PrecioRegistrado $e): ConfianzaEvaluada
@@ -114,11 +115,6 @@ final class EvaluarConfianzaObservacion
 
     private function cuentaDe(string $reportadoPor): CuentaContribuidora
     {
-        return new CuentaContribuidora(
-            id:                 $reportadoPor,
-            creadaEn:           $this->observaciones->primerAporteDe($reportadoPor) ?? new DateTimeImmutable(),
-            aportesConfirmados: $this->evaluaciones->aportesConfirmadosDe($reportadoPor),
-            suspendida:         false, // la suspensión llega con el contexto Identidad
-        );
+        return $this->reputacion->cuenta($reportadoPor);
     }
 }

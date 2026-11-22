@@ -59,6 +59,10 @@ Route::prefix('v1')->middleware('throttle:api-por-ip')->group(function () {
         Route::get('cuentas/yo', [\App\Http\Controllers\V1\Identidad\CuentaController::class, 'yo']);
         Route::put('cuentas/yo/contrasena', [\App\Http\Controllers\V1\Identidad\CuentaController::class, 'cambiarContrasena']);
         Route::delete('cuentas/yo', [\App\Http\Controllers\V1\Identidad\CuentaController::class, 'suprimir']);
+        // Aportes con cuenta (ADR-0026): RF-10, RF-19, RF-12
+        Route::post('observaciones/{observacionId}/confirmaciones', [\App\Http\Controllers\V1\AportesController::class, 'confirmar'])->whereUuid('observacionId');
+        Route::post('observaciones/{observacionId}/marcas', [\App\Http\Controllers\V1\AportesController::class, 'marcar'])->whereUuid('observacionId');
+        Route::get('mis-aportes', [\App\Http\Controllers\V1\AportesController::class, 'misAportes']);
     });
 
     Route::post('canastas/comparacion', [\App\Http\Controllers\V1\CanastaController::class, 'comparar']);

@@ -20,9 +20,10 @@ beforeEach(function () {
     $this->tienda = crearEstablecimiento(['nombre' => 'Tienda Don Pepe']);
 });
 
+/** withHeaders acumula cabeceras entre llamadas: se limpian para que cada petición lleve solo las suyas. */
 function con(string $token): \Illuminate\Foundation\Testing\TestCase
 {
-    return test()->withHeaders(['Authorization' => "Bearer {$token}"]);
+    return test()->flushHeaders()->withHeaders(['Authorization' => "Bearer {$token}"]);
 }
 
 function confirmar(string $token, string $observacionId, ?string $clave = null): \Illuminate\Testing\TestResponse
@@ -52,7 +53,7 @@ describe('POST /v1/observaciones/{id}/confirmaciones (RF-10)', function () {
 
     it('exige sesión', function () {
         $obs = reportarPrecio($this->bolsa, $this->tienda, '3000')->json('observacionId');
-        $this->withHeaders(['Idempotency-Key' => (string) Str::uuid()])->postJson("/v1/observaciones/{$obs}/confirmaciones")->assertUnauthorized();
+        $this->flushHeaders()->withHeaders(['Idempotency-Key' => (string) Str::uuid()])->postJson("/v1/observaciones/{$obs}/confirmaciones")->assertUnauthorized();
     });
 
     it('no se puede confirmar un precio propio: 409', function () {
@@ -129,7 +130,7 @@ describe('POST /v1/observaciones/{id}/marcas (RF-19)', function () {
         $obs = reportarPrecio($this->bolsa, $this->tienda, '3000')->json('observacionId');
         [, $token] = cuentaCiudadana();
 
-        $this->postJson("/v1/observaciones/{$obs}/marcas", ['motivo' => 'OTRO'])->assertUnauthorized();
+        $this->flushHeaders()->postJson("/v1/observaciones/{$obs}/marcas", ['motivo' => 'OTRO'])->assertUnauthorized();
         con($token)->postJson("/v1/observaciones/{$obs}/marcas", ['motivo' => 'ME_CAE_MAL', 'comentario' => str_repeat('x', 281)])
             ->assertStatus(422)->assertJsonValidationErrors(['motivo', 'comentario']);
         con($token)->postJson('/v1/observaciones/' . Str::uuid() . '/marcas', ['motivo' => 'OTRO'])->assertNotFound();
@@ -171,7 +172,7 @@ describe('GET /v1/mis-aportes (RF-12)', function () {
     });
 
     it('exige sesión y no expone identificadores del reportante (EC-07)', function () {
-        $this->getJson('/v1/mis-aportes')->assertUnauthorized();
+        $this->flushHeaders()->getJson('/v1/mis-aportes')->assertUnauthorized();
 
         [$cuentaId, $token] = cuentaCiudadana();
         $r = con($token)->getJson('/v1/mis-aportes')->assertOk()->assertJsonPath('items', []);
