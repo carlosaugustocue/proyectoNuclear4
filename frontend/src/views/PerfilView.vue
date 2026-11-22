@@ -3,10 +3,12 @@ import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { User, Shield, CloudOff, RefreshCw, Trash2, Store, ChevronRight } from 'lucide-vue-next'
 import { useReportesStore } from '@/stores/reportes'
+import { useSesionStore } from '@/stores/sesion'
 import { formatearPesos, tiempoRelativo } from '@/utils/formato'
 
 const reportes = useReportesStore()
 const { pendientes, sincronizando, enLinea } = storeToRefs(reportes)
+const { autenticado, cuenta } = storeToRefs(useSesionStore())
 const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pendiente').length)
 </script>
 
@@ -55,15 +57,22 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
       </ul>
     </section>
 
-    <div class="mb-6 flex items-center gap-3 rounded-xl border border-dashed border-slate-300 p-4">
-      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-100">
-        <User class="h-6 w-6 text-slate-500" aria-hidden="true" />
+    <router-link to="/cuenta" class="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40">
+      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full" :class="autenticado ? 'bg-primary-100' : 'bg-slate-100'">
+        <User class="h-6 w-6" :class="autenticado ? 'text-primary-700' : 'text-slate-500'" aria-hidden="true" />
       </div>
-      <p class="text-xs text-slate-500">
-        Las cuentas y la reputación pública llegan con el contexto Identidad (ADR-0014). Mientras tanto, tus aportes
-        se agrupan con un seudónimo anónimo que nunca se muestra.
-      </p>
-    </div>
+      <span class="flex-1">
+        <template v-if="autenticado">
+          <span class="block text-sm font-semibold text-slate-800">{{ cuenta?.seudonimo }}</span>
+          <span class="block text-xs text-slate-500">Tus reportes suman reputación. Gestiona tus datos.</span>
+        </template>
+        <template v-else>
+          <span class="block text-sm font-semibold text-slate-800">Entra o crea tu cuenta</span>
+          <span class="block text-xs text-slate-500">Opcional: sin cuenta tus aportes van con un seudónimo anónimo.</span>
+        </template>
+      </span>
+      <ChevronRight class="h-4 w-4 text-slate-400" aria-hidden="true" />
+    </router-link>
 
     <router-link to="/comercio" class="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40">
       <Store class="h-5 w-5 text-primary-600" aria-hidden="true" />
@@ -85,7 +94,8 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
       </div>
       <p class="text-xs leading-relaxed text-slate-500">
         Tu identidad nunca se asocia públicamente a los precios que reportas. No almacenamos la ubicación de tu
-        dispositivo: solo se usa en el momento, si la pides, para ordenar por distancia. Ley 1581 de 2012.
+        dispositivo: solo se usa en el momento, si la pides, para ordenar por distancia.
+        <router-link to="/privacidad" class="font-semibold text-primary-700 underline">Política de tratamiento de datos</router-link> (Ley 1581 de 2012).
       </p>
     </div>
   </section>

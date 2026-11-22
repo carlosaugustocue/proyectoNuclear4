@@ -20,7 +20,7 @@ final class SuspensionDeCuentasIdentidad implements SuspensionDeCuentas
     {
         $autor = $this->observaciones->detalle($observacionId)?->reportadoPor;
 
-        // Los reportes anónimos llevan un seudónimo «anon-…», que no es una cuenta.
-        return $autor !== null && ! str_starts_with($autor, 'anon-') && $this->cuentas->suspender($autor);
+        // Un reporte anónimo (seudónimo «anon-…») o de una cuenta ya suprimida no tiene a quién suspender.
+        return $autor !== null && $this->cuentas->suspender($autor);
     }
 }

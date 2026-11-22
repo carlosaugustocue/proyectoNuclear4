@@ -21,6 +21,8 @@ export interface CasoModeracion {
     presentacion: string | null
     establecimiento: string | null
     estadoConfianza: string | null
+    /** El autor tiene cuenta (se puede suspender); nunca se dice quién es. */
+    autorConCuenta: boolean
   } | null
 }
 

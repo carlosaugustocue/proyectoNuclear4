@@ -48,7 +48,13 @@ final class GestionarCuentas
 
     public function obtener(string $cuentaId): ?Cuenta
     {
-        return $this->cuentas->porId($cuentaId);
+        return Str::isUuid($cuentaId) ? $this->cuentas->porId($cuentaId) : null;
+    }
+
+    /** ¿El autor de un aporte es una cuenta existente? Los anónimos llevan un seudónimo «anon-…». */
+    public function esCuenta(string $reportadoPor): bool
+    {
+        return $this->obtener($reportadoPor) !== null;
     }
 
     /** Cambia la contraseña con la actual y cierra todas las demás sesiones (por si la anterior se filtró). */
@@ -78,7 +84,7 @@ final class GestionarCuentas
     /** RF-20: suspende una cuenta y cierra todas sus sesiones. */
     public function suspender(string $cuentaId): bool
     {
-        $cuenta = $this->cuentas->porId($cuentaId);
+        $cuenta = $this->obtener($cuentaId);
         if ($cuenta === null) {
             return false;
         }

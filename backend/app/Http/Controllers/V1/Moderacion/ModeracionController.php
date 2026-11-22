@@ -40,6 +40,7 @@ final class ModeracionController extends Controller
         private readonly ConsultarCatalogo       $catalogo,
         private readonly ConsultarDirectorio     $directorio,
         private readonly GestionarPerfiles       $perfiles,
+        private readonly \App\Domains\Identidad\Application\GestionarCuentas $cuentas,
     ) {}
 
     /** GET /v1/moderacion/casos */
@@ -136,6 +137,8 @@ final class ModeracionController extends Controller
             'presentacion'    => $this->catalogo->presentacion($obs->presentacionId)?->descripcion,
             'establecimiento' => $est?->nombre,
             'estadoConfianza' => $this->evaluaciones->obtener($id)['estado'] ?? null,
+            // Permite ofrecer «suspender al autor» sin revelar quién es (EC-07).
+            'autorConCuenta'  => $this->cuentas->esCuenta($obs->reportadoPor),
         ];
     }
 }
