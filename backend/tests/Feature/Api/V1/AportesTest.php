@@ -65,12 +65,24 @@ describe('POST /v1/observaciones/{id}/confirmaciones (RF-10)', function () {
         confirmar($token, $obs)->assertStatus(409);
     });
 
-    it('solo se confirma el precio más reciente de ese establecimiento: un precio superado da 409', function () {
+    it('solo se confirma el precio que la comparación muestra: uno ya reemplazado da 409', function () {
         $vieja = reportarPrecio($this->bolsa, $this->tienda, '3000', '10.0.0.1', now()->subHours(3)->toIso8601String())->json('observacionId');
         reportarPrecio($this->bolsa, $this->tienda, '3500', '10.0.0.2');
         [, $token] = cuentaCiudadana();
 
         confirmar($token, $vieja)->assertStatus(409);
+    });
+
+    it('se confirma el precio PUBLICADO aunque exista un reporte más nuevo que no lo reemplazó (RN-07)', function () {
+        // Precio corroborado (dos reportantes) y luego un reporte aislado e inconsistente que no lo reemplaza.
+        reportarPrecio($this->bolsa, $this->tienda, '3000', '10.0.0.1', now()->subHours(2)->toIso8601String());
+        reportarPrecio($this->bolsa, $this->tienda, '3050', '10.0.0.2', now()->subHour()->toIso8601String());
+        reportarPrecio($this->bolsa, $this->tienda, '9000', '10.0.0.3');
+        $publicado = itemDeTienda($this->arroz, 'Tienda Don Pepe');
+        expect($publicado['precio'])->not->toBe('9000.00');
+        [, $token] = cuentaCiudadana();
+
+        confirmar($token, $publicado['observacionId'])->assertAccepted();
     });
 
     it('no se puede confirmar un precio invalidado por moderación: 409', function () {
