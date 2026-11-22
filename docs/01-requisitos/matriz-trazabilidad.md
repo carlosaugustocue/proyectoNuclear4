@@ -46,11 +46,11 @@
 | RF-17 | Consulta sin cuenta | — | EC-04 | C-17 | API |
 | RF-18 | Estado de confianza automático | RN-04 a RN-08 | EC-03 | U-04…U-08, I-03 | Confianza |
 | RF-19 | Marcar dudoso | — | EC-03 | C-19 | Confianza |
-| RF-20 | Cola de moderación | — | EC-03 | I-20, S-20 | Moderación |
+| RF-20 | Cola de moderación (incluye suspender cuenta, ADR-0025) | — | EC-03 | I-20, S-20, C-17 | Moderación, Identidad |
 | RF-21 | Límite de reportes | RN-08 | EC-03 | U-08, I-21 | Precios |
-| RF-22 | Autorización de datos | — | EC-07 | S-22 | Identidad |
-| RF-23 | Derechos del titular | — | EC-07 | I-23 | Identidad |
-| RF-24 | Roles | — | EC-07 | C-24 (403 por rol) | Identidad |
+| RF-22 | Autorización de datos | — | EC-07 | S-22, C-19, U-11 | Identidad |
+| RF-23 | Derechos del titular | — | EC-07 | I-23, C-19 | Identidad |
+| RF-24 | Roles | — | EC-07 | C-24 (403 por rol, en `ModeracionTest.php`), U-11 | Identidad |
 | RF-25 | Importar SIPSA | — | — | I-25 (archivo de muestra) | Ingesta |
 | RF-26 | Carga semilla | — | — | I-26 | Ingesta |
 
@@ -96,6 +96,11 @@ Cobertura medida de las líneas del dominio: **97,9 %** (M-13).
 | `OutboxPrecioRegistradoTest.php` | 3 | I-02 parcial (outbox) | RF-18 | EC-02, EC-09 |
 | `ComparacionTest.php` | 21 | C-13, C-06, C-07, I-02, I-03, I-20 parcial | RF-13 a RF-18, RF-20 · RN-01, RN-04 a RN-07, RN-09, RN-10 | EC-02, EC-03, EC-06, EC-07 · M-09, M-10, M-15 |
 | `CorsTest.php` | 2 | — (despliegue) | RF-17 | — (ADR-0013) |
+| `IdentidadTest.php` | 17 | C-19, I-23 | RF-22, RF-23, RN-07 (reporte por cuenta) | EC-07 · M-10 (ADR-0025) |
+| `ModeracionTest.php` | 14 | C-17, C-24, I-20 | RF-20, RF-24 | EC-03, EC-07 (ADR-0025) |
+| `SeguridadTest.php` | 11 | C-18 | RN-05, RN-07, RN-08 (IP real) | EC-03, EC-07 (ADR-0024) |
+
+Pruebas unitarias de Identidad (`backend/tests/Unit/Domains/Identidad/`): **U-11**, con 20 casos. Cubren el correo (normalización, formato y rechazo de caracteres de control, CRLF), la política de contraseña, los roles, la suspensión (un moderador no se suspende desde la moderación) y el seudónimo sin datos personales.
 
 Detalle de lo que verifica `ComparacionTest.php`:
 

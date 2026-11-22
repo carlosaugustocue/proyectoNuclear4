@@ -13,8 +13,9 @@ enum AccionModeracion: string
     case CERRAR_SIN_CAMBIOS    = 'CERRAR_SIN_CAMBIOS';
 
     /** ¿La acción cambia el estado de una observación de precio? */
+    /** Suspender al autor también invalida la observación que originó el caso. */
     public function actuaSobreObservacion(): bool
     {
-        return $this === self::CONFIRMAR_OBSERVACION || $this === self::INVALIDAR_OBSERVACION;
+        return $this !== self::CERRAR_SIN_CAMBIOS;
     }
 }

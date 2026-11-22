@@ -136,3 +136,25 @@ function clavesJson(mixed $valor): array
 
     return array_values(array_unique($claves));
 }
+
+/**
+ * Crea una cuenta (Identidad, ADR-0025), la promueve a MODERADOR y devuelve un token de sesión.
+ * Sustituye al antiguo secreto compartido MODERACION_TOKEN.
+ */
+function tokenDeModerador(string $correo = 'moderador@ejemplo.test'): string
+{
+    $registro = app(\App\Domains\Identidad\Application\GestionarCuentas::class)
+        ->registrar($correo, 'frase-del-moderador-2026', '2026-11');
+    app(\App\Domains\Identidad\Application\GestionarCuentas::class)->promoverAModerador($correo);
+
+    return $registro['token'];
+}
+
+/** Crea una cuenta CIUDADANO y devuelve [cuentaId, token]. @return array{0: string, 1: string} */
+function cuentaCiudadana(string $correo = 'ciudadana@ejemplo.test'): array
+{
+    $registro = app(\App\Domains\Identidad\Application\GestionarCuentas::class)
+        ->registrar($correo, 'frase-de-la-ciudadana-2026', '2026-11');
+
+    return [$registro['cuenta']->id, $registro['token']];
+}

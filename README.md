@@ -84,6 +84,12 @@ equipo con su cuenta:
    - PWA: https://web-production-5b284b25.up.railway.app
    - API: https://api-production-3b3251a9.up.railway.app/v1 (salud: `/up`)
 
+**Moderadores (ADR-0025).** Cada moderador crea su cuenta en la PWA (Perfil → Entra o crea tu cuenta).
+Después, alguien del equipo le asigna el rol desde el servicio api:
+`railway ssh --service api --environment production -- php artisan identidad:moderador <correo>`
+(en local: `docker compose exec api php artisan identidad:moderador <correo>`). Al volver a entrar, la consola de
+moderación (`/moderacion`) queda disponible; no hay credenciales que pegar.
+
 La topología de servicios está declarada como código en [`.railway/railway.ts`](.railway/railway.ts)
 (IaC de Railway, ADR-0020): `railway config plan` muestra las diferencias y `railway config apply` las aplica.
 Las variables y los secretos no se gestionan desde el código: viven solo en Railway.
@@ -129,6 +135,7 @@ Las variables y los secretos no se gestionan desde el código: viven solo en Rai
 | Modelo de confianza explicable: marcar, no borrar | Credibilidad de los datos sin perjudicar a comercios legítimos (EC-03) | [0007](docs/03-arquitectura/adr/0007-modelo-confianza.md) |
 | Neutralidad garantizada por diseño | El orden de la comparación no depende de relaciones comerciales (EC-06) | [0009](docs/03-arquitectura/adr/0009-neutralidad-comparacion.md) |
 | Contenedores en Railway, con AWS Well-Architected como marco | Despliegue reproducible al costo de un equipo académico (R-04) | [0013](docs/03-arquitectura/adr/0013-well-architected-framework-despliegue.md) |
+| Cuentas con consentimiento (Ley 1581), sesión con token opaco solo en memoria y moderadores con cuenta | Responsable en cada decisión de moderación, suspensión de cuentas y reputación por persona (RF-20 a RF-24, EC-07) | [0025](docs/03-arquitectura/adr/0025-identidad-cuentas-sesiones-y-moderadores.md) |
 | Fronteras por contexto verificadas con Deptrac en CI | Que el módulo comercial no altere el núcleo (EC-05, AR-01, AR-02) | [0016](docs/03-arquitectura/adr/0016-nucleo-compartido-y-fronteras-por-contexto.md) |
 
 Modelo de calidad: **ISO/IEC 25010:2023** (producto), **ISO/IEC 25012** (datos) e **ISO/IEC 25040:2024** (evaluación). La justificación frente a McCall, Boehm y FURPS+ está en el [plan de calidad](docs/02-calidad/plan-aseguramiento-calidad.md).

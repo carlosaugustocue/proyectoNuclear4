@@ -1,21 +1,20 @@
 <script setup lang="ts">
 /*
- * Consola de moderación (RF-20, RF-31). La credencial vive solo en memoria (store de moderación).
+ * Consola de moderación (RF-20, RF-31). Se entra con una cuenta de rol MODERADOR (ADR-0025).
  * Las decisiones se registran en la bitácora del servidor (RNF-11); aquí nunca se ve quién reportó.
  */
-import { computed, reactive, ref } from 'vue'
-import { ShieldCheck, ShieldAlert, Store, Copy, Check, LogOut, KeyRound, RefreshCw } from 'lucide-vue-next'
+import { computed, reactive, ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { ShieldCheck, ShieldAlert, Store, Copy, Check, LogIn, RefreshCw } from 'lucide-vue-next'
 import { isAxiosError } from 'axios'
-import { useModeracionStore, LONGITUD_MINIMA_CREDENCIAL } from '@/stores/moderacion'
+import { useSesionStore } from '@/stores/sesion'
 import { decidirCaso, listarCasos, listarPerfiles, verificarPerfil, type AccionModeracion, type CasoModeracion, type PerfilPendiente } from '@/api/moderacion'
 import { mensajeDeError } from '@/api/client'
 import { formatearPesos, tiempoRelativo } from '@/utils/formato'
 
 const MIN_JUSTIFICACION = 10
-const moderacion = useModeracionStore()
-
-const credencial = ref('')
-const errorAcceso = ref<string | null>(null)
+const sesion = useSesionStore()
+const { autenticado, esModerador, cuenta } = storeToRefs(sesion)
 const pestana = ref<'casos' | 'perfiles'>('casos')
 const casos = ref<CasoModeracion[]>([])
 const perfiles = ref<PerfilPendiente[]>([])
@@ -38,46 +37,33 @@ const pestanas = computed(() => [
   { id: 'perfiles' as const, texto: 'Comercios por verificar', total: perfiles.value.length, icono: Store },
 ])
 
-function esNoAutorizado(e: unknown): boolean {
-  return isAxiosError(e) && e.response?.status === 401
+function esProhibido(e: unknown): boolean {
+  return isAxiosError(e) && e.response?.status === 403
 }
 
 async function cargar() {
   cargando.value = true
   errorAccion.value = null
   try {
-    const cab = moderacion.cabeceras()
+    const cab = sesion.cabeceras()
     const [c, p] = await Promise.all([listarCasos(cab), listarPerfiles(cab)])
     casos.value = c.items
     perfiles.value = p.items
   } catch (e) {
-    if (esNoAutorizado(e)) {
-      moderacion.cerrarSesion()
-      errorAcceso.value = 'La credencial de moderación no es válida.'
-    } else {
-      errorAccion.value = mensajeDeError(e)
-    }
+    errorAccion.value = esProhibido(e) ? 'Tu cuenta perdió el rol de moderador.' : mensajeDeError(e)
   } finally {
     cargando.value = false
   }
 }
 
-async function entrar() {
-  errorAcceso.value = null
-  if (!moderacion.iniciarSesion(credencial.value)) {
-    errorAcceso.value = `La credencial debe tener al menos ${LONGITUD_MINIMA_CREDENCIAL} caracteres.`
-    return
+watch(esModerador, (si) => {
+  if (si) void cargar()
+  else {
+    casos.value = []
+    perfiles.value = []
+    credencialEmitida.value = null
   }
-  credencial.value = ''
-  await cargar()
-}
-
-function salir() {
-  moderacion.cerrarSesion()
-  casos.value = []
-  perfiles.value = []
-  credencialEmitida.value = null
-}
+}, { immediate: true })
 
 function justificacionValida(id: string): boolean {
   return (justificaciones[id] ?? '').trim().length >= MIN_JUSTIFICACION
@@ -87,7 +73,7 @@ async function decidir(caso: CasoModeracion, accion: AccionModeracion, texto: st
   enCurso.value = caso.id
   errorAccion.value = null
   try {
-    await decidirCaso(moderacion.cabeceras(), caso.id, accion, (justificaciones[caso.id] ?? '').trim())
+    await decidirCaso(sesion.cabeceras(), caso.id, accion, (justificaciones[caso.id] ?? '').trim())
     casos.value = casos.value.filter((c) => c.id !== caso.id)
     aviso.value = `Caso resuelto: ${texto}. La decisión quedó en la bitácora.`
   } catch (e) {
@@ -101,7 +87,7 @@ async function verificar(perfil: PerfilPendiente) {
   enCurso.value = perfil.perfilId
   errorAccion.value = null
   try {
-    const r = await verificarPerfil(moderacion.cabeceras(), perfil.perfilId)
+    const r = await verificarPerfil(sesion.cabeceras(), perfil.perfilId)
     perfiles.value = perfiles.value.filter((p) => p.perfilId !== perfil.perfilId)
     credencialEmitida.value = { perfilId: r.perfilId, establecimiento: perfil.establecimiento?.nombre ?? '', credencial: r.credencial }
     aviso.value = null
@@ -132,37 +118,23 @@ async function copiar(texto: string, clave: string) {
         </h1>
         <p class="text-xs text-slate-500">Revisa precios dudosos y verifica comercios. Cada decisión queda registrada.</p>
       </div>
-      <button
-        v-if="moderacion.autenticado"
-        type="button"
-        class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-primary-500"
-        @click="salir"
-      >
-        <LogOut class="h-3.5 w-3.5" aria-hidden="true" /> Salir
-      </button>
+      <p v-if="esModerador" class="shrink-0 rounded-full bg-primary-50 px-2 py-1 text-[11px] font-semibold text-primary-700">{{ cuenta?.seudonimo }}</p>
     </div>
 
-    <!-- Acceso -->
-    <form v-if="!moderacion.autenticado" class="rounded-xl border border-slate-200 bg-white p-4" @submit.prevent="entrar">
-      <label for="credencial-moderacion" class="mb-1 flex items-center gap-1.5 text-sm font-semibold text-slate-800">
-        <KeyRound class="h-4 w-4 text-primary-600" aria-hidden="true" /> Credencial de moderación
-      </label>
-      <p class="mb-3 text-xs text-slate-500">Se guarda solo mientras esta pestaña esté abierta.</p>
-      <input
-        id="credencial-moderacion"
-        v-model="credencial"
-        type="password"
-        autocomplete="off"
-        spellcheck="false"
-        class="mb-3 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100"
-        :aria-invalid="errorAcceso !== null"
-        aria-describedby="error-acceso"
-      />
-      <p v-if="errorAcceso" id="error-acceso" class="mb-3 text-xs text-danger-700" role="alert">{{ errorAcceso }}</p>
-      <button type="submit" class="w-full rounded-lg bg-primary-600 py-2.5 text-sm font-semibold text-white hover:bg-primary-700 active:bg-primary-800">
-        Entrar
-      </button>
-    </form>
+    <!-- Acceso: cuenta con rol MODERADOR -->
+    <div v-if="!esModerador" class="rounded-xl border border-slate-200 bg-white p-4" role="status">
+      <p class="mb-3 text-sm text-slate-700">
+        <template v-if="!autenticado">Entra con tu cuenta de moderador para revisar los casos.</template>
+        <template v-else>Tu cuenta no tiene permisos de moderación. El equipo asigna este rol a cuentas verificadas.</template>
+      </p>
+      <router-link
+        v-if="!autenticado"
+        :to="{ path: '/cuenta', query: { volver: '/moderacion' } }"
+        class="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-primary-600 py-2.5 text-sm font-semibold text-white hover:bg-primary-700 active:bg-primary-800"
+      >
+        <LogIn class="h-4 w-4" aria-hidden="true" /> Entrar
+      </router-link>
+    </div>
 
     <template v-else>
       <div class="mb-3 flex items-center gap-2">
@@ -255,6 +227,14 @@ async function copiar(texto: string, clave: string) {
                   :disabled="!justificacionValida(caso.id) || enCurso === caso.id"
                   @click="decidir(caso, 'INVALIDAR_OBSERVACION', 'precio invalidado y retirado de la comparación')"
                 >Invalidar</button>
+                <button
+                  v-if="caso.observacion.autorConCuenta"
+                  type="button"
+                  class="rounded-lg border border-danger-600 px-3 py-1.5 text-xs font-semibold text-danger-700 hover:bg-danger-50 disabled:cursor-not-allowed disabled:opacity-40"
+                  :disabled="!justificacionValida(caso.id) || enCurso === caso.id"
+                  title="Suspende la cuenta del autor, cierra sus sesiones e invalida este precio"
+                  @click="decidir(caso, 'SUSPENDER_CUENTA', 'cuenta del autor suspendida y precio invalidado')"
+                >Suspender al autor</button>
               </template>
               <button
                 type="button"

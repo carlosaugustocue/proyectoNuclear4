@@ -30,7 +30,7 @@ Se adopta **B**:
 2. Un moderador **verifica** el perfil (comprueba por fuera de la plataforma que quien lo pide representa al establecimiento). Al verificarlo, el sistema emite una **credencial de comercio**: un token aleatorio de 40 caracteres que se muestra **una sola vez**. En la base de datos solo se guarda su hash SHA-256.
 3. Cada publicación (precio oficial, promoción, corrección) exige `Authorization: Bearer <credencial>`. La credencial solo autoriza a operar sobre **su** establecimiento (RN-15).
 4. Un moderador puede **revocar** el perfil. Desde ese momento la credencial deja de funcionar y las promociones activas del perfil dejan de mostrarse.
-5. Mientras no exista Identidad, la acción de moderar se protege con una credencial de moderación configurada en el entorno (`MODERACION_TOKEN`), nunca en el repositorio.
+5. Mientras no exista Identidad, la acción de moderar se protege con una credencial de moderación configurada en el entorno (`MODERACION_TOKEN`), nunca en el repositorio. **Reemplazado por ADR-0025 (2026-11-22):** se modera con una cuenta de rol MODERADOR y la variable ya no se usa.
 
 Cuando se construya Identidad, la credencial de comercio se reemplaza por una cuenta con rol `comercio`. Solo cambia el adaptador de autenticación (middleware); el dominio Comercial no cambia, porque recibe el `perfilId` ya resuelto.
 

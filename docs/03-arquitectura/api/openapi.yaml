@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API de la plataforma colaborativa de comparación de precios — Núcleo
-  version: 0.4.0
+  version: 0.5.0
   description: |
     Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
     ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
@@ -15,13 +15,14 @@ info:
     `GET /productos`, `GET /productos/{productoId}`, `GET /establecimientos`,
     `POST /reportes-precio`, `GET /comparaciones` y `GET /comparaciones/resumen`.
     Los demás endpoints (propuestas, confirmaciones, marcas, referencias mayoristas,
-    mis aportes y cuentas) siguen PLANIFICADOS y llevan `x-estado: planificado`. La consola de
-    moderación (`/moderacion/casos`, `/moderacion/perfiles`) y Comercial ya están implementados.
+    mis aportes) siguen PLANIFICADOS y llevan `x-estado: planificado`. La consola de
+    moderación (`/moderacion/casos`, `/moderacion/perfiles`), Comercial e Identidad (`/cuentas`,
+    `/sesiones`; ADR-0025) ya están implementados.
     Límite por IP (ADR-0024): 600 lecturas y 60 escrituras por minuto; al superarlo responde 429
     con Retry-After (Problem Details). Las respuestas incluyen X-RateLimit-Limit y X-RateLimit-Remaining.
-    Mientras no exista el contexto Identidad (ADR-0014), `POST /reportes-precio` acepta
-    solicitudes anónimas: el servidor agrupa los aportes con un seudónimo HMAC interno
-    que nunca se publica (RN-07, EC-07).
+    `POST /reportes-precio` acepta solicitudes anónimas (el servidor agrupa los aportes con un
+    seudónimo HMAC interno que nunca se publica) o con sesión de cuenta, en cuyo caso el aporte
+    queda a nombre de la cuenta (RN-07, EC-07; ADR-0025).
 servers:
   - url: http://localhost:8080/v1
     description: Entorno local (docker compose)
@@ -145,7 +146,8 @@ paths:
         Idempotente mediante `Idempotency-Key` (UUID generado en el cliente al guardar en la cola local).
         Un reintento con la misma clave devuelve 200 con el mismo recurso, sin duplicar (EC-09).
         La evaluación de confianza es asíncrona (ADR-0003): la respuesta indica estado `PENDIENTE_EVALUACION`.
-        Autenticación opcional hasta que exista el contexto Identidad (ADR-0014).
+        Autenticación opcional (ADR-0025): con sesión, el aporte queda a nombre de la cuenta; un token
+        inválido, vencido o de una cuenta suspendida responde 401 (no se degrada a anónimo).
       security: [ {}, { bearerAuth: [] } ]
       parameters:
         - name: Idempotency-Key
@@ -328,7 +330,7 @@ paths:
     post:
       tags: [Comercial, Moderación]
       summary: Verifica un perfil pendiente y emite la credencial de comercio (una sola vez)
-      security: [{ credencialModeracion: [] }]
+      security: [ { bearerAuth: [moderador] } ]
       parameters:
         - { name: perfilId, in: path, required: true, schema: { type: string, format: uuid } }
       responses:
@@ -340,6 +342,7 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/PerfilComercialVerificado' }
         '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
         '404': { $ref: '#/components/responses/Problema' }
         '422': { $ref: '#/components/responses/Problema' }
 
@@ -347,7 +350,7 @@ paths:
     post:
       tags: [Comercial, Moderación]
       summary: Revoca un perfil; su credencial deja de publicar y sus promociones dejan de mostrarse
-      security: [{ credencialModeracion: [] }]
+      security: [ { bearerAuth: [moderador] } ]
       parameters:
         - { name: perfilId, in: path, required: true, schema: { type: string, format: uuid } }
       responses:
@@ -357,6 +360,7 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/EstadoPerfilComercial' }
         '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
         '404': { $ref: '#/components/responses/Problema' }
 
   /comercial/precios-oficiales:
@@ -499,7 +503,8 @@ paths:
       summary: Cola de casos, los más antiguos primero (RF-20)
       description: >-
         Cada caso trae la observación con lo necesario para decidir. Nunca incluye el seudónimo
-        ni datos del reportante (EC-07). Credencial de moderación compartida hasta tener cuentas (ADR-0022).
+        ni datos del reportante (EC-07); `autorConCuenta` solo dice si se puede suspender al autor.
+        Requiere una sesión de cuenta con rol MODERADOR (ADR-0025): sin sesión 401, otro rol 403.
       security: [ { bearerAuth: [moderador] } ]
       parameters:
         - { name: estado, in: query, schema: { type: string, enum: [ABIERTO, RESUELTO], default: ABIERTO } }
@@ -516,6 +521,7 @@ paths:
                   items: { type: array, items: { $ref: '#/components/schemas/CasoModeracion' } }
                   pagina: { $ref: '#/components/schemas/Paginacion' }
         '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
 
   /moderacion/casos/{casoId}/decision:
     post:
@@ -523,8 +529,9 @@ paths:
       summary: Resolver un caso; queda en bitácora (RF-20, RNF-11)
       description: >-
         CONFIRMAR_OBSERVACION y INVALIDAR_OBSERVACION cambian el estado de confianza de la observación
-        y la comparación se actualiza por el flujo normal (ADR-0003). SUSPENDER_CUENTA responde 409
-        hasta que exista el contexto Identidad. Los casos sin observación (CORRECCION_COMERCIO) solo
+        y la comparación se actualiza por el flujo normal (ADR-0003). SUSPENDER_CUENTA suspende la cuenta
+        del autor, cierra sus sesiones e invalida la observación; si el reporte es anónimo responde 409.
+        La bitácora registra el id de la cuenta del moderador. Los casos sin observación (CORRECCION_COMERCIO) solo
         admiten CERRAR_SIN_CAMBIOS.
       security: [ { bearerAuth: [moderador] } ]
       parameters:
@@ -546,6 +553,7 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/CasoModeracion' }
         '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
         '404': { $ref: '#/components/responses/Problema' }
         '409': { $ref: '#/components/responses/Problema' }
         '422': { $ref: '#/components/responses/Problema' }
@@ -584,12 +592,16 @@ paths:
                             direccion: { type: [string, 'null'] }
                   pagina: { $ref: '#/components/schemas/Paginacion' }
         '401': { $ref: '#/components/responses/Problema' }
+        '403': { $ref: '#/components/responses/Problema' }
 
   /cuentas:
     post:
-      x-estado: planificado
       tags: [Cuentas]
-      summary: Crear cuenta con autorización de tratamiento de datos (RF-22)
+      summary: Crear cuenta con autorización de tratamiento de datos (RF-22, Ley 1581)
+      description: >-
+        Guarda la fecha y la versión de la política aceptada. La contraseña se guarda con Argon2id.
+        Devuelve la cuenta (sin datos personales) y abre una sesión. Límite de 10 registros por hora por IP.
+        No hay verificación por correo (sin servicio de correo, R-04; ADR-0025).
       requestBody:
         required: true
         content:
@@ -598,30 +610,120 @@ paths:
               type: object
               required: [correo, contrasena, aceptaTratamientoDatos, versionPolitica]
               properties:
-                correo: { type: string, format: email }
-                contrasena: { type: string, minLength: 10, writeOnly: true }
-                alias: { type: string, maxLength: 30, description: Seudónimo; nunca se muestra junto a sus reportes }
+                correo: { type: string, maxLength: 120, description: 'Sin caracteres de control (GHSA-5vg9-5847-vvmq)' }
+                contrasena: { type: string, minLength: 10, maxLength: 128, writeOnly: true, description: 'No solo números ni contener el correo' }
                 aceptaTratamientoDatos: { type: boolean, const: true }
-                versionPolitica: { type: string, example: '2026-10' }
+                versionPolitica: { type: string, pattern: '^[0-9]{4}-[0-9]{2}$', example: '2026-11' }
       responses:
-        '201': { description: Cuenta creada; se envía correo de verificación }
-        '400': { $ref: '#/components/responses/Problema' }
+        '201':
+          description: Cuenta creada y sesión abierta
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RespuestaSesion' }
         '409': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+        '429': { $ref: '#/components/responses/Problema' }
+
+  /cuentas/yo:
+    get:
+      tags: [Cuentas]
+      summary: Consultar mis datos y mi consentimiento (RF-23)
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Datos del titular
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/CuentaPublica'
+                  - type: object
+                    properties:
+                      correo: { type: string }
+                      estado: { type: string, enum: [ACTIVA, SUSPENDIDA] }
+                      consentimiento:
+                        type: object
+                        properties:
+                          fecha: { type: string, format: date-time }
+                          versionPolitica: { type: string }
+        '401': { $ref: '#/components/responses/Problema' }
+    delete:
+      tags: [Cuentas]
+      summary: Suprimir mi cuenta (RF-23)
+      description: Borra correo, contraseña, consentimiento y sesiones. Los aportes se conservan con un id opaco que ya no identifica a nadie.
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '204': { description: Cuenta suprimida }
+        '401': { $ref: '#/components/responses/Problema' }
+
+  /cuentas/yo/contrasena:
+    put:
+      tags: [Cuentas]
+      summary: Cambiar la contraseña (RF-23); cierra las demás sesiones
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [actual, nueva]
+              properties:
+                actual: { type: string, writeOnly: true }
+                nueva: { type: string, minLength: 10, maxLength: 128, writeOnly: true }
+      responses:
+        '204': { description: Contraseña cambiada }
+        '401': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+
+  /sesiones:
+    post:
+      tags: [Cuentas]
+      summary: Iniciar sesión (ADR-0025)
+      description: >-
+        Mismo 401 si el correo no existe, la contraseña no coincide o la cuenta está suspendida.
+        Límite de 5 intentos por minuto por IP y correo (429).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [correo, contrasena]
+              properties:
+                correo: { type: string }
+                contrasena: { type: string, writeOnly: true }
+      responses:
+        '200':
+          description: Sesión abierta
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/RespuestaSesion' }
+        '401': { $ref: '#/components/responses/Problema' }
+        '429': { $ref: '#/components/responses/Problema' }
+
+  /sesiones/actual:
+    delete:
+      tags: [Cuentas]
+      summary: Cerrar la sesión actual (revoca el token)
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '204': { description: Sesión cerrada }
+        '401': { $ref: '#/components/responses/Problema' }
 
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
+      description: >-
+        Token de sesión opaco de 64 caracteres hexadecimales (256 bits) emitido por POST /sesiones o
+        POST /cuentas. Vence a las 8 horas; el servidor solo guarda su SHA-256 (ADR-0025). El alcance
+        `moderador` exige una cuenta con rol MODERADOR.
     credencialComercio:
       type: http
       scheme: bearer
       description: Credencial de 40 caracteres emitida al verificar el perfil comercial (ADR-0022)
-    credencialModeracion:
-      type: http
-      scheme: bearer
-      description: Secreto MODERACION_TOKEN del entorno mientras Identidad sigue diferida (ADR-0022)
 
   parameters:
     ProductoId: { name: productoId, in: path, required: true, schema: { type: string, format: uuid } }
@@ -1039,6 +1141,25 @@ components:
             presentacion: { type: [string, 'null'] }
             establecimiento: { type: [string, 'null'] }
             estadoConfianza: { type: [string, 'null'], enum: [CONFIABLE, NO_CORROBORADO, POR_VERIFICAR, NO_CONFIABLE, null] }
+            autorConCuenta: { type: boolean, description: 'El autor tiene cuenta y se puede suspender; nunca se dice quién es (EC-07)' }
+
+    CuentaPublica:
+      type: object
+      description: Lo que se puede mostrar de una cuenta, sin datos personales (EC-07)
+      properties:
+        id: { type: string, format: uuid }
+        seudonimo: { type: string, example: Usuario ABCD }
+        rol: { type: string, enum: [CIUDADANO, MODERADOR] }
+
+    RespuestaSesion:
+      type: object
+      properties:
+        cuenta: { $ref: '#/components/schemas/CuentaPublica' }
+        sesion:
+          type: object
+          properties:
+            token: { type: string, pattern: '^[a-f0-9]{64}$' }
+            expiraEn: { type: string, format: date-time }
 
     Paginacion:
       type: object

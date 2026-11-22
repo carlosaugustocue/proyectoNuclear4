@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\DB;
  * C-17: contrato de GET /v1/moderacion/casos, POST /v1/moderacion/casos/{casoId}/decision
  * y GET /v1/moderacion/perfiles. La decisión entra por Confianza (mismo flujo de proyección):
  * Moderación nunca escribe el modelo de lectura de Comparación (AR-01).
+ * ADR-0025: el moderador entra con su cuenta (rol MODERADOR) y la bitácora registra quién decidió.
  */
 
 beforeEach(function () {
-    config(['services.moderacion.token' => 'moderacion-token-de-prueba']);
+    $this->tokenModerador = tokenDeModerador();
 
     $this->arroz    = crearProducto(['nombre' => 'Arroz blanco']);
     $this->bolsa1kg = crearPresentacion($this->arroz, ['descripcion' => 'Bolsa 1 kg', 'cantidad' => '1', 'unidad' => 'KG']);
@@ -20,7 +21,7 @@ beforeEach(function () {
 
 function comoModerador(): \Illuminate\Foundation\Testing\TestCase
 {
-    return test()->withHeaders(['Authorization' => 'Bearer moderacion-token-de-prueba']);
+    return test()->withHeaders(['Authorization' => 'Bearer ' . test()->tokenModerador]);
 }
 
 /** Cinco precios normales y uno atípico: devuelve la observación atípica (POR_VERIFICAR, con caso abierto). */
@@ -42,13 +43,25 @@ function itemDe(string $presentacionId, string $nombre): ?array
 }
 
 describe('C-17 acceso a la moderación', function () {
-    it('sin la credencial de moderación responde 401', function (string $metodo, string $ruta) {
-        $this->json($metodo, $ruta)->assertUnauthorized();
-    })->with([
+    $rutas = [
         ['GET', '/v1/moderacion/casos'],
         ['GET', '/v1/moderacion/perfiles'],
         ['POST', '/v1/moderacion/casos/0190a4c2-0000-7000-8000-000000000000/decision'],
-    ]);
+    ];
+
+    it('sin sesión responde 401', function (string $metodo, string $ruta) {
+        $this->json($metodo, $ruta)->assertUnauthorized();
+    })->with($rutas);
+
+    it('una cuenta CIUDADANO no puede moderar: 403', function (string $metodo, string $ruta) {
+        [, $token] = cuentaCiudadana();
+        $this->withHeaders(['Authorization' => "Bearer {$token}"])->json($metodo, $ruta)->assertForbidden();
+    })->with($rutas);
+
+    it('el antiguo secreto compartido ya no da acceso', function () {
+        config(['services.moderacion.token' => 'secreto-antiguo-compartido']);
+        $this->withHeaders(['Authorization' => 'Bearer secreto-antiguo-compartido'])->getJson('/v1/moderacion/casos')->assertUnauthorized();
+    });
 });
 
 describe('GET /v1/moderacion/casos (RF-20)', function () {
@@ -64,7 +77,8 @@ describe('GET /v1/moderacion/casos (RF-20)', function () {
             ->assertJsonPath('items.0.observacion.precio', '300.00')
             ->assertJsonPath('items.0.observacion.producto', 'Arroz blanco')
             ->assertJsonPath('items.0.observacion.establecimiento', 'Tienda sospechosa')
-            ->assertJsonPath('items.0.observacion.estadoConfianza', 'POR_VERIFICAR');
+            ->assertJsonPath('items.0.observacion.estadoConfianza', 'POR_VERIFICAR')
+            ->assertJsonPath('items.0.observacion.autorConCuenta', false);
     });
 
     it('no expone la identidad del reportante ni siquiera al moderador (EC-07)', function () {
@@ -90,6 +104,7 @@ describe('POST /v1/moderacion/casos/{casoId}/decision (RF-20, RNF-11)', function
             ->and(DB::table('evaluaciones_confianza')->where('observacion_id', $obs)->value('estado'))->toBe('NO_CONFIABLE');
         $this->assertDatabaseHas('decisiones_moderacion', [
             'caso_id' => $caso, 'accion' => 'INVALIDAR_OBSERVACION', 'justificacion' => 'Precio imposible frente al mercado',
+            'moderador' => DB::table('cuentas')->where('correo', 'moderador@ejemplo.test')->value('id'),
         ]);
         $this->assertDatabaseHas('casos_moderacion', ['id' => $caso, 'estado' => 'RESUELTO']);
     });
@@ -127,13 +142,38 @@ describe('POST /v1/moderacion/casos/{casoId}/decision (RF-20, RNF-11)', function
         ])->assertNotFound();
     });
 
-    it('SUSPENDER_CUENTA no está disponible hasta tener cuentas (contexto Identidad)', function () {
+    it('SUSPENDER_CUENTA sobre un reporte anónimo responde 409: no hay cuenta que suspender', function () {
         $caso = DB::table('casos_moderacion')->where('observacion_id', observacionAtipica($this->bolsa1kg))->value('id');
 
         comoModerador()->postJson("/v1/moderacion/casos/{$caso}/decision", [
             'accion' => 'SUSPENDER_CUENTA', 'justificacion' => 'Patrón de reportes falsos',
         ])->assertStatus(409);
         $this->assertDatabaseHas('casos_moderacion', ['id' => $caso, 'estado' => 'ABIERTO']);
+    });
+
+    it('SUSPENDER_CUENTA suspende al autor, cierra sus sesiones e invalida el precio', function () {
+        [$cuentaId, $token] = cuentaCiudadana();
+        foreach (['2950', '3000', '3000', '3050', '3100'] as $i => $precio) {
+            reportarPrecio($this->bolsa1kg, crearEstablecimiento(['nombre' => "Tienda {$i}"]), $precio, "10.0.1.{$i}");
+        }
+        $obs = $this->withHeaders(['Authorization' => "Bearer {$token}", 'Idempotency-Key' => (string) \Illuminate\Support\Str::uuid()])
+            ->postJson('/v1/reportes-precio', [
+                'presentacionId' => $this->bolsa1kg, 'establecimientoId' => crearEstablecimiento(['nombre' => 'Tienda sospechosa']),
+                'precio' => '300', 'observadoEn' => now()->subMinute()->toIso8601String(),
+            ])->assertAccepted()->json('observacionId');
+        $caso = DB::table('casos_moderacion')->where('observacion_id', $obs)->value('id');
+        // La consola sabe que el autor tiene cuenta (para ofrecer «suspender»), pero no quién es (EC-07).
+        $listado = comoModerador()->getJson('/v1/moderacion/casos')->assertJsonPath('items.0.observacion.autorConCuenta', true);
+        expect(json_encode($listado->json()))->not->toContain($cuentaId)->not->toContain('ciudadana@');
+
+        comoModerador()->postJson("/v1/moderacion/casos/{$caso}/decision", [
+            'accion' => 'SUSPENDER_CUENTA', 'justificacion' => 'Patrón de reportes falsos',
+        ])->assertOk()->assertJsonPath('estado', 'RESUELTO');
+
+        expect(DB::table('cuentas')->where('id', $cuentaId)->value('estado'))->toBe('SUSPENDIDA')
+            ->and(DB::table('evaluaciones_confianza')->where('observacion_id', $obs)->value('estado'))->toBe('NO_CONFIABLE');
+        $this->withHeaders(['Authorization' => "Bearer {$token}"])->getJson('/v1/cuentas/yo')->assertUnauthorized();
+        $this->postJson('/v1/sesiones', ['correo' => 'ciudadana@ejemplo.test', 'contrasena' => 'frase-de-la-ciudadana-2026'])->assertUnauthorized();
     });
 
     it('una corrección de comercio solo admite CERRAR_SIN_CAMBIOS (no tiene observación)', function () {

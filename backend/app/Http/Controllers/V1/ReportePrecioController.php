@@ -13,7 +13,10 @@ use Illuminate\Http\JsonResponse;
 
 final class ReportePrecioController extends Controller
 {
-    public function __construct(private readonly RegistrarReportePrecioHandler $handler) {}
+    public function __construct(
+        private readonly RegistrarReportePrecioHandler     $handler,
+        private readonly \App\Http\Middleware\AutenticarCuenta $autenticacion,
+    ) {}
 
     /**
      * POST /v1/reportes-precio — RF-08, RF-09.
@@ -26,7 +29,7 @@ final class ReportePrecioController extends Controller
             establecimientoId: $request->string('establecimientoId')->toString(),
             precio:            $request->string('precio')->toString(),
             observadoEn:       $request->observadoEn(),
-            reportadoPor:      SeudonimoReportante::desde($request->ip(), (string) config('app.key')),
+            reportadoPor:      $this->reportante($request),
             claveIdempotencia: $request->claveIdempotencia(),
         ));
 
@@ -34,5 +37,16 @@ final class ReportePrecioController extends Controller
             ['observacionId' => $resultado->observacionId, 'estado' => 'PENDIENTE_EVALUACION'],
             $resultado->esReintento ? 200 : 202,
         );
+    }
+
+    /**
+     * Con sesión, el reporte queda a nombre de la cuenta (RN-07 por cuenta, ADR-0025); un token
+     * inválido da 401 en lugar de caer en anónimo. Sin sesión, seudónimo HMAC de la IP (RF-22 opcional).
+     */
+    private function reportante(\Illuminate\Http\Request $request): string
+    {
+        return $request->bearerToken() !== null
+            ? $this->autenticacion->cuentaDe($request)->id
+            : SeudonimoReportante::desde($request->ip(), (string) config('app.key'));
     }
 }
