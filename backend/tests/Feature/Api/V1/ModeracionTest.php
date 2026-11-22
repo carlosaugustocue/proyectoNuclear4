@@ -77,7 +77,8 @@ describe('GET /v1/moderacion/casos (RF-20)', function () {
             ->assertJsonPath('items.0.observacion.precio', '300.00')
             ->assertJsonPath('items.0.observacion.producto', 'Arroz blanco')
             ->assertJsonPath('items.0.observacion.establecimiento', 'Tienda sospechosa')
-            ->assertJsonPath('items.0.observacion.estadoConfianza', 'POR_VERIFICAR');
+            ->assertJsonPath('items.0.observacion.estadoConfianza', 'POR_VERIFICAR')
+            ->assertJsonPath('items.0.observacion.autorConCuenta', false);
     });
 
     it('no expone la identidad del reportante ni siquiera al moderador (EC-07)', function () {
@@ -161,6 +162,9 @@ describe('POST /v1/moderacion/casos/{casoId}/decision (RF-20, RNF-11)', function
                 'precio' => '300', 'observadoEn' => now()->subMinute()->toIso8601String(),
             ])->assertAccepted()->json('observacionId');
         $caso = DB::table('casos_moderacion')->where('observacion_id', $obs)->value('id');
+        // La consola sabe que el autor tiene cuenta (para ofrecer «suspender»), pero no quién es (EC-07).
+        $listado = comoModerador()->getJson('/v1/moderacion/casos')->assertJsonPath('items.0.observacion.autorConCuenta', true);
+        expect(json_encode($listado->json()))->not->toContain($cuentaId)->not->toContain('ciudadana@');
 
         comoModerador()->postJson("/v1/moderacion/casos/{$caso}/decision", [
             'accion' => 'SUSPENDER_CUENTA', 'justificacion' => 'Patrón de reportes falsos',
