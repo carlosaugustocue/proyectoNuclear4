@@ -73,3 +73,30 @@ describe('C-18 límite de peticiones por IP', function () {
             ->and(config('seguridad.limite_escrituras_por_minuto'))->toBe(60);
     });
 });
+
+describe('C-18 IP del cliente detrás del proxy de Railway (RN-05, RN-07, RN-08)', function () {
+    /** Reporta como si llegara por el proxy (REMOTE_ADDR interno) con la cabecera X-Forwarded-For dada. */
+    function reportarPorProxy(string $p, string $e, string $xff): ?string
+    {
+        $id = test()->withServerVariables(['REMOTE_ADDR' => '100.64.0.2'])
+            ->withHeaders(['X-Forwarded-For' => $xff, 'Idempotency-Key' => (string) Str::uuid()])
+            ->postJson('/v1/reportes-precio', ['presentacionId' => $p, 'establecimientoId' => $e, 'precio' => '3000', 'observadoEn' => now()->subMinute()->toIso8601String()])
+            ->assertAccepted()->json('observacionId');
+
+        return \Illuminate\Support\Facades\DB::table('registros_precio')->where('id', $id)->value('reportado_por');
+    }
+
+    it('dos clientes distintos detrás del mismo proxy son dos reportantes distintos', function () {
+        $p = crearPresentacion(crearProducto());
+
+        expect(reportarPorProxy($p, crearEstablecimiento(), '203.0.113.7'))
+            ->not->toBe(reportarPorProxy($p, crearEstablecimiento(), '198.51.100.9'));
+    });
+
+    it('un cliente no puede hacerse pasar por otro anteponiendo IPs falsas en X-Forwarded-For', function () {
+        $p = crearPresentacion(crearProducto());
+
+        expect(reportarPorProxy($p, crearEstablecimiento(), '1.1.1.1, 203.0.113.7'))
+            ->toBe(reportarPorProxy($p, crearEstablecimiento(), '203.0.113.7'));
+    });
+});
