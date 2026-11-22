@@ -12,10 +12,8 @@ use Illuminate\Support\Str;
  * I-08: el precio oficial pasa por las mismas reglas de confianza que un reporte (ADR-0015).
  */
 
-const TOKEN_MODERACION = 'moderacion-de-prueba';
-
 beforeEach(function () {
-    config(['services.moderacion.token' => TOKEN_MODERACION]);
+    $this->tokenModerador = tokenDeModerador(); // ADR-0025: el moderador entra con su cuenta
 
     $this->arroz    = crearProducto(['nombre' => 'Arroz blanco', 'tipo_vigencia' => 'ABARROTE']);
     $this->arroz1kg = crearPresentacion($this->arroz, ['descripcion' => 'Bolsa 1 kg', 'cantidad' => '1', 'unidad' => 'KG']);
@@ -32,8 +30,10 @@ function solicitarPerfil(string $establecimientoId)
     ]);
 }
 
-function moderar(string $perfilId, string $accion, ?string $token = TOKEN_MODERACION)
+/** $token: '' = sesión del moderador de la prueba; null = sin credencial; otro valor = credencial inventada. */
+function moderar(string $perfilId, string $accion, ?string $token = '')
 {
+    $token     = $token === '' ? test()->tokenModerador : $token;
     $cabeceras = $token === null ? [] : ['Authorization' => "Bearer {$token}"];
 
     return test()->withHeaders($cabeceras)->postJson("/v1/moderacion/perfiles/{$perfilId}/{$accion}");
