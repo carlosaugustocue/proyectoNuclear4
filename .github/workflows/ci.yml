@@ -136,6 +136,14 @@ jobs:
           docker build -f docker/railway/${{ matrix.servicio }}.Dockerfile \
             --build-arg VITE_API_URL=https://staging.invalid/v1 -t pn4-${{ matrix.servicio }}:${{ github.sha }} .
 
+      - name: Cabeceras de seguridad de la PWA (C-18)
+        if: matrix.servicio == 'web'
+        run: |
+          docker run -d --name pwa-cabeceras -p 18080:8080 pn4-web:${{ github.sha }}
+          for i in $(seq 1 20); do curl -fsS -o /dev/null http://localhost:18080/ && break; sleep 1; done
+          scripts/ci/verificar-cabeceras-web.sh http://localhost:18080 https://staging.invalid
+          docker rm -f pwa-cabeceras
+
       - name: Bloquear si hay CVE CRITICAL con corrección disponible (ADR-0021)
         run: |
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:/repo:ro" "$TRIVY_IMAGE" \
