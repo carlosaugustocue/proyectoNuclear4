@@ -74,6 +74,10 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
       <ChevronRight class="h-4 w-4 text-slate-400" aria-hidden="true" />
     </router-link>
 
+    <router-link to="/moderacion" class="mb-6 -mt-4 flex items-center gap-2 px-1 text-xs font-semibold text-slate-500 hover:text-primary-700">
+      <Shield class="h-3.5 w-3.5" aria-hidden="true" /> Soy moderador
+    </router-link>
+
     <div class="rounded-lg border border-slate-200 bg-white p-4">
       <div class="mb-2 flex items-center gap-2">
         <Shield class="h-4 w-4 text-primary-600" aria-hidden="true" />

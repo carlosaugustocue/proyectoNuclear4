@@ -15,7 +15,8 @@ info:
     `GET /productos`, `GET /productos/{productoId}`, `GET /establecimientos`,
     `POST /reportes-precio`, `GET /comparaciones` y `GET /comparaciones/resumen`.
     Los demás endpoints (propuestas, confirmaciones, marcas, referencias mayoristas,
-    mis aportes, moderación y cuentas) siguen PLANIFICADOS y llevan `x-estado: planificado`.
+    mis aportes y cuentas) siguen PLANIFICADOS y llevan `x-estado: planificado`. La consola de
+    moderación (`/moderacion/casos`, `/moderacion/perfiles`) y Comercial ya están implementados.
     Mientras no exista el contexto Identidad (ADR-0014), `POST /reportes-precio` acepta
     solicitudes anónimas: el servidor agrupa los aportes con un seudónimo HMAC interno
     que nunca se publica (RN-07, EC-07).
@@ -492,9 +493,11 @@ paths:
 
   /moderacion/casos:
     get:
-      x-estado: planificado
       tags: [Moderación]
-      summary: Cola de casos pendientes (RF-20)
+      summary: Cola de casos, los más antiguos primero (RF-20)
+      description: >-
+        Cada caso trae la observación con lo necesario para decidir. Nunca incluye el seudónimo
+        ni datos del reportante (EC-07). Credencial de moderación compartida hasta tener cuentas (ADR-0022).
       security: [ { bearerAuth: [moderador] } ]
       parameters:
         - { name: estado, in: query, schema: { type: string, enum: [ABIERTO, RESUELTO], default: ABIERTO } }
@@ -510,13 +513,17 @@ paths:
                 properties:
                   items: { type: array, items: { $ref: '#/components/schemas/CasoModeracion' } }
                   pagina: { $ref: '#/components/schemas/Paginacion' }
-        '403': { $ref: '#/components/responses/Problema' }
+        '401': { $ref: '#/components/responses/Problema' }
 
   /moderacion/casos/{casoId}/decision:
     post:
-      x-estado: planificado
       tags: [Moderación]
       summary: Resolver un caso; queda en bitácora (RF-20, RNF-11)
+      description: >-
+        CONFIRMAR_OBSERVACION y INVALIDAR_OBSERVACION cambian el estado de confianza de la observación
+        y la comparación se actualiza por el flujo normal (ADR-0003). SUSPENDER_CUENTA responde 409
+        hasta que exista el contexto Identidad. Los casos sin observación (CORRECCION_COMERCIO) solo
+        admiten CERRAR_SIN_CAMBIOS.
       security: [ { bearerAuth: [moderador] } ]
       parameters:
         - { name: casoId, in: path, required: true, schema: { type: string, format: uuid } }
@@ -528,12 +535,53 @@ paths:
               type: object
               required: [accion, justificacion]
               properties:
-                accion: { type: string, enum: [CONFIRMAR_OBSERVACION, INVALIDAR_OBSERVACION, SUSPENDER_CUENTA] }
+                accion: { type: string, enum: [CONFIRMAR_OBSERVACION, INVALIDAR_OBSERVACION, SUSPENDER_CUENTA, CERRAR_SIN_CAMBIOS] }
                 justificacion: { type: string, minLength: 10, maxLength: 500 }
       responses:
-        '200': { description: Caso resuelto }
-        '403': { $ref: '#/components/responses/Problema' }
+        '200':
+          description: Caso resuelto
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CasoModeracion' }
+        '401': { $ref: '#/components/responses/Problema' }
+        '404': { $ref: '#/components/responses/Problema' }
         '409': { $ref: '#/components/responses/Problema' }
+        '422': { $ref: '#/components/responses/Problema' }
+
+  /moderacion/perfiles:
+    get:
+      tags: [Moderación]
+      summary: Perfiles comerciales por estado, para verificarlos (RF-31)
+      description: Sin nombre ni teléfono de contacto (EC-07).
+      security: [ { bearerAuth: [moderador] } ]
+      parameters:
+        - { name: estado, in: query, schema: { type: string, enum: [PENDIENTE, VERIFICADO, REVOCADO], default: PENDIENTE } }
+        - $ref: '#/components/parameters/Pagina'
+        - $ref: '#/components/parameters/Tamano'
+      responses:
+        '200':
+          description: Perfiles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        perfilId: { type: string, format: uuid }
+                        estado: { type: string, enum: [PENDIENTE, VERIFICADO, REVOCADO] }
+                        solicitadoEn: { type: string, format: date-time }
+                        establecimiento:
+                          type: [object, 'null']
+                          properties:
+                            id: { type: string, format: uuid }
+                            nombre: { type: string }
+                            direccion: { type: [string, 'null'] }
+                  pagina: { $ref: '#/components/schemas/Paginacion' }
+        '401': { $ref: '#/components/responses/Problema' }
 
   /cuentas:
     post:
@@ -973,12 +1021,22 @@ components:
       type: object
       properties:
         id: { type: string, format: uuid }
-        origen: { type: string, enum: [ANOMALIA_AUTOMATICA, MARCA_USUARIO] }
-        observacionId: { type: string, format: uuid }
-        detalle: { type: string, example: 'Puntaje z modificado = -5,2 frente a mediana $3.000' }
-        reputacionReportante: { type: string, enum: [NUEVA, REGULAR, ALTA], description: Visible solo para moderadores }
-        abiertoEn: { type: string, format: date-time }
+        origen: { type: string, enum: [ANOMALIA_AUTOMATICA, MARCA_USUARIO, CORRECCION_COMERCIO] }
         estado: { type: string, enum: [ABIERTO, RESUELTO] }
+        detalle: { type: [string, 'null'], example: 'Precio 300.00 atípico frente a otros reportes de la presentación' }
+        abiertoEn: { type: string, format: date-time }
+        observacionId: { type: [string, 'null'], format: uuid, description: null en casos sin observación (CORRECCION_COMERCIO) }
+        observacion:
+          type: [object, 'null']
+          description: Contexto para decidir; nunca incluye el seudónimo del reportante (EC-07)
+          properties:
+            precio: { $ref: '#/components/schemas/Dinero' }
+            observadoEn: { type: string, format: date-time }
+            fuente: { type: string }
+            producto: { type: [string, 'null'] }
+            presentacion: { type: [string, 'null'] }
+            establecimiento: { type: [string, 'null'] }
+            estadoConfianza: { type: [string, 'null'], enum: [CONFIABLE, NO_CORROBORADO, POR_VERIFICAR, NO_CONFIABLE, null] }
 
     Paginacion:
       type: object
