@@ -90,9 +90,10 @@ describe('POST /v1/sesiones y DELETE /v1/sesiones/actual (ADR-0025)', function (
     it('guarda solo el hash del token y vence a las 8 horas', function () {
         registrar();
         $token = iniciarSesion()->json('sesion.token');
-        $sesion = DB::table('sesiones')->first();
+        $sesion = DB::table('sesiones')->where('token_hash', hash('sha256', $token))->first();
 
-        expect($sesion->token_hash)->toBe(hash('sha256', $token))
+        expect($sesion)->not->toBeNull()
+            ->and(json_encode(DB::table('sesiones')->get()))->not->toContain($token)
             ->and(abs(strtotime($sesion->expira_en) - strtotime('+8 hours')))->toBeLessThan(60);
 
         $this->travel(8)->hours();

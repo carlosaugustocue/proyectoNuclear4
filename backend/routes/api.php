@@ -51,5 +51,15 @@ Route::prefix('v1')->middleware('throttle:api-por-ip')->group(function () {
         Route::post('correcciones', [\App\Http\Controllers\V1\Comercial\PublicacionComercialController::class, 'correccion']);
     });
 
+    // ── Identidad (RF-22 a RF-24, ADR-0025) ────────────────────────────
+    Route::post('cuentas', [\App\Http\Controllers\V1\Identidad\CuentaController::class, 'registrar'])->middleware('throttle:registro-cuentas');
+    Route::post('sesiones', [\App\Http\Controllers\V1\Identidad\SesionController::class, 'iniciar'])->middleware('throttle:inicio-sesion');
+    Route::middleware(\App\Http\Middleware\AutenticarCuenta::class)->group(function () {
+        Route::delete('sesiones/actual', [\App\Http\Controllers\V1\Identidad\SesionController::class, 'cerrar']);
+        Route::get('cuentas/yo', [\App\Http\Controllers\V1\Identidad\CuentaController::class, 'yo']);
+        Route::put('cuentas/yo/contrasena', [\App\Http\Controllers\V1\Identidad\CuentaController::class, 'cambiarContrasena']);
+        Route::delete('cuentas/yo', [\App\Http\Controllers\V1\Identidad\CuentaController::class, 'suprimir']);
+    });
+
     Route::post('canastas/comparacion', [\App\Http\Controllers\V1\CanastaController::class, 'comparar']);
 });

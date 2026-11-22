@@ -2,11 +2,6 @@
 
 return [
 
-    // ADR-0022: secreto de moderación mientras Identidad sigue diferida. Nunca en el repositorio.
-    'moderacion' => [
-        'token' => env('MODERACION_TOKEN'),
-    ],
-
 
     /*
     |--------------------------------------------------------------------------

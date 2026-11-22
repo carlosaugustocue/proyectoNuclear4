@@ -51,7 +51,9 @@ deptrac:
     # Moderación abre casos a partir de ConfianzaEvaluada.
     Moderacion:       [Compartido, Confianza]
 
-    Identidad:        [Compartido]
+    # Identidad (ADR-0025) implementa el puerto SuspensionDeCuentas de Moderación y lee el autor
+    # de una observación por la interfaz pública de Precios. Nadie del núcleo depende de Identidad.
+    Identidad:        [Compartido, Precios, Moderacion]
     Ingesta:          [Compartido, Catalogo, Establecimientos, Precios]
 
     # Canasta (Anexo 1, A1; ADR-0017): solo usa la interfaz pública de Comparación. NO incluye Comercial (AR-02).
@@ -65,4 +67,4 @@ deptrac:
     Http:      [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
     Providers: [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
     # Comandos de medición de calidad (pruebas-calidad/): adaptador de entrada, como Http.
-    Console:   [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion]
+    Console:   [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad]

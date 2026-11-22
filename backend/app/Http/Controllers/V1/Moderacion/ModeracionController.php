@@ -30,8 +30,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 final class ModeracionController extends Controller
 {
-    /** Hasta tener cuentas (contexto Identidad) la credencial de moderación es compartida. */
-    private const MODERADOR = 'moderacion';
     private const TAMANO_MAXIMO = 50;
 
     public function __construct(
@@ -70,7 +68,7 @@ final class ModeracionController extends Controller
         ]);
 
         try {
-            $caso = $this->resolver->resolver($casoId, AccionModeracion::from((string) $datos['accion']), (string) $datos['justificacion'], self::MODERADOR);
+            $caso = $this->resolver->resolver($casoId, AccionModeracion::from((string) $datos['accion']), (string) $datos['justificacion'], \App\Http\Middleware\AutenticarCuenta::de($request)->id);
         } catch (CasoNoEncontradoException $e) {
             throw new NotFoundHttpException($e->getMessage(), $e);
         } catch (DecisionNoAplicableException $e) {

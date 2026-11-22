@@ -54,6 +54,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(EvaluacionesRepositorio::class, PgEvaluacionesRepositorio::class);
         $this->app->bind(ModeloLecturaComparacion::class, PgModeloLecturaComparacion::class);
         $this->app->bind(CasosModeracion::class, PgCasosModeracion::class);
+        $this->app->bind(\App\Domains\Moderacion\Domain\Ports\SuspensionDeCuentas::class, \App\Domains\Identidad\Infrastructure\SuspensionDeCuentasIdentidad::class);
+        // Identidad (ADR-0025)
+        $this->app->bind(\App\Domains\Identidad\Domain\Repositories\Cuentas::class, \App\Domains\Identidad\Infrastructure\Persistence\PgCuentas::class);
+        $this->app->bind(\App\Domains\Identidad\Domain\Repositories\Sesiones::class, \App\Domains\Identidad\Infrastructure\Persistence\PgSesiones::class);
     }
 
     /**
@@ -77,6 +81,11 @@ class AppServiceProvider extends ServiceProvider
      */
     private function configurarLimitesDePeticiones(): void
     {
+        // ADR-0025: fuerza bruta contra contraseñas (por IP y correo) y creación masiva de cuentas (por IP).
+        RateLimiter::for('inicio-sesion', static fn (Request $r) => Limit::perMinute(5)
+            ->by('sesion|' . $r->ip() . '|' . mb_strtolower(trim((string) $r->input('correo')))));
+        RateLimiter::for('registro-cuentas', static fn (Request $r) => Limit::perHour(10)->by('registro|' . $r->ip()));
+
         RateLimiter::for('api-por-ip', static function (Request $request): Limit {
             $esLectura = $request->isMethodSafe() || $request->is('v1/canastas/comparacion');
 
