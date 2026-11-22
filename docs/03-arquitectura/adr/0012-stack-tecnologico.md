@@ -118,3 +118,21 @@ Lo instalado difiere de esta decisión en un punto, que queda registrado en luga
 - **Dexie.js sí está instalado** (`frontend/package.json`) y respalda la cola offline de reportes
   (`frontend/src/offline/colaReportes.ts`, EC-09).
 - **Cobertura:** el driver pcov se agregó a `docker/php/Dockerfile`; el CI exige `--min=80` (M-13).
+
+## Nota de revisión (2026-11-22): Laravel 11 sin soporte de seguridad, riesgo aceptado
+
+**Hechos.** Laravel 11 dejó de recibir parches de seguridad en marzo de 2026. Trivy (ADR-0021) reporta una vulnerabilidad HIGH en `laravel/framework` 11.x:
+
+| Aviso | Qué es | Corregida en |
+|---|---|---|
+| [GHSA-5vg9-5847-vvmq](https://github.com/advisories/GHSA-5vg9-5847-vvmq) | Inyección CRLF en la regla de validación `email` | 12.60.0 y 13.10.0 |
+
+No hay ninguna CRITICAL abierta, que es lo que bloquea el pipeline (M-20).
+
+**Decisión: no actualizar a Laravel 12 en este semestre; el riesgo se acepta.** Razones:
+- **Horizonte corto.** La plataforma es académica y se usa hasta la sustentación (~2 semanas), sin usuarios reales ni datos personales reales (R-04).
+- **Costo frente a beneficio.** Una actualización mayor toca dependencias, configuración y comportamiento. Ese tiempo se dedica a lo que falta del corte 3: Identidad y las evaluaciones ATAM y 25040.
+- **Impacto acotado.** La API no envía correos, así que un salto de línea en un correo no llega a ninguna cabecera SMTP. El contexto Identidad, que es el único que valida correos, **no usa la regla `email` de Laravel**: usa una regla propia que rechaza caracteres de control (`\r`, `\n` y similares), con prueba automatizada.
+- **Mitigaciones generales:** cabeceras de seguridad, límite por IP e IP real del cliente (ADR-0024); escaneo de imágenes y secretos en cada PR (ADR-0021).
+
+**Si el sistema siguiera en producción**, la acción sería actualizar a Laravel 12.60 o superior (o a 13.x) como tarea propia, con la suite completa como red de seguridad: 268 pruebas, PHPStan nivel 8 y Deptrac. La decisión se revisa si aparece una CRITICAL sin corrección dentro de la rama 11.x.
