@@ -117,6 +117,12 @@ watch([productoId, orden, incluirNoVigentes], cargar, { immediate: true })
                 <Store class="h-3 w-3" aria-hidden="true" />
                 {{ TIPO_ESTABLECIMIENTO[item.establecimiento.tipo] ?? item.establecimiento.tipo }}<template v-if="item.establecimiento.barrio"> · {{ item.establecimiento.barrio }}</template>
               </p>
+              <router-link
+                :to="{ name: 'establecimientos', query: { vista: 'mapa', id: item.establecimiento.id } }"
+                class="mt-0.5 inline-flex items-center gap-1 text-[11px] font-semibold text-primary-700 hover:underline focus-visible:outline-2 focus-visible:outline-primary-500"
+              >
+                <MapPin class="h-3 w-3" aria-hidden="true" /> Ver en el mapa<span class="sr-only">: {{ item.establecimiento.nombre }}</span>
+              </router-link>
             </div>
           </div>
           <div class="text-right">
