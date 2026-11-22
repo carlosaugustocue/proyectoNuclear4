@@ -2,6 +2,7 @@
 
 - Estado: Propuesto
 - Ampliado por: ADR-0023 (Comercial también puede depender de Comparación y Moderación; ningún contexto depende de Comercial) y ADR-0022 (credencial de comercio mientras Identidad sigue diferida)
+- Identidad implementada en: ADR-0025 (cuentas con consentimiento, sesiones y moderadores con cuenta)
 - Fecha: 2026-11-16
 - Escenarios relacionados: EC-05, EC-06, EC-07
 

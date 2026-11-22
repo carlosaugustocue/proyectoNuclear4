@@ -53,7 +53,7 @@ Nada de esto va en el repositorio. Los tokens no se pegan en chats ni en issues.
 Procedimiento original, por si hay que recrear staging (y nota de costo):
 Duplicar api, worker, web y postgres consume crédito del plan Hobby. Si el límite de US$10 no alcanza, se aplica la contingencia de ADR-0020: staging en el servidor del equipo.
 1. Crear el entorno: `railway environment new staging --duplicate production`, o desde el panel. Para recrear la topología: `railway config apply` (`.railway/railway.ts`).
-2. En staging, cargar las variables de cada servicio (como en producción, con valores propios): `APP_KEY`, `DB_*`, `MODERACION_TOKEN`, y `VITE_API_URL` en `web`.
+2. En staging, cargar las variables de cada servicio (como en producción, con valores propios): `APP_KEY`, `DB_*` y `VITE_API_URL` en `web`. (`MODERACION_TOKEN` dejó de usarse con ADR-0025: los moderadores entran con su cuenta.)
 3. Generar un ***project token* por entorno** (Project Settings → Tokens): uno limitado a `staging` y otro a `production`.
 
 ### 2.2 GitHub (Settings del repositorio)
