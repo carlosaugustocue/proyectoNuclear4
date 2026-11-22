@@ -25,7 +25,10 @@ use App\Domains\Precios\Domain\Repositories\ResolutorPresentaciones;
 use App\Domains\Precios\Infrastructure\Catalogo\ResolutorPresentacionesCatalogo;
 use App\Domains\Precios\Infrastructure\Persistence\EloquentRegistroPrecioRepository;
 use App\Domains\Precios\Infrastructure\Persistence\PgObservacionesLectura;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -64,5 +67,22 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(PrecioRegistrado::class, EvaluarConfianzaAlRegistrarPrecio::class);
         Event::listen(ConfianzaEvaluada::class, ProyectarComparacionAlEvaluarConfianza::class);
         Event::listen(ConfianzaEvaluada::class, AbrirCasoAlEvaluarConfianza::class);
+
+        $this->configurarLimitesDePeticiones();
+    }
+
+    /**
+     * C-18: cupos por IP del cliente, separados para lecturas y escrituras (una IP que agota sus
+     * escrituras puede seguir consultando). Comparar una canasta es una consulta aunque use POST.
+     */
+    private function configurarLimitesDePeticiones(): void
+    {
+        RateLimiter::for('api-por-ip', static function (Request $request): Limit {
+            $esLectura = $request->isMethodSafe() || $request->is('v1/canastas/comparacion');
+
+            return $esLectura
+                ? Limit::perMinute((int) config('seguridad.limite_lecturas_por_minuto'))->by('lectura|' . $request->ip())
+                : Limit::perMinute((int) config('seguridad.limite_escrituras_por_minuto'))->by('escritura|' . $request->ip());
+        });
     }
 }

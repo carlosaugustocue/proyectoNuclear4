@@ -17,6 +17,8 @@ info:
     Los demás endpoints (propuestas, confirmaciones, marcas, referencias mayoristas,
     mis aportes y cuentas) siguen PLANIFICADOS y llevan `x-estado: planificado`. La consola de
     moderación (`/moderacion/casos`, `/moderacion/perfiles`) y Comercial ya están implementados.
+    Límite por IP (ADR-0024): 600 lecturas y 60 escrituras por minuto; al superarlo responde 429
+    con Retry-After (Problem Details). Las respuestas incluyen X-RateLimit-Limit y X-RateLimit-Remaining.
     Mientras no exista el contexto Identidad (ADR-0014), `POST /reportes-precio` acepta
     solicitudes anónimas: el servidor agrupa los aportes con un seudónimo HMAC interno
     que nunca se publica (RN-07, EC-07).
