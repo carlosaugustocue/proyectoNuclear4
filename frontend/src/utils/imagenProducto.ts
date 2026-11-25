@@ -28,6 +28,11 @@ export function ilustracionDe(categoria: string): Ilustracion {
   return ILUSTRACIONES[normalizar(categoria)] ?? GENERICA
 }
 
+/** Fotos empacadas con la PWA (frontend/public/productos/): solo nombres simples en minúsculas, .webp. */
+const FOTO_LOCAL = /^\/productos\/[a-z0-9-]+\.webp$/
+
+/** Solo se cargan fotos por HTTPS o las empacadas con la app; cualquier otra cosa usa la ilustración. */
 export function urlSegura(url: string | null | undefined): string | null {
-  return typeof url === 'string' && url.startsWith('https://') ? url : null
+  if (typeof url !== 'string') return null
+  return url.startsWith('https://') || FOTO_LOCAL.test(url) ? url : null
 }

@@ -25,4 +25,13 @@ describe('imagen del producto', () => {
     expect(urlSegura('http://x.example/a.jpg')).toBeNull()
     expect(urlSegura(undefined)).toBeNull()
   })
+
+  it('acepta las fotos empacadas con la app (rutas locales de /productos/) y nada más', () => {
+    expect(urlSegura('/productos/lulo.webp')).toBe('/productos/lulo.webp')
+    expect(urlSegura('/productos/papa-criolla-limpia.webp')).toBe('/productos/papa-criolla-limpia.webp')
+    expect(urlSegura('//evil.example/productos/a.webp')).toBeNull()
+    expect(urlSegura('/productos/../index.html')).toBeNull()
+    expect(urlSegura('/otra/carpeta/a.webp')).toBeNull()
+    expect(urlSegura('/productos/a.svg')).toBeNull()
+  })
 })

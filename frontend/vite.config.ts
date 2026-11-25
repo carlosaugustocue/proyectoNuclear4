@@ -57,6 +57,17 @@ export default defineConfig({
             },
           },
           {
+            // Fotos de productos empacadas con la app (Wikimedia Commons): se guardan al verlas, no al instalar
+            // la PWA, para no descargar ~3 MB de golpe.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.startsWith('/productos/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'fotos-locales-productos',
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
             // Fotos de productos (Open Food Facts): no cambian; se guardan para verlas sin conexión.
             urlPattern: /^https:\/\/images\.openfoodfacts\.org\/.*/i,
             handler: 'CacheFirst',

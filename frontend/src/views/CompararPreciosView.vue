@@ -66,6 +66,8 @@ watch([productoId, orden, incluirNoVigentes], cargar, { immediate: true })
       <div class="min-w-0">
         <h1 id="titulo-comparar" class="text-2xl font-bold leading-tight text-slate-900">{{ resultado?.producto.nombre ?? 'Comparación de precios' }}</h1>
         <p v-if="resultado" class="text-sm text-slate-500">{{ resultado.producto.marca ?? resultado.producto.categoria }}</p>
+        <!-- Crédito de la foto (licencias CC BY / CC BY-SA): visible donde la foto se ve en detalle -->
+        <p v-if="resultado?.producto.imagen?.credito" class="mt-0.5 text-[11px] leading-tight text-slate-500">{{ resultado.producto.imagen.credito }}</p>
       </div>
     </div>
 
