@@ -163,11 +163,23 @@ Detalle de lo que verifica `ComparacionTest.php`:
 | Identificador | Qué falta | Corte |
 |---|---|---|
 | I-02 con reloj controlado | Medir la latencia cambio → retiro como vigente (M-02, EC-02) | 3 |
-| S-09 | E2E en navegador con modo avión simulado (Playwright) | 3 |
 | K-01 | Carga con k6: 500 usuarios, p95 ≤ 2 s (EC-04) | 3 |
-| US-01, A-01, A-02 | Repetición de la prueba de usabilidad y reporte axe exportado (EC-01, EC-08) | 2–3 (evidencia del equipo) |
+| US-01, A-02 | Repetición de la prueba de usabilidad y revisión manual con lector de pantalla (EC-01, EC-08). A-01 ya es automática (§4.6) | 2–3 (evidencia del equipo) |
 | Conjunto etiquetado de ≥ 200 reportes | Exhaustividad y falsos positivos de RN-06 (M-03, M-04) | 3 |
 | C-03, C-12, C-19, C-24, I-04, I-07, I-23, I-25, I-26 | Endpoints aún planificados en `openapi.yaml` (`x-estado: planificado`) | 3 |
+
+### 4.6 Pruebas de sistema y accesibilidad automática (corte 3) — `e2e/`, job `e2e` del CI
+
+Corren contra las imágenes de Railway con la semilla (`docker-compose.e2e.yml`). Evidencia: [`evidencias/sistema-accesibilidad/`](../02-calidad/evidencias/sistema-accesibilidad/README.md).
+
+| Prueba | Archivo | Requisitos | Escenario / medida | Estado |
+|---|---|---|---|---|
+| S-08 | `s08-registrar-precio.spec.ts` | RF-08, RN-08 | EC-01 | ✅ |
+| S-09 | `s09-registro-sin-conexion.spec.ts` | RF-09 | EC-09 · M-12 = 1, 0 duplicados (incluye la respuesta perdida) | ✅ |
+| S-10 | `s10-confirmar-marcar.spec.ts` | RF-10, RF-12, RF-19, RN-10 | EC-03, EC-06 | ✅ |
+| S-11 | `s15-comparacion.spec.ts` | RF-11 | EC-07 | ✅ |
+| S-15 | `s15-comparacion.spec.ts` | RF-13, RF-15, RN-10 | EC-06, EC-07 | ✅ |
+| A-01 | `a01-accesibilidad.spec.ts` (+ Mis aportes en S-10) | RNF-08 | EC-08 · M-11 = 0 en 17 pantallas | ✅ |
 
 > **Nota:** la matriz se actualiza en cada corte. En el corte 3 se agregan las filas del módulo comercial (RF-C01…).
 
