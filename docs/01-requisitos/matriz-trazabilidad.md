@@ -243,3 +243,24 @@ Ver [`analisis-impacto-modulo-comercial.md`](../03-arquitectura/analisis-impacto
 | C-06 (ampliada) | Contrato | Publicar una promoción no cambia `items` ni su orden en `GET /v1/comparaciones` (AR-02, M-09) |
 | I-08 | Integración | El precio oficial se guarda con fuente `COMERCIO`; es `CONFIABLE` solo si un reporte de otro autor lo corrobora (≤ 5 %), queda `NO_CORROBORADO` si no, y `POR_VERIFICAR` con caso de moderación si es atípico (ADR-0015, M-22) |
 | AR-01 / AR-02 | Arquitectura | Deptrac: Comercial solo depende de `[Compartido, Catalogo, Establecimientos, Precios, Comparacion, Moderacion]`; ningún contexto depende de Comercial |
+
+## Resultados de la evaluación del corte 3 (2026-11-25)
+
+Cierra la cadena requisito → escenario → prueba → **resultado**. Detalle y evidencia en el
+[informe de evaluación de calidad](../02-calidad/informe-evaluacion-calidad.md) (`main` @ `f4c84a7`).
+
+| Escenario | Pruebas que lo verifican | Medidas | Resultado | Veredicto |
+|---|---|---|---|---|
+| EC-01 | US-01 | M-01 | 62,5 % (corte 2; rediseño del PR #26 sin volver a medir) | ❌ |
+| EC-02 | I-02 | M-02 | p95 1,35 s | ✅ |
+| EC-03 | U-04 a U-07, conjunto etiquetado (5 semillas) | M-03, M-04 | 0,86 · 0,075 (peor caso) | 🟡 |
+| EC-04 | K-01 | M-05, M-06 | p95 26,4 s · 12,9 % de errores | ❌ |
+| EC-05 | AR-01, AR-02, revisión de los PR #12 y #13 | M-07, M-08 | 0 cambios estructurales · horas reales por registrar | ✅ / ⏳ |
+| EC-06 | U-10, C-06, AR-02 | M-09 | 1 | ✅ |
+| EC-07 | C-07, D-06 | M-10 | 0 campos · 0/23 columnas | ✅ |
+| EC-08 | A-01 | M-11 | 0 violaciones A/AA | ✅ |
+| EC-09 | S-09 | M-12 | 3/3, 0 duplicados | ✅ |
+| EC-10 | U-01 a U-16, CI | M-13, M-14 | 99,6 % del dominio · 0 hallazgos críticos · PR #27 bloqueado | ✅ |
+| EC-11 | U-11 a U-13, C-14, C-15, K-02 | M-16, M-17 | p95 8,4 s · 5264/5264 | 🟡 |
+| EC-12 | S-12 a S-14, PR #27 y #28 | M-18 a M-21 | 2/2 · mediana 4 min 48 s · 0 CVE · reversión sin ensayar | 🟡 |
+| Datos (25012) | D-01 a D-06 | M-15, M-22 | 0/521 vencidos · 100 % completitud y trazabilidad · 0 duplicados · D-05 sin datos | ✅ |
