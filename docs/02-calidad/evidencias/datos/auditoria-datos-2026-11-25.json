@@ -1,0 +1,71 @@
+{
+    "generadoEn": "2026-11-25T18:28:49+00:00",
+    "medidas": [
+        {
+            "id": "D-01",
+            "medida": "M-15",
+            "caracteristica": "Actualidad (ISO\/IEC 25012)",
+            "numerador": 0,
+            "denominador": 521,
+            "valor": 0,
+            "umbral": "= 0",
+            "cumple": true,
+            "detalle": {
+                "fueraDePlazoConAdvertencia": 29
+            }
+        },
+        {
+            "id": "D-02",
+            "medida": null,
+            "caracteristica": "Completitud (ISO\/IEC 25012)",
+            "numerador": 130,
+            "denominador": 130,
+            "valor": 1,
+            "umbral": "= 1",
+            "cumple": true
+        },
+        {
+            "id": "D-03",
+            "medida": null,
+            "caracteristica": "Trazabilidad (ISO\/IEC 25012)",
+            "numerador": 737,
+            "denominador": 737,
+            "valor": 1,
+            "umbral": "= 1",
+            "cumple": true
+        },
+        {
+            "id": "D-04",
+            "medida": null,
+            "caracteristica": "Consistencia (ISO\/IEC 25012)",
+            "numerador": 0,
+            "denominador": 126,
+            "valor": 0,
+            "umbral": "≤ 0,02",
+            "cumple": true
+        },
+        {
+            "id": "D-05",
+            "medida": "M-22",
+            "caracteristica": "Credibilidad (precio oficial) (ISO\/IEC 25012)",
+            "numerador": 0,
+            "denominador": 0,
+            "valor": null,
+            "umbral": "≤ 0,10",
+            "cumple": null
+        },
+        {
+            "id": "D-06",
+            "medida": "M-10",
+            "caracteristica": "Confidencialidad (ISO\/IEC 25012)",
+            "numerador": 0,
+            "denominador": 23,
+            "valor": 0,
+            "umbral": "= 0 columnas",
+            "cumple": true,
+            "detalle": {
+                "columnas": []
+            }
+        }
+    ]
+}
