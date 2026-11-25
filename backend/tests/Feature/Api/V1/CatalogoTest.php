@@ -112,6 +112,18 @@ describe('Imagen del producto (fotos con licencia libre y crédito visible)', fu
             ->assertJsonPath('items.1.imagen', null);
     });
 
+    it('expone las fotos empacadas con la PWA como ruta local /productos/ y rechaza cualquier otra ruta', function () {
+        crearProducto(['nombre' => 'Lulo', 'imagen_url' => '/productos/lulo.webp', 'imagen_credito' => 'Foto: X, Wikimedia Commons (CC0)']);
+        crearProducto(['nombre' => 'Mora', 'imagen_url' => '/productos/../index.html', 'imagen_credito' => 'x']);
+        crearProducto(['nombre' => 'Naranja', 'imagen_url' => '//evil.example/productos/a.webp', 'imagen_credito' => 'x']);
+
+        $this->getJson('/v1/productos?q=lulo')->assertOk()
+            ->assertJsonPath('items.0.imagen.url', '/productos/lulo.webp')
+            ->assertJsonPath('items.0.imagen.credito', 'Foto: X, Wikimedia Commons (CC0)');
+        $this->getJson('/v1/productos?q=mora')->assertOk()->assertJsonPath('items.0.imagen', null);
+        $this->getJson('/v1/productos?q=naranja')->assertOk()->assertJsonPath('items.0.imagen', null);
+    });
+
     it('la comparación incluye la imagen del producto', function () {
         $id = crearProducto(['imagen_url' => 'https://images.openfoodfacts.org/a.jpg', 'imagen_credito' => 'Open Food Facts · CC BY-SA 3.0']);
         crearPresentacion($id);
