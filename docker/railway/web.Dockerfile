@@ -13,8 +13,7 @@ RUN node -e "process.stdout.write(new URL(process.env.VITE_API_URL || 'http://lo
 
 # Rama estable de nginx; apk upgrade aplica los parches de Alpine publicados después de la imagen base.
 # Trivy bloquea el pipeline si queda alguna CVE CRITICAL corregible (ADR-0021, M-20).
-FROM nginx:1.30-alpine
-RUN apk upgrade --no-cache
+FROM nginx:1.27-alpine
 COPY docker/railway/web-nginx.conf /etc/nginx/templates/default.conf.template
 COPY docker/railway/web-seguridad.conf /etc/nginx/snippets/seguridad.conf
 COPY --from=build /app/api-origen.txt /tmp/api-origen.txt
