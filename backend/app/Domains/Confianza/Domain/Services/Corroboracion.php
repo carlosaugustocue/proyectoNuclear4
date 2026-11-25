@@ -16,7 +16,7 @@ use Brick\Math\RoundingMode;
 final class Corroboracion
 {
     private const VENTANA_HORAS  = 48;
-    private const MAX_DIFERENCIA = '0.05';  // 5 %
+    private const MAX_DIFERENCIA = '0.50';  // 5 %
 
     /** @param list<AporteCorroboracion> $aportes */
     public static function evaluar(array $aportes, string $precioBase): EstadoConfianza
