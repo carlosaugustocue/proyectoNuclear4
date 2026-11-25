@@ -18,7 +18,7 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
     <p class="mb-6 text-xs text-slate-500">Puedes consultar y reportar precios sin crear una cuenta.</p>
 
     <!-- Cola offline (EC-09) -->
-    <section class="mb-6 rounded-xl border border-slate-200 bg-white p-4" aria-labelledby="titulo-cola">
+    <section class="mb-6 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70" aria-labelledby="titulo-cola">
       <div class="mb-2 flex items-center justify-between">
         <h2 id="titulo-cola" class="flex items-center gap-2 text-sm font-semibold text-slate-800">
           <CloudOff class="h-4 w-4 text-primary-600" aria-hidden="true" />
@@ -57,7 +57,7 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
       </ul>
     </section>
 
-    <router-link to="/cuenta" class="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40">
+    <router-link to="/cuenta" class="mb-6 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70 transition hover:ring-primary-300 hover:bg-primary-50/40">
       <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full" :class="autenticado ? 'bg-primary-100' : 'bg-slate-100'">
         <User class="h-6 w-6" :class="autenticado ? 'text-primary-700' : 'text-slate-500'" aria-hidden="true" />
       </div>
@@ -74,7 +74,7 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
       <ChevronRight class="h-4 w-4 text-slate-400" aria-hidden="true" />
     </router-link>
 
-    <router-link v-if="autenticado" to="/mis-aportes" class="mb-6 -mt-3 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40">
+    <router-link v-if="autenticado" to="/mis-aportes" class="mb-6 -mt-3 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70 transition hover:ring-primary-300 hover:bg-primary-50/40">
       <ListChecks class="h-5 w-5 text-primary-600" aria-hidden="true" />
       <span class="flex-1">
         <span class="block text-sm font-semibold text-slate-800">Mis aportes</span>
@@ -83,7 +83,7 @@ const enEspera = computed(() => pendientes.value.filter((r) => r.estado === 'pen
       <ChevronRight class="h-4 w-4 text-slate-400" aria-hidden="true" />
     </router-link>
 
-    <router-link to="/comercio" class="mb-6 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-primary-300 hover:bg-primary-50/40">
+    <router-link to="/comercio" class="mb-6 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70 transition hover:ring-primary-300 hover:bg-primary-50/40">
       <Store class="h-5 w-5 text-primary-600" aria-hidden="true" />
       <span class="flex-1">
         <span class="block text-sm font-semibold text-slate-800">¿Tienes un comercio?</span>

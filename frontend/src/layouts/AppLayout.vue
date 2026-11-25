@@ -6,7 +6,7 @@ import TopBar from '@/components/TopBar.vue'
 <template>
   <div class="flex min-h-dvh flex-col bg-surface">
     <TopBar />
-    <main class="mx-auto w-full max-w-2xl flex-1 px-4 pb-20 pt-4">
+    <main class="mx-auto w-full max-w-2xl flex-1 px-4 pb-28 pt-5">
       <slot />
     </main>
     <BottomTabBar />

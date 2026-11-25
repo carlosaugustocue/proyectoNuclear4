@@ -149,8 +149,8 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
         <div v-for="est in establecimientos" :key="est.id">
           <button
             type="button"
-            class="flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm transition-colors"
-            :class="form.establecimientoId === est.id ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'"
+            class="flex w-full items-center justify-between rounded-2xl px-4 py-3.5 text-left text-sm transition duration-200 active:scale-[0.99]"
+            :class="form.establecimientoId === est.id ? 'bg-primary-50 text-primary-800 ring-2 ring-primary-600 shadow-tarjeta' : 'bg-white text-slate-800 shadow-tarjeta ring-1 ring-slate-200/70 hover:ring-slate-300'"
             role="radio"
             :aria-checked="form.establecimientoId === est.id"
             @click="form.establecimientoId = est.id"
@@ -177,8 +177,8 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
         <div v-for="prod in productos" :key="prod.id">
           <button
             type="button"
-            class="w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors"
-            :class="form.productoId === prod.id ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'"
+            class="w-full rounded-2xl px-4 py-3.5 text-left text-sm transition duration-200 active:scale-[0.99]"
+            :class="form.productoId === prod.id ? 'bg-primary-50 text-primary-800 ring-2 ring-primary-600 shadow-tarjeta' : 'bg-white text-slate-800 shadow-tarjeta ring-1 ring-slate-200/70 hover:ring-slate-300'"
             role="radio"
             :aria-checked="form.productoId === prod.id"
             @click="elegirProducto(prod.id)"
@@ -199,7 +199,7 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
               role="radio"
               :aria-checked="form.presentacionId === p.id"
               class="rounded-full border px-3 py-1 text-xs font-semibold"
-              :class="form.presentacionId === p.id ? 'border-primary-600 bg-primary-600 text-white' : 'border-slate-300 bg-white text-slate-700'"
+              :class="form.presentacionId === p.id ? 'border-primary-700 bg-primary-700 text-white' : 'border-slate-300 bg-white text-slate-700 hover:border-slate-400'"
               @click="form.presentacionId = p.id"
             >{{ describirPresentacion(p) }}</button>
           </div>
@@ -211,7 +211,7 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
       <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
         <DollarSign class="h-4 w-4 text-primary-600" aria-hidden="true" /> ¿Cuál es el precio?
       </p>
-      <div class="rounded-xl border border-slate-200 bg-white p-4">
+      <div class="rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70">
         <label for="precio" class="mb-1 block text-xs font-medium text-slate-500">Precio en pesos de {{ presentacion && describirPresentacion(presentacion) }}</label>
         <input
           id="precio"
@@ -232,7 +232,7 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
 
     <div v-else-if="paso === 4">
       <p class="mb-3 text-sm font-semibold text-slate-700">Confirma tu reporte</p>
-      <dl class="space-y-2 rounded-xl border border-slate-200 bg-white p-4 text-sm">
+      <dl class="space-y-2 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70 text-sm">
         <div class="flex justify-between"><dt class="text-slate-500">Establecimiento</dt><dd class="font-semibold text-slate-800">{{ establecimiento?.nombre }}</dd></div>
         <div class="flex justify-between"><dt class="text-slate-500">Producto</dt><dd class="font-semibold text-slate-800">{{ detalle?.nombre }}</dd></div>
         <div class="flex justify-between"><dt class="text-slate-500">Presentación</dt><dd class="font-semibold text-slate-800">{{ presentacion && describirPresentacion(presentacion) }}</dd></div>
@@ -240,13 +240,13 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
       </dl>
     </div>
 
-    <div v-if="!desenlace" class="mt-6 flex gap-3">
-      <button v-if="paso > 1" type="button" class="flex-1 rounded-xl border border-slate-200 py-3 text-sm font-semibold text-slate-600 hover:bg-slate-50" @click="paso--">Atrás</button>
+    <div v-if="!desenlace" class="sticky bottom-[calc(5rem+env(safe-area-inset-bottom))] z-30 -mx-4 mt-6 flex gap-3 bg-gradient-to-t from-surface via-surface/95 to-surface/0 px-4 pb-2 pt-6">
+      <button v-if="paso > 1" type="button" class="h-12 flex-1 rounded-xl bg-white text-sm font-semibold text-slate-700 shadow-tarjeta ring-1 ring-slate-200 transition hover:bg-slate-50 active:scale-[0.98]" @click="paso--">Atrás</button>
       <button
         v-if="paso < TOTAL_PASOS"
         type="button"
-        class="flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-semibold text-white transition-colors"
-        :class="puedeAvanzar ? 'bg-primary-600 hover:bg-primary-700' : 'cursor-not-allowed bg-slate-400'"
+        class="flex h-12 flex-[2] items-center justify-center gap-1.5 rounded-xl text-sm font-bold transition active:scale-[0.98]"
+        :class="puedeAvanzar ? 'bg-primary-700 text-white shadow-flotante hover:bg-primary-800' : 'cursor-not-allowed bg-slate-200 text-slate-500'"
         :disabled="!puedeAvanzar"
         @click="paso++"
       >
@@ -255,7 +255,7 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
       <button
         v-else
         type="button"
-        class="flex-1 rounded-xl bg-success-700 py-3 text-sm font-semibold text-white hover:bg-success-500"
+        class="h-12 flex-[2] rounded-xl bg-accent-400 text-sm font-bold text-slate-900 shadow-flotante transition hover:bg-accent-300 active:scale-[0.98]"
         :disabled="enviando"
         :aria-busy="enviando"
         @click="confirmar"

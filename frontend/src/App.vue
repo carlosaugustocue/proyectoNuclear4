@@ -9,6 +9,10 @@ onMounted(() => reportes.iniciar())
 
 <template>
   <AppLayout>
-    <router-view />
+    <router-view v-slot="{ Component, route }">
+      <transition name="vista" mode="out-in">
+        <component :is="Component" :key="route.path" />
+      </transition>
+    </router-view>
   </AppLayout>
 </template>

@@ -16,8 +16,8 @@ export default defineConfig({
         name: 'Comparador de Precios – Armenia',
         short_name: 'Precios Armenia',
         description: 'Plataforma colaborativa de comparación de precios en Armenia, Quindío',
-        theme_color: '#1a56db',
-        background_color: '#ffffff',
+        theme_color: '#0c5c63',
+        background_color: '#f7f4ee',
         display: 'standalone',
         start_url: '/',
         icons: [

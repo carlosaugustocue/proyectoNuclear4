@@ -124,7 +124,7 @@ function fecha(iso: string): string {
         </button>
       </div>
 
-      <form class="space-y-3 rounded-xl border border-slate-200 bg-white p-4" novalidate @submit.prevent="enviar">
+      <form class="space-y-3 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70" novalidate @submit.prevent="enviar">
         <div>
           <label for="correo" class="mb-1 block text-sm font-semibold text-slate-800">Correo</label>
           <input
@@ -179,7 +179,7 @@ function fecha(iso: string): string {
 
     <!-- Con sesión: datos del titular (RF-23) -->
     <template v-else>
-      <div class="mb-4 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4">
+      <div class="mb-4 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70">
         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-100 text-sm font-bold text-primary-700" aria-hidden="true">
           {{ cuenta?.seudonimo.slice(-4) }}
         </div>
@@ -207,7 +207,7 @@ function fecha(iso: string): string {
         <template v-if="datos">Autorizaste el tratamiento de datos el {{ fecha(datos.consentimiento.fecha) }} (política {{ datos.consentimiento.versionPolitica }}).</template>
       </p>
 
-      <form class="mb-4 space-y-3 rounded-xl border border-slate-200 bg-white p-4" @submit.prevent="guardarContrasena">
+      <form class="mb-4 space-y-3 rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70" @submit.prevent="guardarContrasena">
         <h2 class="flex items-center gap-1.5 text-sm font-semibold text-slate-800"><KeyRound class="h-4 w-4 text-primary-600" aria-hidden="true" /> Cambiar contraseña</h2>
         <label class="block text-xs font-semibold text-slate-700">Contraseña actual
           <input v-model="cambio.actual" type="password" autocomplete="current-password" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100" />
@@ -224,7 +224,7 @@ function fecha(iso: string): string {
         </button>
       </form>
 
-      <section class="rounded-xl border border-slate-200 bg-white p-4" aria-labelledby="titulo-borrar">
+      <section class="rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70" aria-labelledby="titulo-borrar">
         <h2 id="titulo-borrar" class="mb-1 flex items-center gap-1.5 text-sm font-semibold text-danger-700"><Trash2 class="h-4 w-4" aria-hidden="true" /> Eliminar mi cuenta</h2>
         <p class="mb-3 text-xs text-slate-500">
           Borramos tu correo, tu contraseña y tu autorización. Los precios que reportaste se conservan, pero ya no

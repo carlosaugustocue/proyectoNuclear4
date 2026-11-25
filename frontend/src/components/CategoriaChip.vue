@@ -6,10 +6,10 @@ defineEmits<{ click: [] }>()
 <template>
   <button
     type="button"
-    class="flex shrink-0 items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors"
+    class="flex h-9 shrink-0 items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition duration-200 active:scale-95"
     :class="activa
-      ? 'border-primary-600 bg-primary-600 text-white'
-      : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'"
+      ? 'bg-slate-900 text-white shadow-tarjeta'
+      : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50 hover:ring-slate-300'"
     :aria-pressed="activa"
     @click="$emit('click')"
   >

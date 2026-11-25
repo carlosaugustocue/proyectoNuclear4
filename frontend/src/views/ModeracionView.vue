@@ -122,7 +122,7 @@ async function copiar(texto: string, clave: string) {
     </div>
 
     <!-- Acceso: cuenta con rol MODERADOR -->
-    <div v-if="!esModerador" class="rounded-xl border border-slate-200 bg-white p-4" role="status">
+    <div v-if="!esModerador" class="rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70" role="status">
       <p class="mb-3 text-sm text-slate-700">
         <template v-if="!autenticado">Entra con tu cuenta de moderador para revisar los casos.</template>
         <template v-else>Tu cuenta no tiene permisos de moderación. El equipo asigna este rol a cuentas verificadas.</template>
@@ -189,7 +189,7 @@ async function copiar(texto: string, clave: string) {
           No hay precios por revisar.
         </p>
         <ul class="space-y-3">
-          <li v-for="caso in casos" :key="caso.id" class="rounded-xl border border-slate-200 bg-white p-4">
+          <li v-for="caso in casos" :key="caso.id" class="rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70">
             <div class="mb-2 flex items-start justify-between gap-3">
               <div>
                 <p class="text-[11px] font-semibold uppercase tracking-wide text-warning-700">{{ ETIQUETA_ORIGEN[caso.origen] }}</p>
@@ -253,7 +253,7 @@ async function copiar(texto: string, clave: string) {
           No hay comercios esperando verificación.
         </p>
         <ul class="space-y-3">
-          <li v-for="perfil in perfiles" :key="perfil.perfilId" class="rounded-xl border border-slate-200 bg-white p-4">
+          <li v-for="perfil in perfiles" :key="perfil.perfilId" class="rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70">
             <p class="text-sm font-semibold text-slate-800">{{ perfil.establecimiento?.nombre ?? 'Establecimiento desconocido' }}</p>
             <p class="text-xs text-slate-500">{{ perfil.establecimiento?.direccion }} · solicitado {{ tiempoRelativo(perfil.solicitadoEn) }}</p>
             <div class="my-2 flex items-center gap-2">

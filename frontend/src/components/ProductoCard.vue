@@ -15,6 +15,11 @@ const desde = computed(() =>
     ? precioPorUnidadTexto(props.resumen.precioPorUnidadMin, props.resumen.unidadBase)
     : null,
 )
+/* «$5.450/kg» → cifra «$5.450» y unidad «/kg», para dar jerarquía al número (ui-ux: el precio por unidad manda). */
+const partes = computed(() => {
+  const [cifra, unidad] = (desde.value ?? '').split('/')
+  return { cifra, unidad: unidad ? `/${unidad}` : '' }
+})
 const tiendas = computed(() => props.resumen?.establecimientos ?? 0)
 const etiqueta = computed(() =>
   desde.value
@@ -26,28 +31,36 @@ const etiqueta = computed(() =>
 <template>
   <router-link
     :to="{ name: 'comparar', params: { productoId: producto.id } }"
-    class="group block rounded-xl border border-slate-200 bg-white p-3 transition-shadow hover:shadow-md"
+    class="group flex h-full flex-col rounded-2xl bg-white p-2.5 shadow-tarjeta ring-1 ring-slate-200/70 transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-elevada hover:ring-primary-200 active:scale-[0.98]"
     :aria-label="etiqueta"
   >
-    <ImagenProducto class="mb-2" :categoria="producto.categoria" :imagen="producto.imagen" con-credito />
-
-    <p class="truncate text-sm font-semibold text-slate-800 group-hover:text-primary-700">
-      {{ producto.nombre }}
-    </p>
-    <p class="text-xs text-slate-500">{{ producto.marca ?? producto.categoria }}</p>
-
-    <template v-if="desde">
-      <p class="mt-1.5 text-sm font-bold text-primary-700">
-        <span class="font-normal text-slate-500">desde</span> {{ desde }}
-      </p>
-      <p v-if="resumen?.precioMin" class="text-[11px] text-slate-500">
-        presentación más económica {{ formatearPesos(resumen.precioMin) }}
-      </p>
-      <div class="mt-1 flex items-center gap-1 text-xs text-slate-500">
-        <Store class="h-3 w-3" aria-hidden="true" />
+    <div class="relative">
+      <ImagenProducto :categoria="producto.categoria" :imagen="producto.imagen" con-credito />
+      <span
+        v-if="desde"
+        class="absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-semibold text-slate-700 shadow-sm"
+      >
+        <Store class="h-3 w-3 text-primary-600" aria-hidden="true" />
         {{ tiendas }} {{ tiendas === 1 ? 'tienda' : 'tiendas' }}
+      </span>
+    </div>
+
+    <div class="mt-2.5 flex flex-1 flex-col px-1 pb-0.5">
+      <p class="line-clamp-2 text-sm font-semibold leading-snug text-slate-900 group-hover:text-primary-700">
+        {{ producto.nombre }}
+      </p>
+      <p class="truncate text-xs text-slate-500">{{ producto.marca ?? producto.categoria }}</p>
+
+      <div v-if="desde" class="mt-auto pt-2">
+        <p class="text-[11px] font-medium uppercase tracking-wide text-slate-500">desde</p>
+        <p class="cifra text-xl font-bold leading-none text-slate-900">
+          {{ partes.cifra }}<span class="text-sm font-semibold text-slate-500">{{ partes.unidad }}</span>
+        </p>
+        <p v-if="resumen?.precioMin" class="mt-1 text-[11px] text-slate-500">
+          o {{ formatearPesos(resumen.precioMin) }} la presentación más económica
+        </p>
       </div>
-    </template>
-    <p v-else class="mt-1.5 text-xs text-slate-500">Sin precios vigentes · ¡sé el primero en reportar!</p>
+      <p v-else class="mt-auto pt-2 text-xs font-medium text-primary-700">Sin precios aún · reporta el primero</p>
+    </div>
   </router-link>
 </template>
