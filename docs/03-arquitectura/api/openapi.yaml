@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API de la plataforma colaborativa de comparación de precios — Núcleo
-  version: 0.7.0
+  version: 0.7.1
   description: |
     Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
     ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
@@ -851,14 +851,15 @@ components:
         categoria: { type: string, example: Abarrotes }
         imagen:
           description: >-
-            Foto del producto con licencia libre y su crédito, que el cliente debe mostrar. Solo https.
+            Foto del producto con licencia libre y su crédito, que el cliente debe mostrar. Es una URL https
+            o la ruta de una foto empacada con la PWA (`/productos/<nombre>.webp`, relativa al origen de la PWA).
             null cuando no hay foto: el cliente muestra una ilustración de la categoría.
           oneOf:
             - type: 'null'
             - type: object
               required: [url]
               properties:
-                url: { type: string, format: uri, pattern: '^https://' }
+                url: { type: string, format: uri-reference, pattern: '^(https://|/productos/[a-z0-9-]+\.webp$)', example: /productos/lulo.webp }
                 credito: { type: [string, 'null'], example: 'Foto: Open Food Facts (CC BY-SA 3.0)' }
 
     Producto:

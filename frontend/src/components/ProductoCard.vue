@@ -35,7 +35,7 @@ const etiqueta = computed(() =>
     :aria-label="etiqueta"
   >
     <div class="relative">
-      <ImagenProducto :categoria="producto.categoria" :imagen="producto.imagen" con-credito />
+      <ImagenProducto :categoria="producto.categoria" :imagen="producto.imagen" />
       <span
         v-if="desde"
         class="absolute left-1.5 top-1.5 inline-flex items-center gap-1 rounded-full bg-white/95 px-2 py-0.5 text-[11px] font-semibold text-slate-700 shadow-sm"

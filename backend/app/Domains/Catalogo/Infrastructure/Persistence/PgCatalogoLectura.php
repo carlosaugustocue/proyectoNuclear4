@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 final class PgCatalogoLectura implements CatalogoLectura
 {
+    /** Fotos empacadas con la PWA (frontend/public/productos/); ver el comando catalogo:imagenes. */
+    private const PATRON_FOTO_LOCAL = '#^/productos/[a-z0-9-]+\\.webp$#';
+
     private const COLUMNAS_RESUMEN = ['id', 'nombre', 'marca', 'categoria', 'imagen_url', 'imagen_credito'];
 
     public function buscar(?string $texto, ?string $ean, ?string $categoria, int $pagina, int $tamano): array
@@ -102,15 +105,18 @@ final class PgCatalogoLectura implements CatalogoLectura
     }
 
     /**
-     * Solo URLs https: descarta javascript:, data: y http (contenido mixto). Sin foto → null y el
-     * cliente muestra la ilustración de la categoría.
+     * Solo URLs https o las fotos empacadas con la PWA (`/productos/<nombre>.webp`, servidas por el
+     * contenedor web): descarta javascript:, data:, http (contenido mixto) y rutas arbitrarias.
+     * Sin foto → null y el cliente muestra la ilustración de la categoría.
      *
      * @return array{url: string, credito: ?string}|null
      */
     private static function imagenDe(\stdClass $f): ?array
     {
         $url = isset($f->imagen_url) ? (string) $f->imagen_url : '';
-        if (! str_starts_with($url, 'https://') || filter_var($url, FILTER_VALIDATE_URL) === false) {
+        $esHttps = str_starts_with($url, 'https://') && filter_var($url, FILTER_VALIDATE_URL) !== false;
+        $esFotoLocal = preg_match(self::PATRON_FOTO_LOCAL, $url) === 1;
+        if (! $esHttps && ! $esFotoLocal) {
             return null;
         }
 
