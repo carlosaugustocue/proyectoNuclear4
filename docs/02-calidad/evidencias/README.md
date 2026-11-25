@@ -1,5 +1,7 @@
 # Evidencia primaria de la prueba de usabilidad (Cal. E4) y de accesibilidad (EC-08)
 
+> **Repetición del corte 3 (US-02, M-01 y M-23 SUS):** carpeta [`prueba-usuarios-corte3/`](prueba-usuarios-corte3/README.md), con el [kit](../kit-prueba-usuarios-corte3.md).
+
 > Esta carpeta debe contener los registros **originales** de la prueba descrita en
 > [protocolo-prueba-usabilidad.md](../protocolo-prueba-usabilidad.md). Solo el equipo puede aportarlos:
 > no se deben reconstruir ni completar a posteriori. Si algún registro no existe, hay que decirlo en el

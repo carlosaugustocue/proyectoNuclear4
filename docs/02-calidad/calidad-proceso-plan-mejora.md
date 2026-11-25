@@ -109,7 +109,7 @@ Ese último riesgo es el más importante para la sustentación.
 | P-1 | Servir la API con php-fpm + nginx o FrankenPHP y registrar el ADR del servidor de aplicaciones | M-05, M-06, M-16 (I-13) | **Alta** | Miguel | K-01 con p95 ≤ 2 s y < 1 % de errores; K-02 con p95 ≤ 3 s |
 | P-2 | Índice de cobertura y, si hace falta, vista materializada por municipio para la canasta | M-16 | Media | Miguel | K-02 en umbral |
 | P-3 | Recalibrar RN-06 (MAD y ventana) con datos reales; que la moderación registre «descuento» como causa | M-04 (I-15) | Alta, tras la Fase 1 | Sofía | M-04 ≤ 0,05 en las 5 semillas y en datos reales |
-| P-4 | Repetir la prueba de usabilidad con ≥ 8 personas sobre la PWA rediseñada | M-01 (I-16) | **Alta** | Sofía | M-01 ≥ 0,80 |
+| P-4 | Repetir la prueba con ≥ 8 personas sobre la PWA rediseñada, con el kit del corte 3 (tareas cronometradas y SUS) | M-01 (I-16), M-23 | **Alta** | Sofía | M-01 ≥ 0,80 y M-23 ≥ 68 |
 | P-5 | Promover a producción el catálogo SIPSA y medir D-05/M-22 cuando haya comercios reales | M-22 | Media | Equipo | D-05 con datos |
 | P-6 | Pasar los ADR Propuestos a Aceptado, o registrar por qué siguen así | Trazabilidad | Media | Miguel | 0 ADR sin decisión del equipo |
 
