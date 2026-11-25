@@ -154,7 +154,7 @@ final class AuditarCalidadDatos extends Command
     private function confidencialidad(): array
     {
         $columnas = array_map(
-            static fn (object $c): string => "{$c->table_name}.{$c->column_name}",
+            static fn (\stdClass $c): string => "{$c->table_name}.{$c->column_name}",
             DB::select(
                 <<<'SQL'
                     SELECT table_name, column_name
