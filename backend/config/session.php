@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
+    'driver' => env('SESSION_DRIVER', 'array'), // la API no usa sesiones de Laravel; no persistir IP ni user agent (R-01, EC-07)
 
     /*
     |--------------------------------------------------------------------------
