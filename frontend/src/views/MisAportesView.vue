@@ -40,7 +40,7 @@ watch([autenticado, pagina], ([si]) => { if (si) void cargar(); else datos.value
       <h1 id="titulo-aportes" class="text-lg font-bold text-slate-900">Mis aportes</h1>
     </div>
 
-    <div v-if="!autenticado" class="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700" role="status">
+    <div v-if="!autenticado" class="rounded-2xl bg-white p-4 shadow-tarjeta ring-1 ring-slate-200/70 text-sm text-slate-700" role="status">
       <p class="mb-3">Entra con tu cuenta para ver tus reportes y tu reputación.</p>
       <router-link :to="{ path: '/cuenta', query: { volver: '/mis-aportes' } }" class="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-primary-600 py-2.5 text-sm font-semibold text-white hover:bg-primary-700">
         <LogIn class="h-4 w-4" aria-hidden="true" /> Entrar

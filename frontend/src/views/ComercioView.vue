@@ -155,7 +155,7 @@ const boton = 'rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-wh
       <p v-if="elegido" class="mt-1 text-xs text-success-700">Elegido: {{ elegido.nombre }}</p>
 
       <div class="mt-4 grid gap-4 sm:grid-cols-2">
-        <form class="rounded-xl border border-slate-200 bg-white p-3" aria-labelledby="titulo-solicitar" @submit.prevent="enviarSolicitud">
+        <form class="rounded-2xl bg-white p-3 shadow-tarjeta ring-1 ring-slate-200/70" aria-labelledby="titulo-solicitar" @submit.prevent="enviarSolicitud">
           <h2 id="titulo-solicitar" class="mb-2 text-sm font-semibold text-slate-800">1. Solicitar perfil</h2>
           <label for="contacto" class="text-xs text-slate-600">Nombre de contacto (privado)</label>
           <input id="contacto" v-model="solicitud.nombreContacto" required maxlength="120" :class="campo" />
@@ -168,7 +168,7 @@ const boton = 'rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-wh
           <p v-if="errorSolicitud" class="mt-2 text-xs text-danger-700" role="alert">{{ errorSolicitud }}</p>
         </form>
 
-        <form class="rounded-xl border border-slate-200 bg-white p-3" aria-labelledby="titulo-entrar" @submit.prevent="entrar">
+        <form class="rounded-2xl bg-white p-3 shadow-tarjeta ring-1 ring-slate-200/70" aria-labelledby="titulo-entrar" @submit.prevent="entrar">
           <h2 id="titulo-entrar" class="mb-2 text-sm font-semibold text-slate-800">2. Ya tengo credencial</h2>
           <label for="credencial" class="text-xs text-slate-600">Credencial de comercio</label>
           <input id="credencial" v-model="credencial" type="password" autocomplete="off" :class="campo" />
@@ -207,7 +207,7 @@ const boton = 'rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-wh
       </ul>
 
       <div class="mt-4 space-y-4">
-        <form class="rounded-xl border border-slate-200 bg-white p-3" aria-labelledby="titulo-precio" @submit.prevent="enviarPrecio">
+        <form class="rounded-2xl bg-white p-3 shadow-tarjeta ring-1 ring-slate-200/70" aria-labelledby="titulo-precio" @submit.prevent="enviarPrecio">
           <h2 id="titulo-precio" class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-800"><Tag class="h-4 w-4" aria-hidden="true" /> Precio oficial</h2>
           <div class="flex gap-2">
             <label class="sr-only" for="presentacion">Presentación</label>
@@ -220,7 +220,7 @@ const boton = 'rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-wh
           <button type="submit" :class="[boton, 'mt-3']" :disabled="!puedePublicar || !precio.presentacionId">Publicar precio</button>
         </form>
 
-        <form class="rounded-xl border border-slate-200 bg-white p-3" aria-labelledby="titulo-promo" @submit.prevent="enviarPromocion">
+        <form class="rounded-2xl bg-white p-3 shadow-tarjeta ring-1 ring-slate-200/70" aria-labelledby="titulo-promo" @submit.prevent="enviarPromocion">
           <h2 id="titulo-promo" class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-800"><Megaphone class="h-4 w-4" aria-hidden="true" /> Promoción</h2>
           <label for="tipo" class="text-xs text-slate-600">Tipo</label>
           <select id="tipo" v-model="promo.tipo" :class="campo">
@@ -250,7 +250,7 @@ const boton = 'rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-wh
           </ul>
         </form>
 
-        <form class="rounded-xl border border-slate-200 bg-white p-3" aria-labelledby="titulo-correccion" @submit.prevent="enviarCorreccion">
+        <form class="rounded-2xl bg-white p-3 shadow-tarjeta ring-1 ring-slate-200/70" aria-labelledby="titulo-correccion" @submit.prevent="enviarCorreccion">
           <h2 id="titulo-correccion" class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-800"><MessageSquareWarning class="h-4 w-4" aria-hidden="true" /> Corregir información de mi negocio</h2>
           <label for="detalle" class="sr-only">Qué hay que corregir</label>
           <textarea id="detalle" v-model="correccion" rows="3" minlength="10" maxlength="150" required :class="campo" placeholder="Ej.: la dirección cambió a…" />

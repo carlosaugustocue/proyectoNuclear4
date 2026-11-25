@@ -110,9 +110,13 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
     </ul>
     <p class="sr-only" aria-live="polite">{{ aviso }}</p>
 
-    <p v-if="!canasta.items.length" class="mb-4 rounded-lg border border-dashed border-slate-300 p-4 text-center text-sm text-slate-500">
-      Tu canasta está vacía. Busca productos para agregarlos.
-    </p>
+    <div v-if="!canasta.items.length" class="mb-4 rounded-3xl border-2 border-dashed border-slate-300 bg-white/60 px-6 py-8 text-center">
+      <span class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-accent-100 text-slate-900">
+        <ShoppingBasket class="h-7 w-7" aria-hidden="true" />
+      </span>
+      <p class="mt-3 font-display text-lg font-bold text-slate-900">Tu canasta está vacía</p>
+      <p class="mx-auto mt-1 max-w-[30ch] text-sm text-slate-600">Agrega los productos de tu mercado y te decimos en qué tienda sale más barato todo junto.</p>
+    </div>
     <ul v-else class="mb-4 space-y-2" aria-label="Productos de la canasta">
       <li v-for="item in canasta.items" :key="item.productoId" class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white p-2">
         <span class="flex-1 text-sm font-medium text-slate-800">{{ item.nombre }}</span>
@@ -167,7 +171,7 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
         Ningún establecimiento tiene precios vigentes para los productos de tu canasta.
       </p>
       <ol class="space-y-3">
-        <li v-for="e in resultado.establecimientos" :key="e.establecimiento.id" class="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+        <li v-for="e in resultado.establecimientos" :key="e.establecimiento.id" class="rounded-2xl bg-white p-3 shadow-tarjeta ring-1 ring-slate-200/70 shadow-sm">
           <div class="flex items-start justify-between gap-2">
             <div>
               <p class="text-xs text-slate-500">#{{ e.posicion }}</p>
