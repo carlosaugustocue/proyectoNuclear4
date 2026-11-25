@@ -21,6 +21,13 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 | Modelos de Calidad | **4. Prototipo y prueba de usabilidad** | [02-calidad/protocolo-prueba-usabilidad.md](02-calidad/protocolo-prueba-usabilidad.md) · `frontend/` · evidencia primaria en [02-calidad/evidencias/](02-calidad/evidencias/) |
 | Arquitectura de Software II | **4. Análisis de impacto del módulo Comercial y arquitectura v2** (ADRs nuevos) | [03-arquitectura/analisis-impacto-modulo-comercial.md](03-arquitectura/analisis-impacto-modulo-comercial.md) · [03-arquitectura/documento-arquitectura-v2.md](03-arquitectura/documento-arquitectura-v2.md) · ADR [0014](03-arquitectura/adr/0014-contexto-comercial-e-identidad-diferida.md), [0015](03-arquitectura/adr/0015-precio-oficial-frente-a-precio-reportado.md), [0016](03-arquitectura/adr/0016-nucleo-compartido-y-fronteras-por-contexto.md) |
 
+## Mapa de entregables del Corte 3
+
+| Asignatura | Entregable de la guía | Archivo(s) |
+|---|---|---|
+| Arquitectura de Software II | **5. Sistema integrado** (núcleo + Comercial + ampliación A1 y B2, desplegado, demostración) | `backend/` · `frontend/` · [`.github/workflows/cd.yml`](../.github/workflows/cd.yml) · [entrega continua](03-arquitectura/ampliacion-corte3/entrega-continua.md) · URLs en el [README](../README.md) |
+| Modelos de Calidad | **5. Informe de evaluación de calidad** (ISO/IEC 25040 + 25012, integración, sistema y carga, incidencias) | [02-calidad/informe-evaluacion-calidad.md](02-calidad/informe-evaluacion-calidad.md) · [`pruebas-calidad/resultados/2026-11-25_1315/`](../pruebas-calidad/resultados/2026-11-25_1315/) · [auditoría de datos](02-calidad/evidencias/datos/) |
+
 ## Convenciones
 
 - **⚑** = valor propuesto por el equipo, pendiente de validar con evidencia de la Fase 1.

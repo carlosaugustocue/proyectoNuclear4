@@ -92,3 +92,16 @@ Umbrales: M-16 p95 ≤ 3 s (objetivo ≤ 1,5 s) · errores < 1 % · M-17 = 1.
 
 ---
 Elaborado con apoyo de IA generativa (Claude); el equipo revisa y responde por el diseño de las mediciones.
+
+## Ejecución completa del 2026-11-25 (commit `f4c84a7`, 4 procesos PHP)
+
+Evidencia del informe de evaluación de calidad (Cal. E5): `resultados/2026-11-25_1315/`.
+
+| Escenario | Resultado | Umbral | Veredicto |
+|---|---|---|---|
+| EC-02 · M-02 | p50 1,09 s · p95 1,35 s · 0 sin reflejar | ≤ 5 min | ✅ objetivo |
+| EC-03 · M-03 / M-04 | peor 0,860 / peor 0,075 (5 semillas) | ≥ 0,80 / ≤ 0,05 | 🟡 / ❌ |
+| EC-04 · M-05 / M-06 (500 VU) | p95 26,4 s · 12,9 % de errores · 38,5 pet/s | ≤ 2 s / < 1 % | ❌ |
+| EC-11 · M-16 / M-17 (200 VU) | p95 8,4 s · 0 % de errores · 5264/5264 | ≤ 3 s / = 1 | ❌ / ✅ |
+
+El límite sigue siendo `artisan serve` (incidencia I-13 del informe).
