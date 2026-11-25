@@ -4,7 +4,7 @@
  * su categoría. La imagen es decorativa: el nombre del producto ya está en el texto (alt vacío).
  */
 import { computed, ref, type Component } from 'vue'
-import { Wheat, Milk, Droplet, CupSoda, Apple, SprayCan, ShoppingBasket } from 'lucide-vue-next'
+import { Wheat, Milk, Droplet, CupSoda, Apple, SprayCan, ShoppingBasket, Beef, Fish, Package } from 'lucide-vue-next'
 import { ilustracionDe, urlSegura, type IconoCategoria } from '@/utils/imagenProducto'
 import type { ImagenProducto } from '@/types'
 
@@ -14,7 +14,7 @@ const props = withDefaults(
 )
 
 const ICONOS: Record<IconoCategoria, Component> = {
-  granos: Wheat, lacteos: Milk, aceites: Droplet, bebidas: CupSoda, frutas: Apple, aseo: SprayCan, generico: ShoppingBasket,
+  granos: Wheat, lacteos: Milk, aceites: Droplet, bebidas: CupSoda, frutas: Apple, aseo: SprayCan, carnes: Beef, pescados: Fish, despensa: Package, generico: ShoppingBasket,
 }
 const CAJA = { sm: 'h-10 w-10 rounded-lg', md: 'h-20 w-full rounded-lg', lg: 'h-16 w-16 rounded-xl' }
 const ICONO = { sm: 'h-5 w-5', md: 'h-9 w-9', lg: 'h-8 w-8' }
