@@ -9,15 +9,15 @@
 ## Resumen ejecutivo
 
 Se evaluó el sistema integrado (núcleo, módulo Comercial y la ampliación A1 + B2) con el proceso de
-**ISO/IEC 25040:2024**, las medidas M-01 a M-22 del plan y el modelo de datos de **ISO/IEC 25012**.
-De 22 medidas, **13 cumplen**, **1 cumple con reservas**, **5 no cumplen** y **3 no se pudieron medir**.
+**ISO/IEC 25040:2024**, las medidas M-01 a M-23 del plan y el modelo de datos de **ISO/IEC 25012**.
+De 23 medidas, **13 cumplen**, **1 cumple con reservas**, **5 no cumplen** y **4 no se pudieron medir**.
 
 | Resultado | Medidas |
 |---|---|
 | ✅ Cumplen (objetivo o aceptable) | M-02, M-03, M-07, M-09, M-10, M-11, M-12, M-13, M-14, M-15, M-17, M-18, M-20 · datos D-01 a D-04 y D-06 |
 | 🟡 Cumple con reservas | M-19 (mediana 4 min 48 s; 3 de 10 despliegues pasaron de 15 min por la cola del CD) |
 | ❌ No cumplen | **M-01** usabilidad (62,5 %), **M-04** falsos positivos (peor semilla 7,5 %), **M-05/M-06** carga de consultas (p95 26,4 s; 12,9 % de errores), **M-16** carga de la canasta (p95 8,4 s) |
-| ⏳ Sin medir | **M-08** (faltan las horas reales del equipo), **M-21** (ensayo de reversión pendiente), **M-22**/D-05 (sin precios oficiales reales) |
+| ⏳ Sin medir | **M-08** (faltan las horas reales del equipo), **M-21** (ensayo de reversión pendiente), **M-22**/D-05 (sin precios oficiales reales), **M-23** satisfacción SUS (se agregó al plan el 2026-11-25; se mide en la repetición de la prueba con usuarios) |
 
 **Conclusión:** el producto es **funcionalmente correcto, seguro, accesible y mantenible**. Los datos que publica
 son actuales, trazables y no exponen a los reportantes. Queda **una brecha de desempeño**: el servidor de
@@ -88,6 +88,7 @@ de producción.
 | | M-06 tasa de error (500 VU) | **12,94 %** | < 1 % | ❌ | K-01 |
 | | M-16 p95 canasta (200 VU) | **8,43 s** | ≤ 3 s | ❌ | K-02 |
 | **Capacidad de interacción** — operabilidad | M-01 registros ≤ 15 s | 0,625 (5/8), medido en el corte 2 | ≥ 0,80 | ❌ | [Protocolo de usabilidad](protocolo-prueba-usabilidad.md) |
+| — satisfacción (calidad en uso, ISO/IEC 25019) | M-23 promedio SUS | **No medido** | ≥ 68 | ⏳ | [Kit del corte 3](kit-prueba-usuarios-corte3.md) |
 | — inclusividad | M-11 violaciones axe | 0 en 17 auditorías (12 pruebas) | 0 | ✅ | A-01 |
 | **Seguridad** — integridad, resistencia | M-03 exhaustividad (peor de 5) | 0,860 (media 0,924) | ≥ 0,80 | ✅ aceptable | `calidad:deteccion` |
 | | M-04 falsos positivos (peor de 5) | **0,075** (media 0,032) | ≤ 0,05 | ❌ | Ídem |
@@ -200,7 +201,7 @@ falla antes del merge), EC-11 🟡 (M-16 ❌, M-17 ✅), EC-12 🟡 (M-21 sin me
 
 1. **M-21:** ensayar el runbook de reversión en staging (procedimientos A y B) y llenar la tabla del runbook §4.
 2. **M-08:** registrar las horas reales por componente en los dos análisis de impacto.
-3. **M-01:** repetir la prueba de usabilidad con ≥ 8 personas sobre la PWA rediseñada.
+3. **M-01 y M-23:** repetir la prueba con ≥ 8 personas sobre la PWA rediseñada, con el [kit del corte 3](kit-prueba-usuarios-corte3.md) (tareas cronometradas y SUS).
 4. **Producción:** aprobar la promoción pendiente del #25. Hoy producción muestra 12 productos y staging 126.
 
 ## 9. Declaración de uso de inteligencia artificial generativa
