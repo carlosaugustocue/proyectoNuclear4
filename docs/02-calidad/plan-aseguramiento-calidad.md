@@ -54,7 +54,7 @@ Versión ajustada de la Tabla 2 del planteamiento (cambios marcados con ▲).
 |---|---|---|---|
 | Adecuación funcional | Alta | Corrección funcional, completitud funcional | EC-06, RN-01…RN-10 |
 | Eficiencia de desempeño | Alta | Comportamiento temporal, capacidad | EC-04 |
-| Capacidad de interacción | Alta | Operabilidad, protección contra errores del usuario, inclusividad | EC-01, EC-08 |
+| Capacidad de interacción | Alta | Operabilidad, protección contra errores del usuario, inclusividad | EC-01, EC-08 · satisfacción en uso (ISO/IEC 25019, M-23) |
 | Seguridad | Alta | Integridad, **resistencia ▲**, autenticidad, responsabilidad, confidencialidad | EC-03, EC-07 |
 | Mantenibilidad | Alta | Modularidad, modificabilidad, capacidad de ser probado | EC-05, EC-10 |
 | Fiabilidad | **Media → con escenario ▲** | Tolerancia a fallos, disponibilidad | EC-09 |
@@ -94,15 +94,17 @@ Cada medida sigue la forma de la división ISO/IEC 2502n: `X = A / B` con su fun
 | M-20 Vulnerabilidades y secretos en la imagen (EC-12) | cuenta de CVE CRITICAL corregibles + secretos detectados | ≥ 1 | 0 | 0 | Trivy |
 | M-21 Tiempo de reversión (EC-12) | T = t(servicio restablecido) − t(inicio de la reversión) | > 5 min | ≤ 5 min | ≤ 2 min | Ensayo cronometrado del runbook (S-14) |
 | M-22 Precios oficiales no confirmados (ADR-0015) | X = precios oficiales que no quedan CONFIABLE (NO_CORROBORADO o POR_VERIFICAR) / precios oficiales publicados ⚑ | > 0,10 | ≤ 0,10 | ≤ 0,05 | Consulta SQL sobre `registros_precio` (fuente COMERCIO) e integración I-08 |
+| M-23 Satisfacción (SUS) | X = promedio del puntaje SUS (0–100) de los participantes; puntaje = 2,5 × Σ(impares − 1 + 5 − pares) | < 68 | ≥ 68 | ≥ 80,3 | Cuestionario SUS al final de la prueba con usuarios US-02 ([kit](kit-prueba-usuarios-corte3.md) §5) |
 
 **Justificación de umbrales propios (⚑):**
 - **M-02 (5 min):** un consumidor decide la compra en el momento; los precios en tiendas cambian, como mucho, a diario. Cinco minutos son tres órdenes de magnitud menores que la frecuencia de cambio y permiten una proyección asíncrona simple (ADR-0003). Se valida con lo que digan los comerciantes en las entrevistas.
 - **M-03/M-04 (80 % / 5 %):** priorizar exhaustividad sin falsos positivos perjudicaría a tiendas con precios bajos legítimos (equidad, guía §12). Un falso positivo no oculta el precio: lo muestra con advertencia y lo envía a moderación, por eso se tolera 5 %.
+- **M-23 (68 / 80,3):** no es un umbral propio sino de referencia publicada. 68 es el promedio de cientos de estudios con SUS y 80,3 marca el 10 % superior (Bangor, Kortum y Miller, 2009; Sauro y Lewis, 2016). Mide la **satisfacción**, característica de la calidad en uso que la edición 2023 separó de ISO/IEC 25010 en ISO/IEC 25019:2023; complementa a M-01, que mide eficiencia en una sola tarea. Se agregó en el corte 3 (2026-11-25), antes de repetir la prueba con usuarios.
 
 ## 6. Estrategia de pruebas
 
 ```
-            ▲  Pruebas con usuarios (EC-01) · Accesibilidad manual (EC-08)
+            ▲  Pruebas con usuarios y SUS (EC-01, M-23) · Accesibilidad manual (EC-08)
            ▲▲  Carga k6 (EC-04)
           ▲▲▲  Sistema / E2E: registro, offline, comparación (EC-06, EC-09)
          ▲▲▲▲  Contrato API contra OpenAPI (EC-07) · Arquitectura (EC-05, EC-06)
@@ -118,7 +120,7 @@ Cada medida sigue la forma de la división ISO/IEC 2502n: `X = A / B` con su fun
 | Arquitectura | Dependencias entre módulos permitidas (Comparación no depende de Comercial) | Cada PR | ArchUnit / dependency-cruiser / import-linter según stack |
 | Sistema / E2E | Flujos completos en navegador, modo offline | Antes de cada entrega | Playwright |
 | Carga | EC-04 con 500 usuarios virtuales | Antes de cada entrega (corte 2 y 3) | k6 |
-| Usuarios | EC-01 con ≥ 8 participantes reales | Corte 2 | Protocolo de prueba + cronómetro |
+| Usuarios | EC-01 (M-01) y satisfacción (M-23) con ≥ 8 participantes reales | Corte 2 (US-01) y corte 3 (US-02, repetición sobre la app real) | [Protocolo](protocolo-prueba-usabilidad.md) y [kit del corte 3](kit-prueba-usuarios-corte3.md): cronómetro, SEQ y SUS |
 | Accesibilidad | WCAG 2.2 AA | Corte 2 y 3 | axe + lector de pantalla (TalkBack/NVDA) |
 | Análisis estático | Defectos, *code smells*, vulnerabilidades | Cada PR | SonarCloud (gratuito para repos públicos) |
 
