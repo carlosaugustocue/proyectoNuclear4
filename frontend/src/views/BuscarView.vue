@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
 import { Search } from 'lucide-vue-next'
 import ProductoCard from '@/components/ProductoCard.vue'
 import CategoriaChip from '@/components/CategoriaChip.vue'
@@ -29,6 +29,13 @@ watch(busqueda, () => {
   temporizador = setTimeout(consultar, RETARDO_BUSQUEDA_MS)
 })
 watch(categoria, consultar)
+
+/*
+ * Si se elige un resultado antes de que venza el retardo, la búsqueda pendiente no debe ejecutarse:
+ * su router.replace cancelaría la navegación en curso (la vista de destino se carga en diferido).
+ */
+onBeforeRouteLeave(() => clearTimeout(temporizador))
+onBeforeUnmount(() => clearTimeout(temporizador))
 
 onMounted(() => {
   inputRef.value?.focus()
