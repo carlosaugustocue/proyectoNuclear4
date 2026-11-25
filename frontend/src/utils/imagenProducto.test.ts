@@ -9,6 +9,12 @@ describe('imagen del producto', () => {
     expect(ilustracionDe('ASEO').icono).toBe('aseo')
   })
 
+  it('las categorías que trae el catálogo de SIPSA también tienen ilustración', () => {
+    expect(ilustracionDe('Carnes').icono).toBe('carnes')
+    expect(ilustracionDe('Pescados').icono).toBe('pescados')
+    expect(ilustracionDe('Despensa').icono).toBe('despensa')
+  })
+
   it('una categoría desconocida usa la ilustración genérica', () => {
     expect(ilustracionDe('Mascotas').icono).toBe('generico')
   })

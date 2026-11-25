@@ -113,3 +113,19 @@ export interface ReporteAceptado {
   observacionId: string
   estado: 'PENDIENTE_EVALUACION'
 }
+
+/** Referencia mayorista SIPSA-DANE (RF-25, ADR-0010): siempre aparte de la comparación de tiendas. */
+export interface PuntoReferencia {
+  mes: string // AAAA-MM
+  precio: string
+}
+
+export interface ReferenciaMayorista {
+  productoId: string
+  unidadBase: UnidadBase | null
+  serie: PuntoReferencia[]
+  ultimo: PuntoReferencia | null
+  mercados: string[]
+  fuente: { nombre: string; descripcion: string; url: string }
+  advertencia: string
+}

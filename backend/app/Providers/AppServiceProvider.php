@@ -38,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // Catálogo y Establecimientos
         $this->app->bind(CatalogoLectura::class, PgCatalogoLectura::class);
+        $this->app->bind(\App\Domains\Catalogo\Domain\Repositories\CatalogoEscritura::class, \App\Domains\Catalogo\Infrastructure\Persistence\PgCatalogoEscritura::class);
+        $this->app->bind(\App\Domains\Ingesta\Domain\Repositories\ReferenciasMayoristas::class, \App\Domains\Ingesta\Infrastructure\Persistence\PgReferenciasMayoristas::class);
         // Comercial (ADR-0023): implementa el puerto de Comparación; sin este enlace, contenidoPromocional viaja vacío.
         $this->app->bind(\App\Domains\Comercial\Domain\Repositories\PerfilesComerciales::class, \App\Domains\Comercial\Infrastructure\Persistence\PgPerfilesComerciales::class);
         $this->app->bind(\App\Domains\Comercial\Domain\Repositories\Promociones::class, \App\Domains\Comercial\Infrastructure\Persistence\PgPromociones::class);

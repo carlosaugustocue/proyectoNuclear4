@@ -8,6 +8,9 @@ export const CATEGORIAS: { nombre: string; valor: string | null }[] = [
   { nombre: 'Aceites', valor: 'Aceites' },
   { nombre: 'Bebidas', valor: 'Bebidas' },
   { nombre: 'Frutas y verduras', valor: 'Frutas y verduras' },
+  { nombre: 'Carnes', valor: 'Carnes' },
+  { nombre: 'Pescados', valor: 'Pescados' },
+  { nombre: 'Despensa', valor: 'Despensa' },
   { nombre: 'Aseo', valor: 'Aseo' },
 ]
 

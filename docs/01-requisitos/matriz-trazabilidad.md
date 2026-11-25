@@ -51,8 +51,8 @@
 | RF-22 | Autorización de datos | — | EC-07 | S-22, C-19, U-11 | Identidad |
 | RF-23 | Derechos del titular | — | EC-07 | I-23, C-19 | Identidad |
 | RF-24 | Roles | — | EC-07 | C-24 (403 por rol, en `ModeracionTest.php`), U-11 | Identidad |
-| RF-25 | Importar SIPSA | — | — | I-25 (archivo de muestra) | Ingesta |
-| RF-26 | Carga semilla | — | — | I-26 | Ingesta |
+| RF-25 | Importar SIPSA (referencia mayorista separada, ADR-0010) | — | — | U-11 `TraductorSipsa`; I-25 `tests/Feature/Ingesta/IngestaSipsaTest.php` (carga, idempotencia, filas inválidas, separación de la comparación, endpoint) | Ingesta ✅ |
+| RF-26 | Carga semilla | — | — | I-26 `ingesta:sipsa` con el CSV de Armenia (115 productos, 1.198 referencias); D-04 sin duplicados | Ingesta ✅ (catálogo SIPSA; recorrido de campo pendiente) |
 
 ## 3. Reglas de negocio → pruebas TDD (corte 2)
 

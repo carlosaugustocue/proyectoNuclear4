@@ -9,6 +9,7 @@ import BadgeVigencia from '@/components/BadgeVigencia.vue'
 import BadgeConfianza from '@/components/BadgeConfianza.vue'
 import ImagenProducto from '@/components/ImagenProducto.vue'
 import BloquePromociones from '@/components/BloquePromociones.vue'
+import ReferenciaMayorista from '@/components/ReferenciaMayorista.vue'
 import AccionesPrecio from '@/components/AccionesPrecio.vue'
 import { describirPresentacion, estadoVigencia, TIPO_ESTABLECIMIENTO } from '@/utils/catalogo'
 import { formatearDistancia, formatearPesos, precioPorUnidadTexto, tiempoRelativo } from '@/utils/formato'
@@ -170,5 +171,6 @@ watch([productoId, orden, incluirNoVigentes], cargar, { immediate: true })
     </div>
 
     <BloquePromociones v-if="resultado" :promociones="resultado.contenidoPromocional" />
+    <ReferenciaMayorista :producto-id="productoId" />
   </section>
 </template>

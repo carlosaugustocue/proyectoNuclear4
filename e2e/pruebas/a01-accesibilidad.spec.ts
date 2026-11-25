@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { auditarAccesibilidad, describirViolaciones } from '../soporte/axe'
-import { idDeProducto } from '../soporte/flujos'
+import { elegirProducto, idDeProducto } from '../soporte/flujos'
 
 /*
  * A-01 (EC-08, M-11): 0 violaciones WCAG 2.2 A/AA detectables por axe en las pantallas de la PWA,
@@ -45,6 +45,14 @@ test('A-01 comparar (flujo de consulta)', async ({ page, request }) => {
   await auditar(page, 'comparar-acciones')
 })
 
+test('A-01 comparar un producto del catálogo SIPSA, con su referencia mayorista aparte (RF-25, ADR-0010)', async ({ page, request }) => {
+  await page.goto(`/comparar/${await idDeProducto(request, 'Lulo')}`)
+  const referencia = page.getByRole('region', { name: /Referencia mayorista/ })
+  await expect(referencia).toBeVisible()
+  await expect(referencia).toContainText('No entra en la comparación de tiendas')
+  await auditar(page, 'comparar-referencia-sipsa')
+})
+
 test('A-01 registrar, los cuatro pasos y la confirmación (flujo de registro)', async ({ page }) => {
   await page.goto('/registrar')
   const tiendas = page.getByRole('radiogroup', { name: 'Seleccionar establecimiento' })
@@ -53,7 +61,7 @@ test('A-01 registrar, los cuatro pasos y la confirmación (flujo de registro)', 
 
   await tiendas.getByRole('radio', { name: /Fruver La Cosecha/ }).click()
   await page.getByRole('button', { name: 'Siguiente' }).click()
-  await page.getByRole('radiogroup', { name: 'Seleccionar producto' }).getByRole('radio', { name: /Leche entera/ }).click()
+  await elegirProducto(page, { producto: 'Leche entera UHT', marca: 'Colanta' })
   await page.getByRole('radiogroup', { name: 'Presentación' }).getByRole('radio', { name: /Bolsa 1 L/ }).click()
   await auditar(page, 'registrar-2-producto')
 

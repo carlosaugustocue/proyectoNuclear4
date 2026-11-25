@@ -1,0 +1,1199 @@
+fecha,grupo,producto,codigo_cpc,mercado,precio
+2026-01-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1451
+2026-01-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1112
+2026-01-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",7973
+2026-01-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1079
+2026-01-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5590
+2026-01-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2133
+2026-01-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",1953
+2026-01-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2719
+2026-01-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",1000
+2026-01-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",929
+2026-01-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4267
+2026-01-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2381
+2026-01-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",2984
+2026-01-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",4829
+2026-01-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",3476
+2026-01-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1565
+2026-01-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",3294
+2026-01-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",8024
+2026-01-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",4770
+2026-01-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",2933
+2026-01-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1726
+2026-01-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",1022
+2026-01-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",2201
+2026-01-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-01-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",1687
+2026-01-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1870
+2026-01-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1708
+2026-01-01,FRUTAS,Breva,0131925,"Armenia, Mercar",8100
+2026-01-01,FRUTAS,Coco,0146001,"Armenia, Mercar",4667
+2026-01-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2615
+2026-01-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",10269
+2026-01-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",7687
+2026-01-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",4406
+2026-01-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",3661
+2026-01-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2533
+2026-01-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4373
+2026-01-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",2727
+2026-01-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1992
+2026-01-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",1809
+2026-01-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",3976
+2026-01-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",2894
+2026-01-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2703
+2026-01-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",1889
+2026-01-01,FRUTAS,Mango reina,0131601,"Armenia, Mercar",1467
+2026-01-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",1894
+2026-01-01,FRUTAS,Mango Yulima,0131601,"Armenia, Mercar",1611
+2026-01-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",8526
+2026-01-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",8510
+2026-01-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",9474
+2026-01-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",3397
+2026-01-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4070
+2026-01-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",6000
+2026-01-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1845
+2026-01-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1497
+2026-01-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",2088
+2026-01-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1888
+2026-01-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",8333
+2026-01-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",3191
+2026-01-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",3050
+2026-01-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",5508
+2026-01-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",13227
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",2505
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",2508
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",1335
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",1335
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1836
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",2093
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",2470
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",2164
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2938
+2026-01-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2857
+2026-01-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3420
+2026-01-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4637
+2026-01-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",12572
+2026-01-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",9746
+2026-01-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-01-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",5815
+2026-01-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2300
+2026-01-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",330
+2026-01-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",393
+2026-01-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",435
+2026-01-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-01-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-01-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",20837
+2026-01-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-01-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24750
+2026-01-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8217
+2026-01-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-01-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",14750
+2026-01-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",12400
+2026-01-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",13000
+2026-01-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",14250
+2026-01-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",23000
+2026-01-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",27875
+2026-01-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",59850
+2026-01-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",51000
+2026-01-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-01-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",12000
+2026-01-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",100000
+2026-01-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",41000
+2026-01-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",34800
+2026-01-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",10933
+2026-01-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",12063
+2026-01-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-01-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",3537
+2026-01-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",61559
+2026-01-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",41833
+2026-01-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",14695
+2026-01-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",3326
+2026-01-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4352
+2026-01-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-01-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",41096
+2026-01-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9930
+2026-01-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",22055
+2026-01-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",16898
+2026-01-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5354
+2026-01-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",6375
+2026-01-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",3188
+2026-01-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",16898
+2026-01-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",18730
+2026-02-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1369
+2026-02-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1042
+2026-02-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",6864
+2026-02-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1108
+2026-02-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5233
+2026-02-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2133
+2026-02-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",1880
+2026-02-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2538
+2026-02-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",976
+2026-02-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",917
+2026-02-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4267
+2026-02-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2913
+2026-02-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",3278
+2026-02-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5304
+2026-02-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",4638
+2026-02-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1489
+2026-02-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",3522
+2026-02-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",9854
+2026-02-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3472
+2026-02-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",2933
+2026-02-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1337
+2026-02-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",916
+2026-02-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",3097
+2026-02-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-02-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",1241
+2026-02-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1919
+2026-02-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1706
+2026-02-01,FRUTAS,Coco,0146001,"Armenia, Mercar",4611
+2026-02-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",3303
+2026-02-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",9292
+2026-02-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",8211
+2026-02-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",3742
+2026-02-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",3583
+2026-02-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2533
+2026-02-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4000
+2026-02-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",3392
+2026-02-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",2336
+2026-02-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",2336
+2026-02-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",4308
+2026-02-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",2797
+2026-02-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2412
+2026-02-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",2183
+2026-02-01,FRUTAS,Mango reina,0131601,"Armenia, Mercar",1700
+2026-02-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",2292
+2026-02-01,FRUTAS,Mango Yulima,0131601,"Armenia, Mercar",1833
+2026-02-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",9313
+2026-02-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",9064
+2026-02-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",9532
+2026-02-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",3911
+2026-02-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",3847
+2026-02-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",6156
+2026-02-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1808
+2026-02-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1388
+2026-02-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",1989
+2026-02-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1767
+2026-02-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",8772
+2026-02-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",3803
+2026-02-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",3051
+2026-02-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",5896
+2026-02-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",6791
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",1954
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",1639
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",1385
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",1385
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1614
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",1828
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",2119
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",1878
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2790
+2026-02-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2695
+2026-02-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3816
+2026-02-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4637
+2026-02-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",11727
+2026-02-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",8075
+2026-02-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-02-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",5969
+2026-02-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2300
+2026-02-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",305
+2026-02-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",365
+2026-02-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",405
+2026-02-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-02-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",23417
+2026-02-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",20579
+2026-02-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-02-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24667
+2026-02-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8500
+2026-02-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-02-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",14500
+2026-02-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",12133
+2026-02-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",12750
+2026-02-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",14000
+2026-02-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",23000
+2026-02-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",56438
+2026-02-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",59850
+2026-02-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",53500
+2026-02-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",34250
+2026-02-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",12000
+2026-02-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",100000
+2026-02-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",41000
+2026-02-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",28100
+2026-02-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",10933
+2026-02-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",12153
+2026-02-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-02-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",4315
+2026-02-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",61706
+2026-02-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",43333
+2026-02-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",12633
+2026-02-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",3326
+2026-02-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4352
+2026-02-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-02-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",39671
+2026-02-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9905
+2026-02-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",22025
+2026-02-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",16898
+2026-02-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5354
+2026-02-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",6258
+2026-02-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",3248
+2026-02-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",16898
+2026-02-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",17996
+2026-03-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1408
+2026-03-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1062
+2026-03-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",6500
+2026-03-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1050
+2026-03-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5984
+2026-03-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2533
+2026-03-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",1757
+2026-03-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",3071
+2026-03-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",949
+2026-03-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",875
+2026-03-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4267
+2026-03-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",3267
+2026-03-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",3523
+2026-03-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5785
+2026-03-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",4699
+2026-03-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1525
+2026-03-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",1728
+2026-03-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",8771
+2026-03-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3982
+2026-03-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",3475
+2026-03-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",2004
+2026-03-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",1295
+2026-03-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",4295
+2026-03-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-03-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",1752
+2026-03-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Mercar",9833
+2026-03-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",8833
+2026-03-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1941
+2026-03-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1653
+2026-03-01,FRUTAS,Coco,0146001,"Armenia, Mercar",4333
+2026-03-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2928
+2026-03-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",12462
+2026-03-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",8453
+2026-03-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",5188
+2026-03-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",5615
+2026-03-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2554
+2026-03-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",3415
+2026-03-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",2182
+2026-03-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1997
+2026-03-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",1644
+2026-03-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",5026
+2026-03-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",3997
+2026-03-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",3900
+2026-03-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",3333
+2026-03-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",3282
+2026-03-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",8779
+2026-03-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",8731
+2026-03-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",10479
+2026-03-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",6177
+2026-03-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4315
+2026-03-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",7518
+2026-03-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1767
+2026-03-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1529
+2026-03-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",2262
+2026-03-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1844
+2026-03-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",7659
+2026-03-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2700
+2026-03-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",4312
+2026-03-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",6036
+2026-03-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",8010
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",2609
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",3462
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",1579
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",1579
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",2122
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",2164
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",2549
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",2469
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2442
+2026-03-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2447
+2026-03-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",4039
+2026-03-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4694
+2026-03-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",17279
+2026-03-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",11782
+2026-03-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",8307
+2026-03-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-03-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",5700
+2026-03-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2344
+2026-03-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",340
+2026-03-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",400
+2026-03-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",440
+2026-03-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-03-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",23233
+2026-03-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",22890
+2026-03-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-03-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24533
+2026-03-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8600
+2026-03-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-03-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",15200
+2026-03-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",11680
+2026-03-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",11853
+2026-03-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",14200
+2026-03-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",34240
+2026-03-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",53720
+2026-03-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",49450
+2026-03-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",41000
+2026-03-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",35160
+2026-03-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",12000
+2026-03-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",93000
+2026-03-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",35800
+2026-03-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",27000
+2026-03-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",10933
+2026-03-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",12471
+2026-03-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-03-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",4319
+2026-03-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",58576
+2026-03-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",43333
+2026-03-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",12620
+2026-03-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",3533
+2026-03-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4494
+2026-03-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-03-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",39263
+2026-03-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9583
+2026-03-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",21536
+2026-03-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",16954
+2026-03-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5504
+2026-03-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",6927
+2026-03-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2984
+2026-03-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",16954
+2026-03-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",17673
+2026-04-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1464
+2026-04-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1000
+2026-04-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",6538
+2026-04-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1072
+2026-04-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5395
+2026-04-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2607
+2026-04-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",2092
+2026-04-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2995
+2026-04-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",929
+2026-04-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",929
+2026-04-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4267
+2026-04-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2648
+2026-04-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",3407
+2026-04-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5303
+2026-04-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",3742
+2026-04-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",2002
+2026-04-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",1533
+2026-04-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",8778
+2026-04-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3172
+2026-04-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",3067
+2026-04-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1727
+2026-04-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",979
+2026-04-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",3407
+2026-04-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-04-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",1799
+2026-04-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Mercar",8936
+2026-04-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",7931
+2026-04-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1949
+2026-04-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1717
+2026-04-01,FRUTAS,Coco,0146001,"Armenia, Mercar",4333
+2026-04-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2828
+2026-04-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",11013
+2026-04-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",8137
+2026-04-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",4658
+2026-04-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",5177
+2026-04-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2387
+2026-04-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",3731
+2026-04-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",1790
+2026-04-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1597
+2026-04-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",1664
+2026-04-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",5000
+2026-04-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",2072
+2026-04-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2086
+2026-04-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",3156
+2026-04-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",3176
+2026-04-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",7706
+2026-04-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",8016
+2026-04-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",8583
+2026-04-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",5074
+2026-04-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4100
+2026-04-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",6700
+2026-04-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1671
+2026-04-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1441
+2026-04-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",2367
+2026-04-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1844
+2026-04-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",7220
+2026-04-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2664
+2026-04-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",3482
+2026-04-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",5393
+2026-04-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",7403
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",2269
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",3404
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",1462
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",1462
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1875
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",2092
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",2426
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",2144
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2469
+2026-04-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2317
+2026-04-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3580
+2026-04-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4780
+2026-04-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",15782
+2026-04-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",12687
+2026-04-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",10943
+2026-04-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-04-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",3945
+2026-04-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2260
+2026-04-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",420
+2026-04-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",480
+2026-04-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",520
+2026-04-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-04-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-04-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",22565
+2026-04-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-04-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24333
+2026-04-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8500
+2026-04-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-04-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",15000
+2026-04-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",11000
+2026-04-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",11067
+2026-04-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",14250
+2026-04-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",39375
+2026-04-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",19800
+2026-04-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",20175
+2026-04-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",16700
+2026-04-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-04-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",10667
+2026-04-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",63750
+2026-04-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",25000
+2026-04-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",23625
+2026-04-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",10933
+2026-04-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",11164
+2026-04-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-04-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",3293
+2026-04-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",53882
+2026-04-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",43333
+2026-04-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",13443
+2026-04-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",4062
+2026-04-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4706
+2026-04-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-04-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",42414
+2026-04-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9100
+2026-04-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",18217
+2026-04-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",17037
+2026-04-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5492
+2026-04-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",7442
+2026-04-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2448
+2026-04-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",17037
+2026-04-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",18653
+2026-05-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1413
+2026-05-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1000
+2026-05-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",6682
+2026-05-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1031
+2026-05-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5472
+2026-05-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2210
+2026-05-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",2273
+2026-05-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2680
+2026-05-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",870
+2026-05-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",863
+2026-05-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4267
+2026-05-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2397
+2026-05-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",2921
+2026-05-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5629
+2026-05-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",3304
+2026-05-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1540
+2026-05-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",1667
+2026-05-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",7583
+2026-05-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3739
+2026-05-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",3162
+2026-05-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1641
+2026-05-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",1110
+2026-05-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",2733
+2026-05-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-05-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",2199
+2026-05-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Mercar",9894
+2026-05-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",8986
+2026-05-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1767
+2026-05-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1561
+2026-05-01,FRUTAS,Coco,0146001,"Armenia, Mercar",3958
+2026-05-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2900
+2026-05-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",10042
+2026-05-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",8242
+2026-05-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",4783
+2026-05-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",5712
+2026-05-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2461
+2026-05-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4091
+2026-05-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",2100
+2026-05-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1994
+2026-05-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",1615
+2026-05-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",5509
+2026-05-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",3045
+2026-05-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2489
+2026-05-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",2658
+2026-05-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",2774
+2026-05-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",8030
+2026-05-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",8086
+2026-05-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",8565
+2026-05-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",5103
+2026-05-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4100
+2026-05-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",7809
+2026-05-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1461
+2026-05-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1283
+2026-05-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",1855
+2026-05-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1979
+2026-05-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",6746
+2026-05-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2433
+2026-05-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",3945
+2026-05-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",6106
+2026-05-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",7008
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",2333
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",4283
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",1474
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",1474
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1428
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",1688
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",1888
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",1644
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2400
+2026-05-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2367
+2026-05-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3286
+2026-05-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4780
+2026-05-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",13983
+2026-05-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",12676
+2026-05-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",10207
+2026-05-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-05-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",3811
+2026-05-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2260
+2026-05-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",398
+2026-05-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",458
+2026-05-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",498
+2026-05-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-05-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-05-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",21681
+2026-05-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-05-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24333
+2026-05-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8500
+2026-05-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-05-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",16000
+2026-05-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",12000
+2026-05-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",13000
+2026-05-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",15000
+2026-05-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",26750
+2026-05-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",19800
+2026-05-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",18500
+2026-05-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",16700
+2026-05-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-05-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",9625
+2026-05-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",59533
+2026-05-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",25000
+2026-05-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",18000
+2026-05-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",10283
+2026-05-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",10452
+2026-05-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-05-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",2909
+2026-05-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",53882
+2026-05-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",43333
+2026-05-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",11670
+2026-05-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",4062
+2026-05-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4706
+2026-05-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-05-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",40365
+2026-05-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9100
+2026-05-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",16370
+2026-05-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",17037
+2026-05-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5413
+2026-05-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",7442
+2026-05-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2448
+2026-05-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",17037
+2026-05-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",17108
+2026-06-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1333
+2026-06-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1015
+2026-06-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",6227
+2026-06-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1083
+2026-06-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5491
+2026-06-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2800
+2026-06-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",3058
+2026-06-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2459
+2026-06-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",1000
+2026-06-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",929
+2026-06-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4048
+2026-06-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",3796
+2026-06-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",3889
+2026-06-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5515
+2026-06-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",3695
+2026-06-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1804
+2026-06-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",1382
+2026-06-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",7583
+2026-06-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3636
+2026-06-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",3256
+2026-06-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1520
+2026-06-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",1392
+2026-06-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",3536
+2026-06-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-06-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",2793
+2026-06-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Mercar",9309
+2026-06-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",7903
+2026-06-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1445
+2026-06-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1343
+2026-06-01,FRUTAS,Coco,0146001,"Armenia, Mercar",3633
+2026-06-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2739
+2026-06-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",11038
+2026-06-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",9000
+2026-06-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",4923
+2026-06-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",5915
+2026-06-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2879
+2026-06-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4955
+2026-06-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",2485
+2026-06-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1830
+2026-06-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",3000
+2026-06-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",5806
+2026-06-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",4212
+2026-06-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2777
+2026-06-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",3833
+2026-06-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",4687
+2026-06-01,FRUTAS,Mango Yulima,0131601,"Armenia, Mercar",3333
+2026-06-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",8517
+2026-06-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",7321
+2026-06-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",8636
+2026-06-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",6567
+2026-06-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4100
+2026-06-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",7303
+2026-06-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1752
+2026-06-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1529
+2026-06-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",1488
+2026-06-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",2209
+2026-06-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",7089
+2026-06-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2430
+2026-06-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",6411
+2026-06-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",6450
+2026-06-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",8970
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",3333
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",5545
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",2012
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",2012
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1333
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",1403
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",1636
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",1637
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2373
+2026-06-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2358
+2026-06-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3738
+2026-06-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4780
+2026-06-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",13194
+2026-06-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",11953
+2026-06-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",10101
+2026-06-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-06-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",3907
+2026-06-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2260
+2026-06-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",430
+2026-06-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",490
+2026-06-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",530
+2026-06-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-06-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-06-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",21500
+2026-06-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-06-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24333
+2026-06-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8500
+2026-06-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-06-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",17000
+2026-06-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",12250
+2026-06-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",12000
+2026-06-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",16000
+2026-06-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",19500
+2026-06-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",19800
+2026-06-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",23650
+2026-06-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",16700
+2026-06-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-06-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",8500
+2026-06-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",63950
+2026-06-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",25000
+2026-06-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",19000
+2026-06-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",9946
+2026-06-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",10134
+2026-06-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-06-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",2650
+2026-06-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",68824
+2026-06-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",42500
+2026-06-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",10100
+2026-06-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",4062
+2026-06-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4706
+2026-06-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-06-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",39042
+2026-06-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9100
+2026-06-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",15938
+2026-06-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",17037
+2026-06-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5302
+2026-06-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",7442
+2026-06-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2448
+2026-06-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",17037
+2026-06-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",16526
+2026-07-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1311
+2026-07-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1079
+2026-07-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",6170
+2026-07-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1017
+2026-07-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5697
+2026-07-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2362
+2026-07-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",2724
+2026-07-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2610
+2026-07-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",1000
+2026-07-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",929
+2026-07-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4267
+2026-07-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2774
+2026-07-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",3444
+2026-07-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5309
+2026-07-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",3612
+2026-07-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1473
+2026-07-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",1788
+2026-07-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",7583
+2026-07-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3230
+2026-07-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",2629
+2026-07-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1658
+2026-07-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",899
+2026-07-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",3667
+2026-07-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-07-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",2495
+2026-07-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Mercar",8500
+2026-07-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",6925
+2026-07-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1630
+2026-07-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1344
+2026-07-01,FRUTAS,Coco,0146001,"Armenia, Mercar",3633
+2026-07-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2947
+2026-07-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",9640
+2026-07-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",8303
+2026-07-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",5478
+2026-07-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",5461
+2026-07-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2691
+2026-07-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4636
+2026-07-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",2794
+2026-07-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",2042
+2026-07-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",2603
+2026-07-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",5336
+2026-07-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",3788
+2026-07-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2956
+2026-07-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",4061
+2026-07-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",5121
+2026-07-01,FRUTAS,Mango Yulima,0131601,"Armenia, Mercar",3629
+2026-07-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",7775
+2026-07-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",7496
+2026-07-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",7974
+2026-07-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",5430
+2026-07-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4191
+2026-07-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",7500
+2026-07-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1736
+2026-07-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1487
+2026-07-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",1461
+2026-07-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1967
+2026-07-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",7695
+2026-07-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2494
+2026-07-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",5655
+2026-07-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",5262
+2026-07-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",9350
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",2479
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",5409
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",1797
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",1797
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1153
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",1261
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",1458
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",1447
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2335
+2026-07-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2248
+2026-07-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3525
+2026-07-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4780
+2026-07-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",12833
+2026-07-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",12233
+2026-07-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",10101
+2026-07-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-07-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",3882
+2026-07-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2296
+2026-07-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",427
+2026-07-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",464
+2026-07-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",547
+2026-07-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-07-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-07-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",21500
+2026-07-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-07-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24333
+2026-07-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",9000
+2026-07-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7480
+2026-07-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",16200
+2026-07-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",13000
+2026-07-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",12000
+2026-07-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",17200
+2026-07-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",24300
+2026-07-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",19800
+2026-07-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",35100
+2026-07-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",22420
+2026-07-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-07-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",7600
+2026-07-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",59820
+2026-07-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",25000
+2026-07-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",27500
+2026-07-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",9946
+2026-07-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",10312
+2026-07-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-07-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",2473
+2026-07-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",68824
+2026-07-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",41250
+2026-07-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",9135
+2026-07-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",4062
+2026-07-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4706
+2026-07-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-07-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",37619
+2026-07-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9100
+2026-07-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",15938
+2026-07-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",17037
+2026-07-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5154
+2026-07-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",7442
+2026-07-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2448
+2026-07-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",17037
+2026-07-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",15809
+2026-08-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1333
+2026-08-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1147
+2026-08-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",5789
+2026-08-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1067
+2026-08-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5620
+2026-08-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2433
+2026-08-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",2469
+2026-08-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2536
+2026-08-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",1012
+2026-08-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",948
+2026-08-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",3933
+2026-08-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2056
+2026-08-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",3074
+2026-08-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5733
+2026-08-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",4080
+2026-08-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1714
+2026-08-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",2722
+2026-08-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",7583
+2026-08-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",4058
+2026-08-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",3000
+2026-08-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1755
+2026-08-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",3970
+2026-08-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-08-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",1877
+2026-08-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Mercar",7204
+2026-08-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",6000
+2026-08-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1608
+2026-08-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1324
+2026-08-01,FRUTAS,Coco,0146001,"Armenia, Mercar",3633
+2026-08-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2664
+2026-08-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",10653
+2026-08-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",6311
+2026-08-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",6317
+2026-08-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",4883
+2026-08-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2258
+2026-08-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4708
+2026-08-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",2117
+2026-08-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1779
+2026-08-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",1839
+2026-08-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",5036
+2026-08-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",3794
+2026-08-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",3179
+2026-08-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",3285
+2026-08-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",4722
+2026-08-01,FRUTAS,Mango Yulima,0131601,"Armenia, Mercar",2832
+2026-08-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",8421
+2026-08-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",8070
+2026-08-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",8684
+2026-08-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",3861
+2026-08-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4164
+2026-08-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",7858
+2026-08-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1733
+2026-08-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1441
+2026-08-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",1578
+2026-08-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1967
+2026-08-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",8684
+2026-08-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2619
+2026-08-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",5594
+2026-08-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",4824
+2026-08-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",10482
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",5491
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",1858
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",1858
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1100
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",1092
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",1367
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",1409
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2118
+2026-08-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",2016
+2026-08-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3942
+2026-08-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4780
+2026-08-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",13828
+2026-08-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",13077
+2026-08-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",10101
+2026-08-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-08-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",4155
+2026-08-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2440
+2026-08-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",400
+2026-08-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",410
+2026-08-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",530
+2026-08-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",41246
+2026-08-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-08-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",22260
+2026-08-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-08-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24333
+2026-08-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8500
+2026-08-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-08-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",15500
+2026-08-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",12750
+2026-08-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",12000
+2026-08-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",14750
+2026-08-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",22775
+2026-08-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",19800
+2026-08-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",26425
+2026-08-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",30500
+2026-08-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-08-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",7000
+2026-08-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",51925
+2026-08-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",25000
+2026-08-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",29000
+2026-08-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",9882
+2026-08-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",10505
+2026-08-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-08-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",1972
+2026-08-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",68824
+2026-08-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",41250
+2026-08-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",8368
+2026-08-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",3577
+2026-08-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4706
+2026-08-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-08-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",37411
+2026-08-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9100
+2026-08-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",15938
+2026-08-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",17037
+2026-08-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5072
+2026-08-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",7442
+2026-08-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2448
+2026-08-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",17037
+2026-08-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",15652
+2026-09-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1275
+2026-09-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1092
+2026-09-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",5710
+2026-09-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1017
+2026-09-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5676
+2026-09-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2367
+2026-09-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",2544
+2026-09-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2656
+2026-09-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",1093
+2026-09-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",1011
+2026-09-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",3897
+2026-09-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2441
+2026-09-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",2528
+2026-09-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5446
+2026-09-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",4078
+2026-09-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1611
+2026-09-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",1874
+2026-09-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",7583
+2026-09-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3128
+2026-09-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",2275
+2026-09-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1568
+2026-09-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",4660
+2026-09-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-09-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",1771
+2026-09-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",6373
+2026-09-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1397
+2026-09-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1295
+2026-09-01,FRUTAS,Coco,0146001,"Armenia, Mercar",3633
+2026-09-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",2905
+2026-09-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",12756
+2026-09-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",8475
+2026-09-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",6654
+2026-09-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",3467
+2026-09-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2067
+2026-09-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4885
+2026-09-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",1944
+2026-09-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1538
+2026-09-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",1764
+2026-09-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",4633
+2026-09-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",2587
+2026-09-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2133
+2026-09-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",3699
+2026-09-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",5436
+2026-09-01,FRUTAS,Mango Yulima,0131601,"Armenia, Mercar",3365
+2026-09-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",8239
+2026-09-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",8070
+2026-09-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",8502
+2026-09-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",3536
+2026-09-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4423
+2026-09-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",7803
+2026-09-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1986
+2026-09-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1883
+2026-09-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",1346
+2026-09-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1931
+2026-09-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",8354
+2026-09-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2479
+2026-09-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",5093
+2026-09-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",6985
+2026-09-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",12574
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",5412
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",2069
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",2069
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",933
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",1033
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",1267
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",1233
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2078
+2026-09-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",1990
+2026-09-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3696
+2026-09-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4780
+2026-09-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",13438
+2026-09-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",12998
+2026-09-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",10101
+2026-09-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-09-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",3797
+2026-09-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2440
+2026-09-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",426
+2026-09-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",442
+2026-09-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",558
+2026-09-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",42441
+2026-09-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-09-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",21844
+2026-09-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-09-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24333
+2026-09-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8800
+2026-09-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-09-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",17600
+2026-09-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",12800
+2026-09-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",12400
+2026-09-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",16800
+2026-09-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",21200
+2026-09-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",19800
+2026-09-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",36980
+2026-09-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",30500
+2026-09-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-09-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",6400
+2026-09-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",61200
+2026-09-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",25000
+2026-09-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",21100
+2026-09-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",10369
+2026-09-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",11048
+2026-09-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-09-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",2044
+2026-09-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",68824
+2026-09-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",41250
+2026-09-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",8498
+2026-09-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",3577
+2026-09-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4706
+2026-09-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-09-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",37100
+2026-09-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9100
+2026-09-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",15938
+2026-09-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",17037
+2026-09-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5315
+2026-09-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",7082
+2026-09-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2448
+2026-09-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",17037
+2026-09-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",15181
+2026-10-01,VERDURAS Y HORTALIZAS,Acelga,0121903,"Armenia, Mercar",1333
+2026-10-01,VERDURAS Y HORTALIZAS,Ahuyama,0123502,"Armenia, Mercar",1088
+2026-10-01,VERDURAS Y HORTALIZAS,Ajo importado,0125201,"Armenia, Mercar",5689
+2026-10-01,VERDURAS Y HORTALIZAS,Apio,0129005,"Armenia, Mercar",1029
+2026-10-01,VERDURAS Y HORTALIZAS,Arveja verde en vaina,0124201,"Armenia, Mercar",5853
+2026-10-01,VERDURAS Y HORTALIZAS,Brócoli,0121302,"Armenia, Mercar",2700
+2026-10-01,VERDURAS Y HORTALIZAS,Cebolla cabezona blanca,0125301,"Armenia, Mercar",2375
+2026-10-01,VERDURAS Y HORTALIZAS,Cebolla junca,0125302,"Armenia, Mercar",2643
+2026-10-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Mercar",1131
+2026-10-01,VERDURAS Y HORTALIZAS,Chócolo mazorca,0112201,"Armenia, Retiro",1060
+2026-10-01,VERDURAS Y HORTALIZAS,Cilantro,0165403,"Armenia, Mercar",4267
+2026-10-01,VERDURAS Y HORTALIZAS,Coliflor,0121301,"Armenia, Mercar",2066
+2026-10-01,VERDURAS Y HORTALIZAS,Espinaca,0121501,"Armenia, Mercar",3194
+2026-10-01,VERDURAS Y HORTALIZAS,Fríjol verde en vaina,0124101,"Armenia, Mercar",5982
+2026-10-01,VERDURAS Y HORTALIZAS,Habichuela,0121901,"Armenia, Mercar",4024
+2026-10-01,VERDURAS Y HORTALIZAS,Lechuga Batavia,0126001,"Armenia, Mercar",1478
+2026-10-01,VERDURAS Y HORTALIZAS,Pepino cohombro,0123201,"Armenia, Mercar",1867
+2026-10-01,VERDURAS Y HORTALIZAS,Perejil,0121904,"Armenia, Mercar",7437
+2026-10-01,VERDURAS Y HORTALIZAS,Pimentón,0123102,"Armenia, Mercar",3739
+2026-10-01,VERDURAS Y HORTALIZAS,Rábano rojo,0125902,"Armenia, Mercar",2342
+2026-10-01,VERDURAS Y HORTALIZAS,Remolacha,0125901,"Armenia, Mercar",1556
+2026-10-01,VERDURAS Y HORTALIZAS,Repollo blanco,0121201,"Armenia, Mercar",1930
+2026-10-01,VERDURAS Y HORTALIZAS,Tomate chonto,0123401,"Armenia, Mercar",4052
+2026-10-01,VERDURAS Y HORTALIZAS,Tomate riñón,0123401,"Armenia, Mercar",5000
+2026-10-01,VERDURAS Y HORTALIZAS,Zanahoria,0125101,"Armenia, Mercar",1797
+2026-10-01,FRUTAS,Aguacate papelillo,0131101,"Armenia, Retiro",6317
+2026-10-01,FRUTAS,Banano criollo,0131201,"Armenia, Mercar",1464
+2026-10-01,FRUTAS,Banano criollo,0131201,"Armenia, Retiro",1225
+2026-10-01,FRUTAS,Coco,0146001,"Armenia, Mercar",3633
+2026-10-01,FRUTAS,Curuba,0136001,"Armenia, Mercar",3222
+2026-10-01,FRUTAS,Fresa,0135401,"Armenia, Mercar",11531
+2026-10-01,FRUTAS,Granadilla,0136001,"Armenia, Mercar",8087
+2026-10-01,FRUTAS,Guanábana,0136001,"Armenia, Mercar",5263
+2026-10-01,FRUTAS,Guayaba agria,0131901,"Armenia, Mercar",4331
+2026-10-01,FRUTAS,Guayaba pera,0131901,"Armenia, Mercar",2183
+2026-10-01,FRUTAS,Limón común,0132201,"Armenia, Mercar",4667
+2026-10-01,FRUTAS,Limón mandarino,0132201,"Armenia, Mercar",2256
+2026-10-01,FRUTAS,Limón mandarino,0132201,"Armenia, Retiro",1686
+2026-10-01,FRUTAS,Limón Tahití,0132201,"Armenia, Mercar",1872
+2026-10-01,FRUTAS,Lulo,0131904,"Armenia, Mercar",4247
+2026-10-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Mercar",2475
+2026-10-01,FRUTAS,Mandarina Oneco,0132401,"Armenia, Retiro",2114
+2026-10-01,FRUTAS,Mango manzano,0131601,"Armenia, Mercar",3319
+2026-10-01,FRUTAS,Mango Tommy,0131601,"Armenia, Mercar",4917
+2026-10-01,FRUTAS,Mango Yulima,0131601,"Armenia, Mercar",2924
+2026-10-01,FRUTAS,Manzana roja importada,0134101,"Armenia, Mercar",7468
+2026-10-01,FRUTAS,Manzana royal gala importada,0134101,"Armenia, Mercar",7858
+2026-10-01,FRUTAS,Manzana verde importada,0134101,"Armenia, Mercar",7880
+2026-10-01,FRUTAS,Maracuyá,0136001,"Armenia, Mercar",3719
+2026-10-01,FRUTAS,Melón Cantalup,0122901,"Armenia, Mercar",4044
+2026-10-01,FRUTAS,Mora de Castilla,0135301,"Armenia, Mercar",7697
+2026-10-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Mercar",1781
+2026-10-01,FRUTAS,Naranja Sweet,0132301,"Armenia, Retiro",1495
+2026-10-01,FRUTAS,Papaya Maradol,0131701,"Armenia, Mercar",1411
+2026-10-01,FRUTAS,Patilla,0122101,"Armenia, Mercar",1736
+2026-10-01,FRUTAS,Pera importada,0134201,"Armenia, Mercar",7237
+2026-10-01,FRUTAS,Piña gold,0131801,"Armenia, Mercar",2769
+2026-10-01,FRUTAS,Tomate de árbol,0131910,"Armenia, Mercar",4681
+2026-10-01,FRUTAS,Uva Isabela,0133001,"Armenia, Mercar",5849
+2026-10-01,FRUTAS,Uva red globe nacional,0133001,"Armenia, Mercar",10049
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Arracacha blanca,0159901,"Armenia, Mercar",2833
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Papa criolla limpia,0151002,"Armenia, Mercar",5074
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Papa parda pastusa,0151001,"Armenia, Mercar",2338
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Papa suprema,0151001,"Armenia, Mercar",2338
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano dominico hartón verde,0131301,"Armenia, Retiro",1206
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón maduro,0131301,"Armenia, Mercar",1367
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Mercar",1631
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Plátano hartón verde,0131301,"Armenia, Retiro",1494
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Mercar",2055
+2026-10-01,"TUBERCULOS, RAICES Y PLATANOS",Yuca ICA,0152001,"Armenia, Retiro",1913
+2026-10-01,GRANOS Y CEREALES,Arroz de primera,2316102,"Armenia, Mercar",3336
+2026-10-01,GRANOS Y CEREALES,Arveja verde seca importada,0170501,"Armenia, Mercar",4780
+2026-10-01,GRANOS Y CEREALES,Fríjol bolón,0170101,"Armenia, Mercar",13155
+2026-10-01,GRANOS Y CEREALES,Fríjol cargamanto rojo,0170101,"Armenia, Mercar",11850
+2026-10-01,GRANOS Y CEREALES,Fríjol nima calima,0170101,"Armenia, Mercar",10101
+2026-10-01,GRANOS Y CEREALES,Garbanzo importado,0170301,"Armenia, Mercar",6975
+2026-10-01,GRANOS Y CEREALES,Lenteja importada,0170401,"Armenia, Mercar",3865
+2026-10-01,GRANOS Y CEREALES,Maíz blanco trillado,0112201,"Armenia, Mercar",2440
+2026-10-01,LACTEOS Y HUEVOS,Huevo rojo A,0231201,"Armenia, Mercar",418
+2026-10-01,LACTEOS Y HUEVOS,Huevo rojo AA,0231201,"Armenia, Mercar",435
+2026-10-01,LACTEOS Y HUEVOS,Huevo rojo extra,0231201,"Armenia, Mercar",530
+2026-10-01,LACTEOS Y HUEVOS,Leche en polvo,2221101,"Armenia, Mercar",43237
+2026-10-01,LACTEOS Y HUEVOS,Queso campesino,2225101,"Armenia, Mercar",24333
+2026-10-01,LACTEOS Y HUEVOS,Queso costeño,2225101,"Armenia, Mercar",22078
+2026-10-01,LACTEOS Y HUEVOS,Queso cuajada,2225102,"Armenia, Mercar",14667
+2026-10-01,LACTEOS Y HUEVOS,Queso doble crema,2225101,"Armenia, Mercar",24333
+2026-10-01,CARNES,Alas de pollo con costillar,2112101,"Armenia, Mercar",8500
+2026-10-01,CARNES,Menudencias de pollo,2116001,"Armenia, Mercar",7133
+2026-10-01,CARNES,Pechuga de pollo,2112101,"Armenia, Mercar",16500
+2026-10-01,CARNES,Pierna pernil con rabadilla,2112101,"Armenia, Mercar",12500
+2026-10-01,CARNES,Piernas de pollo,2112101,"Armenia, Mercar",12500
+2026-10-01,CARNES,Pollo entero fresco sin vísceras,2112101,"Armenia, Mercar",17500
+2026-10-01,PESCADOS,Bagre rayado en postas congelado,2122201,"Armenia, Mercar",21200
+2026-10-01,PESCADOS,Bocachico importado congelado,2121901,"Armenia, Mercar",19800
+2026-10-01,PESCADOS,Camarón tití precocido seco,2125601,"Armenia, Mercar",29875
+2026-10-01,PESCADOS,"Merluza, filete importado",2122201,"Armenia, Mercar",30500
+2026-10-01,PESCADOS,Mojarra lora entera congelada,2121901,"Armenia, Mercar",18500
+2026-10-01,PESCADOS,Pescado cabezas,2123401,"Armenia, Mercar",6000
+2026-10-01,PESCADOS,"Salmón, filete congelado",2122201,"Armenia, Mercar",43675
+2026-10-01,PESCADOS,Sierra entera congelada,2121901,"Armenia, Mercar",25000
+2026-10-01,PESCADOS,Trucha en corte mariposa,2122201,"Armenia, Mercar",19000
+2026-10-01,PROCESADOS,Aceite de palma,2162201,"Armenia, Mercar",10083
+2026-10-01,PROCESADOS,Aceite vegetal mezcla,2169199,"Armenia, Mercar",10803
+2026-10-01,PROCESADOS,Avena en hojuelas,2314003,"Armenia, Mercar",10044
+2026-10-01,PROCESADOS,Azúcar sulfitada,2352006,"Armenia, Mercar",2641
+2026-10-01,PROCESADOS,Café molido,2381302,"Armenia, Mercar",68824
+2026-10-01,PROCESADOS,Chocolate amargo,2365002,"Armenia, Mercar",40625
+2026-10-01,PROCESADOS,Galletas saladas,2349009,"Armenia, Mercar",10182
+2026-10-01,PROCESADOS,Harina de trigo,2311001,"Armenia, Mercar",3577
+2026-10-01,PROCESADOS,Harina precocida de maíz,2312002,"Armenia, Mercar",4706
+2026-10-01,PROCESADOS,Jugo instantáneo (sobre),2399911,"Armenia, Mercar",89875
+2026-10-01,PROCESADOS,Lomitos de atún en lata,2124201,"Armenia, Mercar",38013
+2026-10-01,PROCESADOS,Manteca,2170003,"Armenia, Mercar",9100
+2026-10-01,PROCESADOS,Margarina,2170002,"Armenia, Mercar",15938
+2026-10-01,PROCESADOS,Mayonesa doy pack,2399504,"Armenia, Mercar",17037
+2026-10-01,PROCESADOS,Panela redonda morena,2355001,"Armenia, Mercar",5305
+2026-10-01,PROCESADOS,Pastas alimenticias,2371001,"Armenia, Mercar",6842
+2026-10-01,PROCESADOS,Sal yodada,1620202,"Armenia, Mercar",2448
+2026-10-01,PROCESADOS,Salsa de tomate doy pack,2399501,"Armenia, Mercar",17037
+2026-10-01,PROCESADOS,Sardinas en lata,2124203,"Armenia, Mercar",14890

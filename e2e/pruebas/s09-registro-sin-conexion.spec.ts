@@ -1,6 +1,6 @@
 import { expect, test, type Page, type Route } from '@playwright/test'
 import { API } from '../soporte/entorno'
-import { crearCuentaEnLaPwa, registrarEnTiendaElegida } from '../soporte/flujos'
+import { crearCuentaEnLaPwa, elegirProducto, registrarEnTiendaElegida } from '../soporte/flujos'
 
 /*
  * S-09 (RF-09, EC-09, M-12): el reportante registra 3 precios sin conexión y luego se reconecta.
@@ -15,9 +15,9 @@ import { crearCuentaEnLaPwa, registrarEnTiendaElegida } from '../soporte/flujos'
  */
 const TIENDA = 'Tienda El Paisa'
 const REPORTES = [
-  { producto: 'Lenteja', precio: '4100' },
-  { producto: 'Café molido', precio: '10200' },
-  { producto: 'Jabón en barra', precio: '6500' },
+  { producto: 'Lenteja', marca: 'La Cosecha', precio: '4100' },
+  { producto: 'Café molido', marca: 'Del Quindío', precio: '10200' },
+  { producto: 'Jabón en barra', marca: 'Rey', precio: '6500' },
 ]
 
 interface Envio {
@@ -65,10 +65,11 @@ test('S-09 tres precios registrados sin conexión se sincronizan al volver la re
   await page.getByRole('navigation').getByRole('link', { name: 'Registrar' }).click()
   await page.getByRole('radiogroup', { name: 'Seleccionar establecimiento' }).getByRole('radio', { name: new RegExp(TIENDA) }).click()
   await page.getByRole('button', { name: 'Siguiente' }).click()
-  const productos = page.getByRole('radiogroup', { name: 'Seleccionar producto' })
-  for (const { producto } of REPORTES) {
+  for (const reporte of REPORTES) {
+    const busqueda = page.waitForResponse((r) => r.url().includes('/v1/productos?') && new URL(r.url()).searchParams.get('q') === reporte.producto)
     const detalle = page.waitForResponse((r) => /\/v1\/productos\/[0-9a-f-]{36}$/.test(r.url()))
-    await productos.getByRole('radio', { name: new RegExp(producto) }).click()
+    await elegirProducto(page, reporte)
+    await busqueda
     await detalle
   }
 

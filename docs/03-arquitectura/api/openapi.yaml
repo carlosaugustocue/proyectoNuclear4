@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API de la plataforma colaborativa de comparación de precios — Núcleo
-  version: 0.6.0
+  version: 0.7.0
   description: |
     Contrato preliminar del núcleo (Corte 1). Decisiones: ADR-0004 (REST + OpenAPI),
     ADR-0006 (idempotencia para registro offline), ADR-0009 (neutralidad).
@@ -73,6 +73,23 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/Producto' }
+        '404': { $ref: '#/components/responses/Problema' }
+
+  /productos/{productoId}/referencia-mayorista:
+    get:
+      tags: [Catálogo]
+      summary: Referencia mayorista SIPSA-DANE del producto (RF-25, ADR-0010)
+      description: |
+        Precio mayorista promedio mensual en las centrales de abasto de Armenia (SIPSA-DANE), promediado
+        entre mercados y redondeado a pesos. Es una REFERENCIA aparte: no es un precio de góndola, no aparece
+        en `/comparaciones` ni cambia su orden o el total de una canasta. Serie vacía si no hay datos.
+      parameters: [ { $ref: '#/components/parameters/ProductoId' } ]
+      responses:
+        '200':
+          description: Serie mensual de la referencia mayorista
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReferenciaMayorista' }
         '404': { $ref: '#/components/responses/Problema' }
 
   /productos/propuestas:
@@ -489,22 +506,6 @@ paths:
         '403': { $ref: '#/components/responses/Problema' }
         '422': { $ref: '#/components/responses/Problema' }
 
-  /referencias-mayoristas:
-    get:
-      x-estado: planificado
-      tags: [Comparación]
-      summary: Precio mayorista de referencia (SIPSA), separado de la comparación (RF-25, ADR-0010)
-      parameters:
-        - { name: productoId, in: query, required: true, schema: { type: string, format: uuid } }
-      responses:
-        '200':
-          description: Referencias disponibles
-          content:
-            application/json:
-              schema:
-                type: array
-                items: { $ref: '#/components/schemas/ReferenciaMayorista' }
-
   /mis-aportes:
     get:
       tags: [Precios]
@@ -782,6 +783,31 @@ components:
           schema: { $ref: '#/components/schemas/Problema' }
 
   schemas:
+    ReferenciaMayorista:
+      type: object
+      required: [productoId, unidadBase, serie, ultimo, mercados, fuente, advertencia]
+      properties:
+        productoId: { type: string, format: uuid }
+        unidadBase: { oneOf: [ { $ref: '#/components/schemas/UnidadBase' }, { type: 'null' } ] }
+        serie:
+          type: array
+          items: { $ref: '#/components/schemas/PuntoReferenciaMayorista' }
+        ultimo: { oneOf: [ { $ref: '#/components/schemas/PuntoReferenciaMayorista' }, { type: 'null' } ] }
+        mercados: { type: array, items: { type: string }, example: ['Armenia, Mercar', 'Armenia, Retiro'] }
+        fuente:
+          type: object
+          required: [nombre, descripcion, url]
+          properties:
+            nombre: { type: string, example: SIPSA – DANE }
+            descripcion: { type: string }
+            url: { type: string, format: uri }
+        advertencia: { type: string }
+    PuntoReferenciaMayorista:
+      type: object
+      required: [mes, precio]
+      properties:
+        mes: { type: string, pattern: '^[0-9]{4}-[0-9]{2}$', example: '2026-10' }
+        precio: { type: string, description: Pesos por unidad base, sin decimales, example: '1789' }
     UnidadBase:
       type: string
       enum: [KG, L, UNIDAD]
@@ -1139,17 +1165,6 @@ components:
               precioPorUnidad: { $ref: '#/components/schemas/Dinero' }
               cantidad: { type: string }
               subtotal: { $ref: '#/components/schemas/Dinero' }
-
-    ReferenciaMayorista:
-      type: object
-      required: [fuente, mercado, precioPorUnidad, unidadBase, fecha]
-      properties:
-        fuente: { type: string, const: SIPSA-DANE }
-        mercado: { type: string, example: 'Armenia, Mercar' }
-        precioPorUnidad: { $ref: '#/components/schemas/Dinero' }
-        unidadBase: { $ref: '#/components/schemas/UnidadBase' }
-        fecha: { type: string, format: date }
-        nota: { type: string, example: Precio mayorista de referencia; no corresponde al precio de una tienda }
 
     MiAporte:
       type: object

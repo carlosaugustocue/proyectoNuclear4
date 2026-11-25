@@ -30,14 +30,29 @@ export async function crearCuentaEnLaPwa(page: Page, etiqueta: string): Promise<
 interface DatosReporte {
   establecimiento: string
   producto: string
+  /** Marca (o categoría si no tiene): distingue «Lenteja · La Cosecha» de la genérica «Lenteja importada» de SIPSA. */
+  marca: string
   presentacion?: string
   precio: string
 }
 
+const escapar = (texto: string) => texto.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+/**
+ * Filtra la lista (solo muestra 30 de los más de 100 productos del catálogo) y elige el producto por nombre
+ * y marca. Filtrar con el mismo texto repite la misma URL, que el service worker sirve sin conexión.
+ */
+export async function elegirProducto(page: Page, datos: { producto: string; marca: string }): Promise<void> {
+  await page.getByLabel('Filtrar productos').fill(datos.producto)
+  await page
+    .getByRole('radiogroup', { name: 'Seleccionar producto' })
+    .getByRole('radio', { name: new RegExp(`^${escapar(datos.producto)}\\s+${escapar(datos.marca)}`) })
+    .click()
+}
+
 /** Recorre los pasos 2 a 4 del registro (la tienda ya está elegida) y confirma. */
 export async function registrarEnTiendaElegida(page: Page, datos: Omit<DatosReporte, 'establecimiento'>): Promise<void> {
-  const productos = page.getByRole('radiogroup', { name: 'Seleccionar producto' })
-  await productos.getByRole('radio', { name: new RegExp(datos.producto) }).click()
+  await elegirProducto(page, datos)
   if (datos.presentacion) {
     await page.getByRole('radiogroup', { name: 'Presentación' }).getByRole('radio', { name: datos.presentacion }).click()
   }
