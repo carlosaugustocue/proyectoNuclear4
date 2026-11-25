@@ -145,8 +145,8 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
       <button type="button" class="mb-3 inline-flex items-center gap-1 text-xs font-semibold text-primary-700 underline" @click="usarUbicacion">
         <MapPin class="h-3.5 w-3.5" aria-hidden="true" /> Mostrar tiendas cerca de mí
       </button>
-      <ul class="space-y-2" role="radiogroup" aria-label="Seleccionar establecimiento">
-        <li v-for="est in establecimientos" :key="est.id">
+      <div class="space-y-2" role="radiogroup" aria-label="Seleccionar establecimiento">
+        <div v-for="est in establecimientos" :key="est.id">
           <button
             type="button"
             class="flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left text-sm transition-colors"
@@ -157,12 +157,12 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
           >
             <div>
               <p class="font-semibold">{{ est.nombre }}</p>
-              <p class="text-xs text-slate-500">{{ TIPO_ESTABLECIMIENTO[est.tipo] }} · {{ est.direccion }}</p>
+              <p class="text-xs text-slate-600">{{ TIPO_ESTABLECIMIENTO[est.tipo] }} · {{ est.direccion }}</p>
             </div>
-            <span v-if="est.distanciaKm !== undefined" class="text-xs text-slate-500">{{ formatearDistancia(est.distanciaKm) }}</span>
+            <span v-if="est.distanciaKm !== undefined" class="text-xs text-slate-600">{{ formatearDistancia(est.distanciaKm) }}</span>
           </button>
-        </li>
-      </ul>
+        </div>
+      </div>
     </fieldset>
 
     <fieldset v-else-if="paso === 2">
@@ -173,8 +173,8 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
         <Search class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
         <input v-model="filtroProducto" type="search" class="w-full rounded-lg border border-slate-200 py-2 pl-9 pr-3 text-sm focus:border-primary-500 focus:outline-none" placeholder="Filtrar productos" aria-label="Filtrar productos" />
       </div>
-      <ul class="space-y-2" role="radiogroup" aria-label="Seleccionar producto">
-        <li v-for="prod in productos" :key="prod.id">
+      <div class="space-y-2" role="radiogroup" aria-label="Seleccionar producto">
+        <div v-for="prod in productos" :key="prod.id">
           <button
             type="button"
             class="w-full rounded-xl border px-4 py-3 text-left text-sm transition-colors"
@@ -187,7 +187,7 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
               <ImagenProducto tamano="sm" :categoria="prod.categoria" :imagen="prod.imagen" />
               <span>
                 <span class="block font-semibold">{{ prod.nombre }}</span>
-                <span class="block text-xs text-slate-500">{{ prod.marca ?? prod.categoria }}</span>
+                <span class="block text-xs text-slate-600">{{ prod.marca ?? prod.categoria }}</span>
               </span>
             </span>
           </button>
@@ -203,8 +203,8 @@ onMounted(() => Promise.all([cargarEstablecimientos(), cargarProductos()]))
               @click="form.presentacionId = p.id"
             >{{ describirPresentacion(p) }}</button>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </fieldset>
 
     <div v-else-if="paso === 3">

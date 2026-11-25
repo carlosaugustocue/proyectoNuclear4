@@ -46,7 +46,7 @@ onMounted(() => {
         ref="inputRef"
         v-model="busqueda"
         type="search"
-        class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm shadow-sm placeholder:text-slate-400 focus:border-primary-500 focus:outline-none"
+        class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm shadow-sm placeholder:text-slate-500 focus:border-primary-500 focus:outline-none"
         placeholder="Buscar por nombre, marca o alias…"
         aria-label="Buscar productos"
       />
@@ -72,7 +72,7 @@ onMounted(() => {
     </div>
     <div v-else-if="!cargando" class="py-12 text-center">
       <p class="text-sm text-slate-500">No se encontraron productos</p>
-      <p class="mt-1 text-xs text-slate-400">Intenta con otro nombre o categoría</p>
+      <p class="mt-1 text-xs text-slate-500">Intenta con otro nombre o categoría</p>
     </div>
   </section>
 </template>

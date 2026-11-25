@@ -34,7 +34,7 @@ function hasta(iso: string): string {
           <span class="text-slate-500"> · {{ p.establecimiento.nombre }}</span>
           <span v-if="props.nombresProducto?.get(p.productoId)" class="text-slate-500"> · {{ props.nombresProducto.get(p.productoId) }}</span>
         </span>
-        <span class="shrink-0 text-slate-400">hasta {{ hasta(p.vigenteHasta) }}</span>
+        <span class="shrink-0 text-slate-500">hasta {{ hasta(p.vigenteHasta) }}</span>
       </li>
     </ul>
   </aside>

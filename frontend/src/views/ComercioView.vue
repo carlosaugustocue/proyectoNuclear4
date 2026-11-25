@@ -172,7 +172,7 @@ const boton = 'rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-wh
           <h2 id="titulo-entrar" class="mb-2 text-sm font-semibold text-slate-800">2. Ya tengo credencial</h2>
           <label for="credencial" class="text-xs text-slate-600">Credencial de comercio</label>
           <input id="credencial" v-model="credencial" type="password" autocomplete="off" :class="campo" />
-          <p class="mt-1 text-[11px] text-slate-400">No se guarda en este dispositivo: al recargar tendrás que pegarla de nuevo.</p>
+          <p class="mt-1 text-[11px] text-slate-500">No se guarda en este dispositivo: al recargar tendrás que pegarla de nuevo.</p>
           <button type="submit" :class="[boton, 'mt-3 w-full']">Entrar</button>
           <p v-if="errorSesion" class="mt-2 text-xs text-danger-700" role="alert">{{ errorSesion }}</p>
         </form>

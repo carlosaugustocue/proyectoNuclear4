@@ -119,6 +119,43 @@ jobs:
         run: |
           docker compose run --rm pwa sh -c "npm ci && npm test && npm run build"
 
+  # ─── Pruebas de sistema y accesibilidad (Playwright + axe) — S-xx, A-01 ───
+  # Corre contra las mismas imágenes de Railway (docker-compose.e2e.yml): PWA compilada con su CSP y
+  # service worker, API y worker de producción, base efímera con la semilla. Cubre M-11 (axe) y
+  # M-12 (registro sin conexión sin duplicados). El informe HTML y el reporte axe quedan como artefacto.
+  e2e:
+    name: Sistema y accesibilidad (Playwright + axe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Levantar el entorno con las imágenes de Railway
+        run: docker compose -p pn4-e2e -f docker-compose.e2e.yml up -d --build --wait
+
+      - name: S-08, S-09, S-10, S-11, S-15 y A-01 (imagen oficial de Playwright 1.49.1)
+        run: |
+          docker run --rm --network host --user "$(id -u):$(id -g)" -e HOME=/tmp -e CI=1 \
+            -v "$PWD/e2e":/e2e -w /e2e mcr.microsoft.com/playwright:v1.49.1-noble \
+            sh -c "npm ci --no-audit --no-fund && npx playwright test"
+
+      - name: Registros del entorno (solo si algo falla)
+        if: failure()
+        run: docker compose -p pn4-e2e -f docker-compose.e2e.yml logs --no-color api worker web | tail -n 300
+
+      - name: Publicar informe de Playwright y reporte axe
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-informe
+          path: e2e/resultados/
+          if-no-files-found: warn
+
+      - name: Apagar el entorno
+        if: always()
+        run: docker compose -p pn4-e2e -f docker-compose.e2e.yml down -v
+
   # ─── Escaneo de las imágenes de producción (Trivy) — M-20 ─────────────────
   imagenes:
     name: Imágenes de producción (Trivy)

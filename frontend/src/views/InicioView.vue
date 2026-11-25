@@ -33,7 +33,7 @@ function irABuscar(categoria?: string | null) {
       <input
         v-model="busqueda"
         type="search"
-        class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm shadow-sm transition-shadow placeholder:text-slate-400 focus:border-primary-500 focus:shadow-md focus:outline-none"
+        class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm shadow-sm transition-shadow placeholder:text-slate-500 focus:border-primary-500 focus:shadow-md focus:outline-none"
         placeholder="Buscar productos... ej: arroz, leche, huevos"
         aria-label="Nombre del producto"
       />

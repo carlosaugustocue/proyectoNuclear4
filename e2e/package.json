@@ -1,0 +1,14 @@
+{
+  "name": "pn4-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas de sistema (S-xx) y accesibilidad (A-01) de la PWA contra el entorno docker-compose.e2e.yml",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.1",
+    "@playwright/test": "1.49.1",
+    "@types/node": "22.10.2"
+  }
+}

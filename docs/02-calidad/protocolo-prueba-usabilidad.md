@@ -166,6 +166,12 @@ Se ejecuto axe-core sobre las 6 vistas del prototipo.
 | Establecimientos | 0 | 0 | Aprobada |
 | Perfil | 0 | 0 | Aprobada |
 
+> **Nota de verificación (2026-11-25).** El reporte exportado de esta revisión no está en el repositorio. La suite automatizada A-01 (axe-core con Playwright, en el CI) se ejecutó sobre la PWA conectada y encontró **12 violaciones A/AA en 11 pantallas**:
+> - **Contraste (1.4.3):** las etiquetas de la barra de navegación inferior estaban en `slate-400` sobre blanco, con 2,63:1. Esas etiquetas tenían el mismo color en el prototipo del 2026-11-11 (`e802c1c`).
+> - **Listas (1.3.1):** había elementos `<li>` dentro de los `radiogroup` del registro.
+>
+> Se corrigieron y la medición quedó en **0 violaciones en 17 pantallas**. Evidencia: [`evidencias/sistema-accesibilidad/`](evidencias/sistema-accesibilidad/README.md).
+
 ### 7.2 Checklist manual WCAG 2.2 AA
 
 | Criterio | Resultado | Evidencia |
@@ -204,7 +210,7 @@ Se probo el flujo de comparación con TalkBack (Android) en un dispositivo del e
 | Metrica | Meta (plan-calidad) | Resultado | Estado |
 |---|---|---|---|
 | M-01 Registros <= 15 s (EC-01) | >= 80% | 62.5% (5/8) | **No cumple** — plan de mejora definido |
-| M-11 Accesibilidad axe A/AA (EC-08) | 0 violaciones | 0 violaciones | Cumple |
+| M-11 Accesibilidad axe A/AA (EC-08) | 0 violaciones | 0 violaciones (reportado el 2026-11-11). Medición automatizada del 2026-11-25: 12 violaciones, luego 0 tras corregir (ver §7.1) | Cumple desde el 2026-11-25 |
 | M-09 Neutralidad de comparación (EC-06) | 100% casos | 8/8 participantes vieron criterio de orden | Cumple |
 
 ## 10. Conclusiones

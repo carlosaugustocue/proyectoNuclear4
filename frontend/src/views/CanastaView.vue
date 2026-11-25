@@ -103,7 +103,7 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
       <li v-for="p in sugerencias" :key="p.id" class="flex items-center justify-between px-3 py-2 text-sm">
         <span class="flex items-center gap-2">
           <ImagenProducto tamano="sm" :categoria="p.categoria" :imagen="p.imagen" />
-          <span>{{ p.nombre }} <span class="text-xs text-slate-400">{{ p.marca ?? p.categoria }}</span></span>
+          <span>{{ p.nombre }} <span class="text-xs text-slate-500">{{ p.marca ?? p.categoria }}</span></span>
         </span>
         <button type="button" class="rounded-full px-3 py-1 text-xs font-semibold text-primary-700 hover:bg-primary-50" @click="agregar(p)">Agregar</button>
       </li>
@@ -128,7 +128,7 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
         >
           <option v-for="u in unidadesPermitidas(item.unidadBase)" :key="u" :value="u">{{ u }}</option>
         </select>
-        <button type="button" class="rounded p-1.5 text-slate-400 hover:bg-danger-50 hover:text-danger-600" :aria-label="`Quitar ${item.nombre}`" @click="quitar(item.productoId)">
+        <button type="button" class="rounded p-1.5 text-slate-500 hover:bg-danger-50 hover:text-danger-600" :aria-label="`Quitar ${item.nombre}`" @click="quitar(item.productoId)">
           <Trash2 class="h-4 w-4" aria-hidden="true" />
         </button>
       </li>
@@ -170,7 +170,7 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
         <li v-for="e in resultado.establecimientos" :key="e.establecimiento.id" class="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
           <div class="flex items-start justify-between gap-2">
             <div>
-              <p class="text-xs text-slate-400">#{{ e.posicion }}</p>
+              <p class="text-xs text-slate-500">#{{ e.posicion }}</p>
               <p class="font-semibold text-slate-900">{{ e.establecimiento.nombre }}</p>
             </div>
             <div class="text-right">
@@ -187,7 +187,7 @@ async function comparar(criterio: CriterioCanasta = canasta.criterio) {
         </li>
       </ol>
       <BloquePromociones :promociones="resultado.contenidoPromocional" :nombres-producto="nombres" />
-      <p class="mt-3 text-[11px] text-slate-400">Las promociones nunca cambian el total ni el orden; se muestran aparte cuando existen.</p>
+      <p class="mt-3 text-[11px] text-slate-500">Las promociones nunca cambian el total ni el orden; se muestran aparte cuando existen.</p>
     </section>
   </section>
 </template>
