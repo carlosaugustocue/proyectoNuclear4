@@ -29,4 +29,4 @@ EXPOSE 8080
 # en producción real se cambiaría por php-fpm + nginx o FrankenPHP.
 # --no-reload es necesario para que PHP_CLI_SERVER_WORKERS (procesos concurrentes) tenga efecto:
 # sin él Laravel ignora la variable y atiende una petición a la vez (medido en pruebas-calidad/, EC-04).
-CMD ["sh", "-c", "php artisan config:cache && php artisan migrate --force && php artisan serve --no-reload --host=0.0.0.0 --port=${PORT:-8080}"]
+CMD ["sh", "-c", "php artisan config:cache && php artisan migrate --force && (php artisan ingesta:sipsa || echo \"AVISO: la ingesta de SIPSA falló; la API arranca con el catálogo actual\") && php artisan serve --no-reload --host=0.0.0.0 --port=${PORT:-8080}"]
