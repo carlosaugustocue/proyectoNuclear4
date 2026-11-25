@@ -67,4 +67,4 @@ deptrac:
     Http:      [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
     Providers: [Canasta, Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta, Comercial]
     # Comandos de medición de calidad (pruebas-calidad/): adaptador de entrada, como Http.
-    Console:   [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad]
+    Console:   [Compartido, Catalogo, Establecimientos, Precios, Confianza, Comparacion, Moderacion, Identidad, Ingesta]

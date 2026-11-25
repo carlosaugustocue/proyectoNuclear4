@@ -20,6 +20,7 @@ Route::prefix('v1')->middleware('throttle:api-por-ip')->group(function () {
     // ── Catálogo ───────────────────────────────────────────────────────
     Route::get('productos', [ProductoController::class, 'index']);
     Route::get('productos/{productoId}', [ProductoController::class, 'show'])->whereUuid('productoId');
+    Route::get('productos/{productoId}/referencia-mayorista', [\App\Http\Controllers\V1\ReferenciaMayoristaController::class, 'show'])->whereUuid('productoId'); // RF-25, ADR-0010
 
     // ── Establecimientos ───────────────────────────────────────────────
     Route::get('establecimientos', [EstablecimientoController::class, 'index']);
