@@ -15,7 +15,7 @@ test('S-08 registrar un precio con conexión: 202, una sola petición y nada pen
   })
 
   await page.goto('/registrar')
-  await registrarPrecio(page, { establecimiento: 'Minimercado La Esquina', producto: 'Panela', precio: '2.450' })
+  await registrarPrecio(page, { establecimiento: 'Minimercado La Esquina', producto: 'Panela', marca: 'El Trapiche', precio: '2.450' })
 
   await expect(page.getByRole('heading', { name: 'Precio registrado' })).toBeVisible()
   expect(envios).toHaveLength(1)
