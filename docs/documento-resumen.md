@@ -236,10 +236,11 @@ concluir. Todas las mediciones son reproducibles desde el repositorio. La Tabla 
 | Modificabilidad | M-07 | 0 | 0 | ✅ |
 | Entrega continua | M-18 / M-20 | 2/2 / 0 CVE críticas | 1 / 0 | ✅ |
 
-De 22 medidas, 13 cumplen, 1 cumple con reservas, 5 no cumplen y 3 no se pudieron medir. Las tres sin medir son:
+De 23 medidas, 13 cumplen, 1 cumple con reservas, 5 no cumplen y 4 no se pudieron medir. Las cuatro sin medir son:
 - el esfuerzo real (M-08);
 - el tiempo de reversión (M-21);
-- el precio oficial (M-22), porque aún no hay comercios reales.
+- el precio oficial (M-22), porque aún no hay comercios reales;
+- la satisfacción con el SUS (M-23), que se mide al repetir la prueba con usuarios.
 
 **Calidad de los datos (ISO/IEC 25012).** Sobre 126 productos y 737 observaciones se midió:
 - **Actualidad:** 0 precios vencidos mostrados como vigentes.
