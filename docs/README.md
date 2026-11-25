@@ -27,6 +27,10 @@ Plataforma colaborativa de comparación de precios entre tiendas y supermercados
 |---|---|---|
 | Arquitectura de Software II | **5. Sistema integrado** (núcleo + Comercial + ampliación A1 y B2, desplegado, demostración) | `backend/` · `frontend/` · [`.github/workflows/cd.yml`](../.github/workflows/cd.yml) · [entrega continua](03-arquitectura/ampliacion-corte3/entrega-continua.md) · URLs en el [README](../README.md) |
 | Modelos de Calidad | **5. Informe de evaluación de calidad** (ISO/IEC 25040 + 25012, integración, sistema y carga, incidencias) | [02-calidad/informe-evaluacion-calidad.md](02-calidad/informe-evaluacion-calidad.md) · [`pruebas-calidad/resultados/2026-11-25_1315/`](../pruebas-calidad/resultados/2026-11-25_1315/) · [auditoría de datos](02-calidad/evidencias/datos/) |
+| Modelos de Calidad | **6. Calidad del proceso y plan de mejora** (CMMI V3.0 / ISO/IEC 33020 conceptual, efecto de B2, plan de producto y proceso) | [02-calidad/calidad-proceso-plan-mejora.md](02-calidad/calidad-proceso-plan-mejora.md) |
+| Arquitectura de Software II | **6. Evaluación de la arquitectura** (ATAM reducido, riesgos, sensibilidad, trade-offs, estimado vs real de los dos cambios, decisiones que cambiaríamos) | [03-arquitectura/evaluacion-arquitectura.md](03-arquitectura/evaluacion-arquitectura.md) |
+| Arquitectura de Software II | **Documento de arquitectura final y registro completo de ADRs** | [03-arquitectura/documento-arquitectura-final.md](03-arquitectura/documento-arquitectura-final.md) · [adr/](03-arquitectura/adr/) (0001–0026) |
+| Ambas | **Documento resumen tipo artículo** (con subsección de la ampliación) | [documento-resumen.md](documento-resumen.md) |
 
 ## Convenciones
 
