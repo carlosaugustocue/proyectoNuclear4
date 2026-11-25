@@ -99,8 +99,8 @@ test('S-09 tres precios registrados sin conexión se sincronizan al volver la re
   // En el servidor: exactamente 3 aportes de esta cuenta, con los precios reportados (0 duplicados).
   const misAportes = page.waitForResponse((r) => r.url().startsWith(`${API}/mis-aportes`) && r.ok())
   await page.getByRole('link', { name: /Mis aportes/ }).click()
-  const { items } = (await (await misAportes).json()) as { items: { precio: string; establecimiento: { nombre: string } | null }[] }
+  const { items } = (await (await misAportes).json()) as { items: { precio: string; establecimiento: string | null }[] }
   expect(items).toHaveLength(3)
   expect(items.map((i) => Number(i.precio)).sort((a, b) => a - b)).toEqual(REPORTES.map((r) => Number(r.precio)).sort((a, b) => a - b))
-  expect(items.every((i) => i.establecimiento?.nombre === TIENDA)).toBe(true)
+  expect(items.every((i) => i.establecimiento === TIENDA)).toBe(true)
 })

@@ -42,7 +42,7 @@ const ilustracion = computed(() => ilustracionDe(props.categoria))
       />
       <component :is="ICONOS[ilustracion.icono]" v-else :class="ICONO[tamano]" aria-hidden="true" stroke-width="1.6" />
     </div>
-    <figcaption v-if="conCredito && url && imagen?.credito" class="mt-0.5 text-[10px] leading-tight text-slate-400">
+    <figcaption v-if="conCredito && url && imagen?.credito" class="mt-0.5 text-[10px] leading-tight text-slate-500">
       {{ imagen.credito }}
     </figcaption>
   </figure>
