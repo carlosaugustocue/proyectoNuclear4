@@ -1,0 +1,86 @@
+# Entorno de pruebas de sistema (S-xx) y accesibilidad (A-01). Uso:
+#   docker compose -p pn4-e2e -f docker-compose.e2e.yml up -d --build --wait
+#   (cd e2e && npm ci && npx playwright test)
+#   docker compose -p pn4-e2e -f docker-compose.e2e.yml down -v
+#
+# Usa las MISMAS imágenes que se despliegan en Railway (docker/railway/*), con su CSP y sus
+# cabeceras: lo que se prueba es lo que llega a producción. La base es efímera (tmpfs) y se
+# siembra con la semilla de demostración. Puertos propios (4173 y 8090) para no chocar con el
+# entorno de desarrollo (5173 y 8080).
+
+x-api-env: &api-env
+  APP_ENV: production
+  APP_DEBUG: "false"
+  # Clave de prueba sin valor (la misma de docker-compose.test.yml); nunca se usa fuera de este entorno.
+  APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+  APP_URL: http://localhost:8090
+  DB_CONNECTION: pgsql
+  DB_HOST: db
+  DB_PORT: "5432"
+  DB_DATABASE: nuclear_e2e
+  DB_USERNAME: nuclear
+  DB_PASSWORD: secret
+  QUEUE_CONNECTION: database
+  CORS_ALLOWED_ORIGINS: http://localhost:4173
+  PHP_CLI_SERVER_WORKERS: "4"
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: nuclear_e2e
+      POSTGRES_USER: nuclear
+      POSTGRES_PASSWORD: secret
+    tmpfs:
+      - /var/lib/postgresql/data
+    # Por TCP: durante la inicialización la imagen levanta un servidor temporal que solo escucha
+    # por socket local, y pg_isready sin -h lo daría por listo antes de tiempo.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U nuclear -d nuclear_e2e"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/railway/api.Dockerfile
+    image: pn4-api:e2e
+    environment: *api-env
+    # Igual que en Railway, más la semilla de demostración.
+    command: >
+      sh -c "php artisan config:cache && php artisan migrate --force && php artisan db:seed --force
+      && php artisan serve --no-reload --host=0.0.0.0 --port=8080"
+    ports:
+      - "8090:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/v1/productos > /dev/null || exit 1"]
+      interval: 3s
+      timeout: 5s
+      retries: 60
+
+  worker:
+    image: pn4-api:e2e
+    environment: *api-env
+    command: php artisan queue:work --queue=domain-events --tries=3 --sleep=1
+    depends_on:
+      api:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/railway/web.Dockerfile
+      args:
+        VITE_API_URL: http://localhost:8090/v1
+    image: pn4-web:e2e
+    ports:
+      - "4173:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/ > /dev/null || exit 1"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
