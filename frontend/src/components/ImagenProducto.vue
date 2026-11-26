@@ -25,7 +25,7 @@ const ilustracion = computed(() => ilustracionDe(props.categoria))
   <figure class="m-0 shrink-0">
     <div
       class="flex items-center justify-center overflow-hidden"
-      :class="[CAJA[tamano], url ? 'bg-white ring-1 ring-slate-100' : ilustracion.clases]"
+      :class="[CAJA[tamano], url ? 'bg-slate-100' : ilustracion.clases]"
     >
       <img
         v-if="url"
@@ -34,7 +34,7 @@ const ilustracion = computed(() => ilustracionDe(props.categoria))
         loading="lazy"
         decoding="async"
         referrerpolicy="no-referrer"
-        class="h-full w-full object-contain p-1"
+        class="h-full w-full rounded-[inherit] object-cover"
         @error="fallo = true"
       />
       <component :is="ICONOS[ilustracion.icono]" v-else :class="ICONO[tamano]" aria-hidden="true" stroke-width="1.6" />
