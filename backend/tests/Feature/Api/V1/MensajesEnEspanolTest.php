@@ -16,7 +16,7 @@ describe('Mensajes de error en español', function () {
     it('traduce los campos obligatorios y el resumen de errores del registro de cuenta', function () {
         $r = $this->postJson('/v1/cuentas', ['correo' => 'x'])->assertStatus(422);
 
-        expect($r->json('errors.contrasena.0'))->toBe('La contraseña es obligatoria.')
+        expect($r->json('errors.contrasena.0'))->toBe('Falta la contraseña.')
             ->and($r->json('detail'))->not->toContain('more error')
             ->and($r->json('detail'))->toContain('(y 3 errores más)');
     });
