@@ -1,4 +1,5 @@
 import apiClient from './client'
+import { conTerminoValido } from './busqueda'
 import type { Establecimiento, Pagina } from '@/types'
 
 export async function buscarEstablecimientos(params: {
@@ -9,6 +10,6 @@ export async function buscarEstablecimientos(params: {
   radioKm?: number
   tamano?: number
 } = {}) {
-  const { data } = await apiClient.get<Pagina<Establecimiento>>('/establecimientos', { params })
+  const { data } = await apiClient.get<Pagina<Establecimiento>>('/establecimientos', { params: conTerminoValido(params) })
   return data
 }

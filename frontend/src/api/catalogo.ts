@@ -1,8 +1,9 @@
 import apiClient from './client'
+import { conTerminoValido } from './busqueda'
 import type { Pagina, ProductoDetalle, ProductoResumen, ReferenciaMayorista } from '@/types'
 
 export async function buscarProductos(params: { q?: string; categoria?: string; tamano?: number } = {}) {
-  const { data } = await apiClient.get<Pagina<ProductoResumen>>('/productos', { params })
+  const { data } = await apiClient.get<Pagina<ProductoResumen>>('/productos', { params: conTerminoValido(params) })
   return data
 }
 

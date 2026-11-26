@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Problemas;
 
 use App\Domains\Precios\Domain\Exceptions\LimiteAportesExcedidoException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
 
 /**
@@ -18,6 +20,23 @@ use Throwable;
 final class ProblemDetails
 {
     private const TIPO_BASE = 'https://proyecto-nuclear.unihumboldt.edu.co/problemas/';
+
+    private const TITULOS_HTTP = [
+        401 => 'No autenticado',
+        403 => 'Acceso denegado',
+        404 => 'Recurso no encontrado',
+        405 => 'Método no permitido',
+        409 => 'Conflicto',
+        422 => 'La solicitud viola una regla del dominio',
+        429 => 'Demasiadas solicitudes',
+    ];
+
+    /** Mensajes en español para las excepciones que lanza el propio framework (con texto en inglés). */
+    private const DETALLES_FRAMEWORK = [
+        404 => 'La ruta solicitada no existe.',
+        405 => 'Esta operación no está permitida en este recurso.',
+        429 => 'Demasiadas solicitudes. Espera un momento e inténtalo de nuevo.',
+    ];
 
     public static function desde(Throwable $e): JsonResponse
     {
@@ -33,12 +52,31 @@ final class ProblemDetails
                 'La solicitud viola una regla del dominio', $e->getMessage()),
             $e instanceof HttpExceptionInterface => self::respuesta($e->getStatusCode(),
                 $e->getStatusCode() === 404 ? 'no-encontrado' : 'http',
-                $e->getStatusCode() === 404 ? 'Recurso no encontrado' : 'Error HTTP',
-                $e->getMessage() !== '' ? $e->getMessage() : 'El recurso solicitado no existe', [],
+                self::TITULOS_HTTP[$e->getStatusCode()] ?? 'Error HTTP',
+                self::detalleHttp($e), [],
                 $e->getHeaders()),
             default => self::respuesta(500, 'error-interno', 'Error interno',
                 'Ocurrió un error inesperado. Intente de nuevo más tarde.'),
         };
+    }
+
+    /**
+     * Los mensajes de nuestro código ya están en español; los del framework (ruta inexistente,
+     * método no permitido, límite de solicitudes) vienen en inglés y se reemplazan.
+     */
+    private static function detalleHttp(HttpExceptionInterface $e): string
+    {
+        $mensaje = $e->getMessage();
+        $esDelFramework = $mensaje === ''
+            || $e instanceof MethodNotAllowedHttpException
+            || $e instanceof ThrottleRequestsException
+            || str_starts_with($mensaje, 'The route ');
+
+        if (! $esDelFramework) {
+            return $mensaje;
+        }
+
+        return self::DETALLES_FRAMEWORK[$e->getStatusCode()] ?? 'No se pudo completar la solicitud.';
     }
 
     /**
