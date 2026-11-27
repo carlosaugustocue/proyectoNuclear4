@@ -1,0 +1,5 @@
+{
+    "(and :count more error)": "(y :count error más)",
+    "(and :count more errors)": "(y :count errores más)",
+    "Too Many Attempts.": "Demasiadas solicitudes. Espera un momento e inténtalo de nuevo."
+}
